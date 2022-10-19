@@ -3,7 +3,7 @@ const crypto = require("crypto");
 
 const employeeSchema = new mongoose.Schema(
   {
-    empid: { type: String, require: false },
+    empID: { type: String, require: false },
     empName: { type: String, require: true },
     email: { type: String, require: true },
     mobile: { type: Number, require: true },
@@ -14,6 +14,10 @@ const employeeSchema = new mongoose.Schema(
     entryTime: { type: String, require: false },
     loginStatus: { type: Boolean, require: false, default: true },
     wokingHour: { type: String, require: false },
+    leave  : [
+      {type:String,
+      ref :"leave" }
+    ]
   }
 );
 
