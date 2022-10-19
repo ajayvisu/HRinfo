@@ -1,43 +1,59 @@
 import React from "react";
 import "./Home.css";
+import Carousel from "react-bootstrap/Carousel";
 
-const Home = () => {
+function Home() {
   return (
     <>
-      <div className="container mt-3">
-        <div className="row">
-          <div className="col-lg-4 col-sm-6 col-6 offset-lg-4 offset-sm-3 offset-3 ">
-            <div className="row gy-3">
-              <div className="col-md-6 col-12">
-                <a href="/hr">
-                  <button className="btn firstbtn1 w-100 py-5">HR</button>
-                </a>
-              </div>
-              <div className="col-md-6 col-12">
-                <a href="/emp">
-                  <button className="btn firstbtn2 w-100 py-5">EMPLOYEE</button>
-                </a>
-              </div>
-              <div className="col-md-6 col-12">
-                <a href="/mgmt">
-                  <button className="btn firstbtn1 w-100 py-5">
-                    MANAGEMENT
-                  </button>
-                </a>
-              </div>
-              <div className="col-md-6 col-12">
-                <a href="/maint">
-                  <button className="btn firstbtn2 w-100 py-5">
-                    MAINTANANCE
-                  </button>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+      <img className="hr_bg_img" src="hm_bg.webp" alt="hr_bg_image"></img>
+      <img className="logo_img" src="logo.jpg" alt="hrinfo logo"></img>
+      <h1>
+        Human Resorces management <br /> in one click
+      </h1>
+
+      <div className="caro">
+        <Carousel>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src="cr_img1.jpg"
+              alt="First slide"
+            />
+            <Carousel.Caption>
+              <h3>First slide label</h3>
+              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+            </Carousel.Caption>
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src="cr_img2.jpg"
+              alt="Second slide"
+            />
+
+            <Carousel.Caption>
+              <h3>Second slide label</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </Carousel.Caption>
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src="cr_img3.jpg"
+              alt="Third slide"
+            />
+
+            <Carousel.Caption>
+              <h3>Third slide label</h3>
+              <p>
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+              </p>
+            </Carousel.Caption>
+          </Carousel.Item>
+        </Carousel>
       </div>
     </>
   );
-};
+}
 
 export default Home;

@@ -7,11 +7,9 @@ import Emp from "./components/emp/Emp";
 import Mgmt from "./components/mgmt/Mgmt";
 import Maint from "./components/maint/Maint";
 
-
 function App() {
   return (
     <Router>
-      <h1>HRinfo</h1>
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/hr" element={<Hr />}></Route>
