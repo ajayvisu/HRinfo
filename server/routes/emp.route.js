@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const employeeSchema = require("../models/emp.modle");
+const employeeSchema = require("../models/emp.model");
 const moment = require("moment");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");

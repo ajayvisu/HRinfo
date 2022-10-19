@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Home.css";
+<<<<<<< HEAD
 import Carousel from "react-bootstrap/Carousel";
 
 function Home() {
@@ -52,6 +53,15 @@ function Home() {
           </Carousel.Item>
         </Carousel>
       </div>
+=======
+import axios from "axios";
+
+const Home = () => {
+  
+  return (
+    <>
+  <h1>home</h1>
+>>>>>>> dd49546a2da26cc1b0cf6e672313abe82dd4f1bd
     </>
   );
 }
