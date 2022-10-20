@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-var leaveSchema = new mongoose.Schema(
+var leaveSchema =  mongoose.Schema(
   {
     leaveID:{type:String,required:false},
     subject: { type: String, required: true },
@@ -14,8 +14,8 @@ var leaveSchema = new mongoose.Schema(
     },
    active:{type:Boolean,default:false},
     employee: {
-      empID: {
-        type:String,
+      id: {
+        type:mongoose.Schema.Types.ObjectId,
         ref: "emp"
       },
       empName: String

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
 
-const employeeSchema = new mongoose.Schema(
+const employeeSchema =  mongoose.Schema(
   {
     empID: { type: String, require: false },
     empName: { type: String, require: true },
@@ -14,16 +14,16 @@ const employeeSchema = new mongoose.Schema(
     entryTime: { type: String, require: false },
     loginStatus: { type: Boolean, require: false, default: true },
     wokingHour: { type: String, require: false },
-    leave  : [
-      {type:String,
+    leaves  : [
+      {type:mongoose.Schema.Types.ObjectId,
       ref :"leave" }
     ]
   }
 );
 
 employeeSchema.pre("save", function (next) {
-  this.empid = "EMP" + crypto.pseudoRandomBytes(4).toString("hex").toUpperCase();
-  console.log("uuid", this.empid);
+  this.empID = "EMP" + crypto.pseudoRandomBytes(4).toString("hex").toUpperCase();
+  console.log("uuid", this.empId);
   next();
 });
 

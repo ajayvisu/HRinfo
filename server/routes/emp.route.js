@@ -3,6 +3,8 @@ const employeeSchema = require("../models/emp.model");
 const moment = require("moment");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const leaveSchema=require("../models/leave.model")
+const sendMail= require("../middleware/mail"); 
 require("dotenv").config();
 
 
@@ -44,7 +46,7 @@ router.post("/addEmployee", async (req, res) => {
 
     if (mobile) {
       let phone = await employeeSchema
-        .findOne({ mobiler: mobile })
+        .findOne({ mobile: mobile })
         .exec();
       if (phone) {
         return res
@@ -163,7 +165,7 @@ router.post("/logout", async (req, res) => {
               wokingHour:
                 hours + " hours and " + minutes + " minutes " + days + " days",
             },
-            { new: true }
+            { new: false }
           )
           .then(() => {
             return res
@@ -191,6 +193,76 @@ router.post("/logout", async (req, res) => {
   }
 });
 
+
+
+router.post("/emp-leave", (req, res) => {
+let id=req.query.id
+  employeeSchema.findOne({_id:id}).populate('leaves')
+      .exec((err, employee) => {
+          console.log('user', employee)
+          console.log('req.params._id', id)
+          if (err) {
+              res.json({ err: err.message })
+          } else {
+              let offset = new Date().getTimezoneOffset()
+              let startDate = new Date(req.body.from);
+              req.body.from = Date.parse(startDate) - offset * 60 * 1000;
+              endDate = new Date(req.body.to);
+              req.body.to = Date.parse(endDate) - offset * 60 * 1000;
+              startedDate = startDate.getDate();
+              endedDate = startDate.getDate();
+              req.body.days = endedDate - startedDate + 1;
+              let todayDate = new Date();
+              let from=employee.email
+              // console.log('to',to)
+                 const mailData = {
+                                from:from,
+                               to:'sajna.platosys@gmail.com',
+                                subject: "Leave Permission",
+                                text:`Leave start ${startDate} to ${endDate}`
+                            }
+                         
+              if (todayDate < req.body.from) {
+                
+               let sendingMail= sendMail.sendMail(mailData)
+               if(!sendingMail){
+                      console.log('mail not sending')
+               }else{
+                  leaveSchema.create(req.body, (err, newLeave) => {
+                      if (err) {
+                      return  res.status(200).json({ status: 'failed', message: err.message })
+                      } else {
+                          newLeave.employee.id = employee._id
+                          newLeave.employee.empName = employee.empName
+                          console.log("newleavenewleave", newLeave);
+                          newLeave.save()
+                          employee.leaves.push(newLeave)
+                          employee.save().then(result => {
+                             res.status(200).json({ status: 'success', result: result })
+                          })
+                      }
+                  });
+                }
+              }
+              else {
+                  res.json({ status: 'success', message: 'ghv' })
+              }
+          }
+      });
+});
+router.get('/findone', async (req, res) => {
+  try {
+      
+      const data = await employeeSchema.findOne({ email:req.body.email }).exec();
+      if (data) {
+          return res.json({ status: "success", "result": data })
+      } else {
+          return res.json({ status: "failure", message: "user not exist" })
+      }
+  } catch (err) {
+      return res.json({ 'err': err.message })
+  }
+})
 const time = moment().format("DD/MM/YYYY,hh:mm a")
 console.log('time',time)
 console.log('hr',time)
