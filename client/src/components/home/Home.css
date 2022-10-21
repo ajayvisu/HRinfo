@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 .firstbtn1 {
     background-image: linear-gradient(
       to right,
@@ -44,11 +44,13 @@
     margin-left: 15px;
     width: 30%;
     height: 30%;
+    /* margin-top: -200px; */
   }
   h1{
     margin-left: -250px;
     margin-top: 10px;
   }
-  
-=======
->>>>>>> dd49546a2da26cc1b0cf6e672313abe82dd4f1bd
+
+ .position-relative{
+  margin-right: 50px;
+ }

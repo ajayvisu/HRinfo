@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Home.css";
-<<<<<<< HEAD
 import Carousel from "react-bootstrap/Carousel";
+import Login from "../login/Login";
 
 function Home() {
   return (
@@ -53,17 +53,18 @@ function Home() {
           </Carousel.Item>
         </Carousel>
       </div>
-=======
-import axios from "axios";
+      <div className="position-relative">
+      <div className="position-absolute bottom-50 end-0">
+        <Login/>
+      </div>
+</div>
+      
+    
 
-const Home = () => {
-  
-  return (
-    <>
-  <h1>home</h1>
->>>>>>> dd49546a2da26cc1b0cf6e672313abe82dd4f1bd
-    </>
-  );
+      
+</>
+
+  )
 }
 
 export default Home;
