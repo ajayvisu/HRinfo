@@ -3,6 +3,7 @@ import "./Hr.css";
 
 const Hr = () => {
   return (
+
     <>
       <img className="hr_bg_img" src="hr_bg.webp" alt="hr_bg_image"></img>
       <img className="logo_img" src="logo.jpg" alt="hrinfo logo"></img>
@@ -38,8 +39,10 @@ const Hr = () => {
           </div>
         </div>
       </div>
-    </>
-  );
-};
+  
+
+  </>
+  )
+}
 
 export default Hr;

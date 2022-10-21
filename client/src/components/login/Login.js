@@ -17,7 +17,7 @@ const Login = () => {
       .post("http://localhost:4000/api/emp/login", data)
       .then((result) => {
         console.log("data", result.data);
-        if(result.data.status == "success"){
+        if(result.data.status === "success"){
          navigate("/hr")
         }
       })
