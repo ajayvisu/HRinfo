@@ -11,10 +11,7 @@ import Login from "./components/login/Login";
 function App() {
   return (
     <Router>
-<<<<<<< HEAD
-=======
-      {/* <h1>HRinfo</h1> */}
->>>>>>> dd49546a2da26cc1b0cf6e672313abe82dd4f1bd
+      <h1>HRinfo</h1>
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/hr" element={<Hr />}></Route>

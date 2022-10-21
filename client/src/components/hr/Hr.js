@@ -3,7 +3,7 @@ import "./Hr.css";
 
 const Hr = () => {
   return (
-<<<<<<< HEAD
+
     <>
       <img className="hr_bg_img" src="hr_bg.webp" alt="hr_bg_image"></img>
       <img className="logo_img" src="logo.jpg" alt="hrinfo logo"></img>
@@ -39,10 +39,8 @@ const Hr = () => {
           </div>
         </div>
       </div>
-    </>
-  );
-};
-=======
+  
+
   <div className="container mt-3">
     <div className="row">
       <div className="col-lg-4 col-sm-6 col-6 offset-lg-4 offset-sm-3 offset-3 ">
@@ -75,8 +73,8 @@ const Hr = () => {
       </div>
     </div>
   </div>
+  </>
   )
 }
->>>>>>> dd49546a2da26cc1b0cf6e672313abe82dd4f1bd
 
 export default Hr;
