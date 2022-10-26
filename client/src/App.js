@@ -8,9 +8,11 @@ import Mgmt from "./components/mgmt/Mgmt";
 import Maint from "./components/maint/Maint";
 import Login from "./components/login/Login";
 
+
 function App() {
   return (
     <Router>
+      {/* <Maint /> */}
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/hr" element={<Hr />}></Route>

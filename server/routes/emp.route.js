@@ -125,7 +125,7 @@ router.post("/logout", async (req, res) => {
     employeeSchema
       .findOne({ $or: [{ uuid: empid }, { email: empid }] })
       .then((data) => {
-        console.log("data", data)
+        console.log("data", data);
         const loginTime = moment(data.entryTime, "DD/MM/YYYY,hh:mm a");
         const current = moment(currentTime, "DD/MM/YYYY,hh:mm a");
         const duration = moment.duration(current.diff(loginTime));
@@ -167,112 +167,114 @@ router.post("/logout", async (req, res) => {
 });
 
 router.post("/emp-leave", (req, res) => {
-  let id = req.query.id
-  employeeSchema.findOne({ _id: id }).populate('leaves')
+  let id = req.query.id;
+  employeeSchema
+    .findOne({ _id: id })
+    .populate("leaves")
     .exec((err, employee) => {
       // console.log('user', employee)
       // console.log('req.params._id', id)
       if (err) {
-        res.json({ err: err.message })
+        res.json({ err: err.message });
       } else {
-        let startDate = moment(req.body.from).format("DD/MM/YYYY")
-        let endDate = moment(req.body.to).format("DD/MM/YYYY")
-        let sDate = moment(req.body.from).format('DD') //get leave start date only
-        let eDate = moment(req.body.to).format('DD') //get leave endday date only
+        let startDate = moment(req.body.from).format("DD/MM/YYYY");
+        let endDate = moment(req.body.to).format("DD/MM/YYYY");
+        let sDate = moment(req.body.from).format("DD"); //get leave start date only
+        let eDate = moment(req.body.to).format("DD"); //get leave endday date only
         req.body.days = eDate - sDate + 1;
-        let todayDate = moment().format('DD')
-        console.log('todayDate', todayDate)
-        let from = employee.email
+        let todayDate = moment().format("DD");
+        console.log("todayDate", todayDate);
+        let from = employee.email;
 
         const mailData = {
           from: employee.email,
-          to: 'sajna.platosys@gmail.com',
+          to: "sajna.platosys@gmail.com",
           subject: "Leave Permission",
-          text: `Leave start ${startDate} to ${endDate}`
-        }
+          text: `Leave start ${startDate} to ${endDate}`,
+        };
 
         if (todayDate < sDate) {
-
-          let sendingMail = sendMail.sendMail(mailData)
+          let sendingMail = sendMail.sendMail(mailData);
           if (!sendingMail) {
-            console.log('mail not sending')
+            console.log("mail not sending");
           } else {
             leaveSchema.create(req.body, (err, newLeave) => {
               if (err) {
-                return res.status(200).json({ status: 'failed', message: err.message })
+                return res
+                  .status(200)
+                  .json({ status: "failed", message: err.message });
               } else {
-                newLeave.employee.id = employee._id
-                newLeave.employee.empName = employee.empName
+                newLeave.employee.id = employee._id;
+                newLeave.employee.empName = employee.empName;
                 // console.log("newleavenewleave", newLeave);
-                newLeave.save()
-                employee.leaves.push(newLeave)
-                employee.save().then(result => {
-                  res.status(200).json({ status: 'success', result: result })
-                })
+                newLeave.save();
+                employee.leaves.push(newLeave);
+                employee.save().then((result) => {
+                  res.status(200).json({ status: "success", result: result });
+                });
               }
             });
           }
-        }
-        else {
-          res.json({ status: 'success', message: 'ghv' })
+        } else {
+          res.json({ status: "success", message: "ghv" });
         }
       }
     });
 });
-router.get('/findone', async (req, res) => {
+router.get("/findone", async (req, res) => {
   try {
-
     const data = await employeeSchema.findOne({ email: req.body.email }).exec();
     if (data) {
-      return res.json({ status: "success", "result": data })
+      return res.json({ status: "success", result: data });
     } else {
-      return res.json({ status: "failure", message: "user not exist" })
+      return res.json({ status: "failure", message: "user not exist" });
     }
   } catch (err) {
-    return res.json({ 'err': err.message })
+    return res.json({ err: err.message });
   }
-})
-const time = moment().format("DD/MM/YYYY")
-console.log('time', time)
-console.log('hr', time)
-console.log('minit', time)
-router.post('/login', async (req, res) => {
-    try {
+});
+const time = moment().format("DD/MM/YYYY");
+console.log("time", time);
+console.log("hr", time);
+console.log("minit", time);
+router.post("/login", async (req, res) => {
+  try {
+    console.log(req.body);
+    let email = req.body.email;
+    let password = req.body.password;
+    const time = moment().toISOString();
+    await userSchema
+      .findOneAndUpdate(
+        { email: email },
+        { latestVisted: time, loginStatus: true }
+      )
+      .then((data) => {
+        bcrypt.compare(password, data.password, function (err, result) {
+          if (err) {
+            res.json({ err: err.message });
+          }
+          if (result) {
+            const token = jwt.sign({ data }, process.env.JWTKEY, {
+              expiresIn: "1h",
+            });
+            console.log("token", time);
+            //sessionStorage.setItem('status',data.loginStatus)
 
-        console.log(req.body)
-        let email = req.body.email
-        let password = req.body.password
-        const time = moment().toISOString();
-        await userSchema.findOneAndUpdate({ email: email }, { latestVisted: time, loginStatus: true }).then(data => {
-            bcrypt.compare(password, data.password, function (err, result) {
-                if (err) {
-                    res.json({ "err": err.message })
-                }
-                if (result) {
-                    const token = jwt.sign({ data }, process.env.JWTKEY, { expiresIn: '1h' });
-                    console.log("token", time);
-                    //sessionStorage.setItem('status',data.loginStatus)
-
-
-
-                    return res.json({ status: "success", token, "duration": time })
-
-
-
-
-                } else {
-                    return res.json({ status: "failure", message: "invalide password" })
-                }
-
-            })
-        }).catch(err => {
-            return res.json({ status: 'failure', message: "invalide mail id" })
-        })
-
-
-    } catch (err) {
-        return res.json({ "err": err.message })
-    }
-})
+            return res.json({ status: "success", token, duration: time });
+          } else {
+            return res.json({
+              status: "failure",
+              message: "invalide password",
+            });
+          }
+        });
+      })
+      .catch((err) => {
+        return res.json({ status: "failure", message: "invalide mail id" });
+      });
+  } catch (err) {
+    return res.json({ err: err.message });
+  }
+});
 
 module.exports = router;

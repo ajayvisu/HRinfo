@@ -17,11 +17,11 @@
   color: rgb(255, 255, 255) !important;
 }
 .logo_img {
-  position: relative;
-  margin: 15px;
+  position: absolute;
   width: 10%;
   height: 10%;
   border-radius: 2px;
+  margin: 20px;
 }
 .hr_bg_img {
   position: absolute;
@@ -32,22 +32,30 @@
 .hr_bt {
   position: relative;
 }
-.hm_card {
-  position: relative;
+.text_h1 {
+  position: absolute;
+  left: 180px;
+  top: 200px;
 }
-Carousel {
-  position: relative;
+.text_h5 {
+  position: absolute;
+  left: 180px;
+  top: 350px;
 }
 .caro {
-  margin-top: 40px;
-  margin-left: 15px;
-  width: 30%;
-  height: 30%;
+  position: absolute;
+  margin-top: 450px;
+  margin-left: 1193px;
+  width: 300px;
 }
-h1 {
-  margin-left: -250px;
-  margin-top: 10px;
+.login_component {
+  position: absolute;
+  top: 70px;
+  right: 30px;
+  width: 327px;
 }
-.position-relative {
-  margin-right: 50px;
+.hm_imges {
+  position: absolute;
+  margin-top: 510px;
+  margin-left: 170px;
 }
