@@ -12,7 +12,6 @@ var leaveSchema =  mongoose.Schema(
       enum: ["pending", "approved", "denied"],
       default: "pending"
     },
-   active:{type:Boolean,default:false},
     employee: {
       id: {
         type:mongoose.Schema.Types.ObjectId,

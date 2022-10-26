@@ -14,12 +14,10 @@ const Login = () => {
       password: password,
     };
     axios
-      .post("http://localhost:4000/api/emp/login", data)
+      .post("http://192.168.1.5:4000/api/emp/login", data)
       .then((result) => {
         console.log("data", result.data);
-        if(result.data.status === "success"){
-         navigate("/hr")
-        }
+        localStorage.setItem('user_id',result.data.data._id)
       })
       .catch((err) => {
         console.log("err", err);
