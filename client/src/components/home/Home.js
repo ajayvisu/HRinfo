@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Home.css";
 import Carousel from "react-bootstrap/Carousel";
+import Login from "../login/Login";
 
 function Home() {
   return (
-    <div>
+    <>
       <img className="hr_bg_img" src="hm_bg.webp" alt="hr_bg_image"></img>
       <img className="logo_img" src="logo.jpg" alt="hrinfo logo"></img>
       <h1>
@@ -52,7 +53,18 @@ function Home() {
           </Carousel.Item>
         </Carousel>
       </div>
+      <div className="position-relative">
+      <div className="position-absolute bottom-50 end-0">
+        <Login/>
       </div>
-)}
+</div>
+      
+    
+
+      
+</>
+
+  )
+}
 
 export default Home;

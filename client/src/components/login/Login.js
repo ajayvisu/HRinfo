@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import "./login.css";
 import axios from "axios";
+import { useNavigate} from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [empID, setempId] = useState("");
   const [password, setpassword] = useState("");
 
   const login = () => {
     let data = {
-      empid: empID,
+      email: empID,
       password: password,
     };
     axios
@@ -24,7 +26,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="container col-md-3 mt-5">
+      <div className="container mt-5">
         <div className="">
           <div className="card">
             <div className="card-body">

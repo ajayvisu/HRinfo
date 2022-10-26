@@ -3,11 +3,10 @@ const employeeSchema = require("../models/emp.model");
 const moment = require("moment");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const leaveSchema = require("../models/leave.model")
+const leaveSchema = require("../models/leave.model");
 const sendMail = require("../middleware/mail");
 const e = require("express");
 require("dotenv").config();
-
 
 router.post("/addEmployee", async (req, res) => {
   try {
@@ -32,12 +31,10 @@ router.post("/addEmployee", async (req, res) => {
     if (email) {
       let mail = await employeeSchema.findOne({ email: email }).exec();
       if (mail) {
-        return res
-          .status(400)
-          .json({
-            status: "failed",
-            message: "employee email_id already exist!",
-          });
+        return res.status(400).json({
+          status: "failed",
+          message: "employee email_id already exist!",
+        });
       }
     } else {
       return res
@@ -46,24 +43,18 @@ router.post("/addEmployee", async (req, res) => {
     }
 
     if (mobile) {
-      let phone = await employeeSchema
-        .findOne({ mobile: mobile })
-        .exec();
+      let phone = await employeeSchema.findOne({ mobile: mobile }).exec();
       if (phone) {
-        return res
-          .status(400)
-          .json({
-            status: "failed",
-            message: "employee mobile number already exist!",
-          });
+        return res.status(400).json({
+          status: "failed",
+          message: "employee mobile number already exist!",
+        });
       }
     } else {
-      return res
-        .status(404)
-        .json({
-          status: "failed",
-          message: "Please enter employee mobile number",
-        });
+      return res.status(404).json({
+        status: "failed",
+        message: "Please enter employee mobile number",
+      });
     }
 
     const employeeData = await employeeSchema(req.body);
@@ -73,13 +64,11 @@ router.post("/addEmployee", async (req, res) => {
     employeeData
       .save()
       .then((result) => {
-        return res
-          .status(201)
-          .json({
-            status: "success",
-            message: "employee data successfully created!",
-            result: result,
-          });
+        return res.status(201).json({
+          status: "success",
+          message: "employee data successfully created!",
+          result: result,
+        });
       })
       .catch((err) => {
         return res
@@ -91,24 +80,21 @@ router.post("/addEmployee", async (req, res) => {
   }
 });
 
-
 router.post("/login", async (req, res) => {
   try {
-    const empid = req.body.empid
-    const password = req.body.password
-    const time = moment().format("DD/MM/YYYY, hh:mm a")
-
-    console.log('time', time)
-
-    employeeSchema
+    console.log(req.body);
+    let email = req.body.email;
+    let password = req.body.password;
+    const time = moment().format("DD/MM/YYYY, hh:mm a");
+    await employeeSchema
       .findOneAndUpdate(
-        { $or: [{ uuid: empid }, { email: empid }] },
+        { email: email },
         { entryTime: time, loginStatus: true }
       )
       .then((data) => {
         bcrypt.compare(password, data.password, function (err, result) {
           if (err) {
-            return res.status(401).json({ err: err.message });
+            res.json({ err: err.message });
           }
           if (result) {
             const token = jwt.sign({ data }, process.env.JWTKEY, {
@@ -123,26 +109,25 @@ router.post("/login", async (req, res) => {
                 token,data
               });
           } else {
-            return res
-              .status(401)
-              .json({ status: "failure", message: "password doesn't mached!" });
+            return res.json({
+              status: "failure",
+              message: "invalide password",
+            });
           }
         });
       })
       .catch((err) => {
-        return res
-          .status(404)
-          .json({ status: "failure", message: err.message });
+        return res.json({ status: "failure", message: "invalide mail id" });
       });
   } catch (err) {
-    return res.status(500).json({ err: err.message });
+    return res.json({ err: err.message });
   }
 });
 
 router.post("/logout", async (req, res) => {
   try {
     const empid = req.body.empid;
-    const currentTime = moment().format("DD/MM/YYYY,hh:mm a")
+    const currentTime = moment().format("DD/MM/YYYY,hh:mm a");
     employeeSchema
       .findOne({ $or: [{ uuid: empid }, { email: empid }] })
       .then((data) => {
@@ -169,19 +154,12 @@ router.post("/logout", async (req, res) => {
             { new: false }
           )
           .then(() => {
-            return res
-              .status(200)
-              .json({
-                status: "success",
-                message: "successfully logout!",
-                workingHour:
-                  hours +
-                  " hours and " +
-                  minutes +
-                  " minutes " +
-                  days +
-                  " days",
-              });
+            return res.status(200).json({
+              status: "success",
+              message: "successfully logout!",
+              workingHour:
+                hours + " hours and " + minutes + " minutes " + days + " days",
+            });
           });
       })
       .catch((err) => {
@@ -193,8 +171,6 @@ router.post("/logout", async (req, res) => {
     return res.status(500).json({ err: err.message });
   }
 });
-
-
 
 router.post("/emp-leave", (req, res) => {
   let id = req.query.id
