@@ -11,6 +11,7 @@ import Contact from '../Contact/Contact';
 import AccountSetting from '../AccountSetting/AccountSetting';
 import Leave from '../leave/Leave';
 import Emp from '../emp/Emp';
+import Performance from '../PerformanceChart/PerformanceChart';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -84,11 +85,12 @@ import {  LogoutOutlined } from '@ant-design/icons';
             <Route path="/leave" element={<Leave />}></Route>
             <Route path="/emp" element={<Emp />}></Route>
             <Route path="/account" element={<AccountSetting />}></Route>
+            <Route path="/performance" element={<Performance/>}></Route>
             </Routes>  
             </div>         
             </Content>
             <Footer style={{ textAlign: "center" }}>
-              Ekart webapp @ 2022
+              HRINFO @ 2022
             </Footer>
           </Layout>
          
