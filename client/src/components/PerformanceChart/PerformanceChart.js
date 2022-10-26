@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Column } from '@ant-design/plots';
 
 const Performance = () => {
+  //testing
   const data = [
     {
       type: '家具家电',
