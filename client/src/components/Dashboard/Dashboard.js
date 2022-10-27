@@ -18,6 +18,9 @@ import {
   
 } from '@ant-design/icons';
 import {  LogoutOutlined } from '@ant-design/icons';
+import Emp_dashbord from '../Emp_dashbord/Emp_dashbord';
+import Employee_list from '../Employee_list/Employee_list';
+import Employee_profile from '../AccountSetting/Employee_profile';
   const { Header, Sider, Content, Footer } = Layout;
   const { Text, Link } = Typography;
   function Dashboard(){
@@ -84,11 +87,14 @@ import {  LogoutOutlined } from '@ant-design/icons';
             <Route path="/leave" element={<Leave />}></Route>
             <Route path="/emp" element={<Emp />}></Route>
             <Route path="/account" element={<AccountSetting />}></Route>
+            <Route path="/profile" element={<Employee_profile />}></Route>
+            <Route path="/pro" element={<Emp_dashbord/>}></Route>
+            <Route path="/dashbord" element={<Employee_list/>}></Route>
             </Routes>  
             </div>         
             </Content>
             <Footer style={{ textAlign: "center" }}>
-              Ekart webapp @ 2022
+              Hrinfo webapp @ 2022
             </Footer>
           </Layout>
          

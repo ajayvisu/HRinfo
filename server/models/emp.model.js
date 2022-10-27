@@ -17,7 +17,21 @@ const employeeSchema =  mongoose.Schema(
     leaves  : [
       {type:mongoose.Schema.Types.ObjectId,
       ref :"leave" }
-    ]
+    ],
+    education:[{
+      Degree: {type: String,},
+      Specialization: {type: String,},
+      institue: {type: String,},
+      passingYear: {type: String,},
+      startDate: {type: String,},
+      endDate: {type: String,},
+  }],
+    experience:[{
+      organization:{type: String,},
+      designation:{type: String,},
+      startDate:{type: String,},
+      endDate:{type: String,},
+  }]
   }
 );
 
