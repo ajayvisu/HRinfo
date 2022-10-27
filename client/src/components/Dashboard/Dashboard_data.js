@@ -15,13 +15,13 @@ const SidebarData = [
         key: 1,
         title: "Dashboard",
         icon: <WindowsOutlined  />,
-        link: "/dashbord",  
+        link: "/",  
     },    
     {
         key: 2,
         title: "Employees",
         icon: <UsergroupAddOutlined />,
-        link: "/contact",  
+        link: "/dashbord",  
     },
     {
         key: 3,

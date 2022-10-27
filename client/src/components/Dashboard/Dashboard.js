@@ -1,9 +1,9 @@
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Result } from 'antd';
 import { Typography, Space, Modal } from 'antd';
 import React, {useState, useEffect} from 'react';
 import Dashboard_data from './Dashboard_data';
 import { NavLink, withRouter } from 'react-router-dom';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes,useNavigate } from 'react-router-dom';
 import Home from "../home/Home";
 import 'antd/dist/antd.css';
 import './Dashboard.css'
@@ -11,6 +11,7 @@ import Contact from '../Contact/Contact';
 import AccountSetting from '../AccountSetting/AccountSetting';
 import Leave from '../leave/Leave';
 import Emp from '../emp/Emp';
+import Performance from '../PerformanceChart/PerformanceChart';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -21,8 +22,11 @@ import {  LogoutOutlined } from '@ant-design/icons';
 import Emp_dashbord from '../Emp_dashbord/Emp_dashbord';
 import Employee_list from '../Employee_list/Employee_list';
 import Employee_profile from '../AccountSetting/Employee_profile';
+import axios from 'axios';
   const { Header, Sider, Content, Footer } = Layout;
   const { Text, Link } = Typography;
+  
+  
   function Dashboard(){
     const [ state, setState ] = useState({
         collapsed: false,
@@ -32,6 +36,17 @@ import Employee_profile from '../AccountSetting/Employee_profile';
           collapsed: !state.collapsed,
         });
     };
+
+  
+    const logout = () =>{
+      const empid = localStorage.getItem('email')
+
+      axios.post('http://localhost:4000/api/emp/logout', empid).then(result=>{
+        console.log(result.data);
+      }).catch(err=>{
+        console.log('err',err.message);
+      })
+    }
 
    
     return(
@@ -66,7 +81,7 @@ import Employee_profile from '../AccountSetting/Employee_profile';
               </Menu.Item>
                    )}
               )}
-                <Menu.Item icon = {<LogoutOutlined />} key = "13" >Logout</Menu.Item> 
+                <Menu.Item icon = {<LogoutOutlined />} key = "13" onClick={logout} >Logout</Menu.Item> 
                 </Menu>
               
                 </Sider>
@@ -94,7 +109,7 @@ import Employee_profile from '../AccountSetting/Employee_profile';
             </div>         
             </Content>
             <Footer style={{ textAlign: "center" }}>
-              Hrinfo webapp @ 2022
+              HRINFO webapp @ 2022
             </Footer>
           </Layout>
          
@@ -104,4 +119,4 @@ import Employee_profile from '../AccountSetting/Employee_profile';
     )
   }
 
-  export default Dashboard
+  export default Dashboard;
