@@ -59,6 +59,11 @@ const Performance = () => {
     minColumnWidth: 20,
     maxColumnWidth: 20,
   };
-  return <Column {...config} />;
+  return (
+    <div className='performance'>
+      <Column {...config} />
+    </div>
+
+  )
 };
 export default Performance;

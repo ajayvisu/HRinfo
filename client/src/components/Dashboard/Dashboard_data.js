@@ -1,6 +1,6 @@
 
-import { 
-    WindowsOutlined ,
+import {
+    WindowsOutlined,
     UsergroupAddOutlined,
     ClockCircleOutlined,
     StarOutlined,
@@ -14,46 +14,46 @@ const SidebarData = [
     {
         key: 1,
         title: "Dashboard",
-        icon: <WindowsOutlined  />,
-        link: "/performance",  
-    },    
+        icon: <WindowsOutlined />,
+        link: "/",
+    },
     {
         key: 2,
         title: "Employees",
         icon: <UsergroupAddOutlined />,
-        link: "/contact",  
+        link: "/employeeDetails",
     },
     {
         key: 3,
         title: "Leave",
         icon: <CalendarOutlined />,
-        link: "/leave",  
+        link: "/leave",
     },
     {
         key: 4,
         title: "Performance",
         icon: <StarOutlined />,
-        link: "/performance",  
+        link: "/performance",
     },
     {
         key: 5,
-        title: "Recruitment",
+        title: "Attendance",
         icon: <ClockCircleOutlined />,
-        link: "/emp",  
+        link: "/emp",
     },
     {
         key: 6,
         title: "Contact",
         icon: <PhoneOutlined />,
-        link: "/contact",  
+        link: "/contact",
     },
     {
         key: 7,
         title: "Account Settings",
         icon: <SettingOutlined />,
-        link: "/account",  
+        link: "/account",
     },
-    
+
 ]
 
 export default SidebarData

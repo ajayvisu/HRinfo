@@ -131,7 +131,7 @@ router.post("/logout", async (req, res) => {
     employeeSchema
       .findOne({ $or: [{ uuid: empid }, { email: empid }] })
       .then((data) => {
-        console.log("data", data)
+        console.log("data", data);
         const loginTime = moment(data.entryTime, "DD/MM/YYYY,hh:mm a");
         const current = moment(currentTime, "DD/MM/YYYY,hh:mm a");
         const duration = moment.duration(current.diff(loginTime));
@@ -173,75 +173,77 @@ router.post("/logout", async (req, res) => {
 });
 
 router.post("/emp-leave", (req, res) => {
-  let id = req.query.id
-  employeeSchema.findOne({ _id: id }).populate('leaves')
+  let id = req.query.id;
+  employeeSchema
+    .findOne({ _id: id })
+    .populate("leaves")
     .exec((err, employee) => {
       // console.log('user', employee)
       console.log('req.params._id', id)
       if (err) {
-        res.json({ err: err.message })
+        res.json({ err: err.message });
       } else {
-        let startDate = moment(req.body.from).format("MM/DD/YYYY")
-        let endDate = moment(req.body.to).format("MM/DD/YYYY")
+        let startDate = moment(req.body.from).format("DD/MM/YYYY")
+        let endDate = moment(req.body.to).format("DD/MM/YYYY")
         let sDate = moment(req.body.from).format('DD') //get leave start date only
         let eDate = moment(req.body.to).format('DD') //get leave endday date only
-        let subject=req.body.subject
-        console.log('subject',subject)
         req.body.days = eDate - sDate + 1;
         let todayDate = moment().format('DD')
         console.log('todayDate', todayDate)
-        console.log('startDate', startDate)
-        console.log('endDate', endDate)
-        let from = employee.email;
+        let from = employee.email
+
         const mailData = {
-          from: 'snowbellplanet@gmail.com',
-          to: employee.email,
+          from: employee.email,
+          to: 'sajna.platosys@gmail.com',
           subject: "Leave Permission",
           text: `Leave start ${startDate} to ${endDate}`
         }
-        console.log('todayDate', todayDate)
-        console.log('sDate', sDate)
-        if (todayDate < sDate) {
 
-          let sendingMail = sendMail.sendMail(mailData)
+        if (todayDate < sDate) {
+          let sendingMail = sendMail.sendMail(mailData);
           if (!sendingMail) {
-            console.log('mail not sending')
+            console.log("mail not sending");
           } else {
             leaveSchema.create(req.body, (err, newLeave) => {
               if (err) {
-                return res.status(200).json({ status: 'failed', message: err.message })
+                return res
+                  .status(200)
+                  .json({ status: "failed", message: err.message });
               } else {
-                newLeave.employee.id = employee._id
-                newLeave.employee.empName = employee.empName
+                newLeave.employee.id = employee._id;
+                newLeave.employee.empName = employee.empName;
                 // console.log("newleavenewleave", newLeave);
-                newLeave.save()
-                employee.leaves.push(newLeave)
-                employee.save().then(result => {
-                  res.status(200).json({ status: 'success', result: result })
-                })
+                newLeave.save();
+                employee.leaves.push(newLeave);
+                employee.save().then((result) => {
+                  res.status(200).json({ status: "success", result: result });
+                });
               }
             });
           }
-        }
-        else {
-          res.json({ status: 'success', message: 'ghv' })
+        } else {
+          res.json({ status: "success", message: "ghv" });
         }
       }
     });
 });
-router.get('/findone', async (req, res) => {
+router.get("/findone", async (req, res) => {
   try {
-
     const data = await employeeSchema.findOne({ email: req.body.email }).exec();
     if (data) {
-      return res.json({ status: "success", "result": data })
+      return res.json({ status: "success", result: data });
     } else {
-      return res.json({ status: "failure", message: "user not exist" })
+      return res.json({ status: "failure", message: "user not exist" });
     }
   } catch (err) {
-    return res.json({ 'err': err.message })
+    return res.json({ err: err.message });
   }
 })
+const time = moment().format("DD/MM/YYYY")
+console.log('time', time)
+console.log('hr', time)
+console.log('minit', time)
+
 router.get('/myleavedetails',async(req,res)=>{
   try{
    let myleave=await employeeSchema.findOne({_id:req.query.id})
@@ -254,13 +256,28 @@ router.get('/myleavedetails',async(req,res)=>{
     return res.json({ 'err': err.message })
   }
 })
-const time = moment().format("DD/MM/YYYY")
-console.log('time', time)
-console.log('hr', time)
-console.log('minit', time)
-
-           
-
-
-   
+router.get("/get-all-employee-details", async (req, res) => {
+  try {
+      await employeeSchema.find().then(data => {
+          return res.json({ status: "success", "result": data })
+      }).catch(err => {
+          return res.json({ status: "failure", message: "user not exist" })
+      })
+  } catch (err) {
+      return res.json({ 'err': err.message })
+  }
+})
+router.get("/get-single-emp-details", async (req, res) => {
+  try {
+      const employee = await employeeSchema.findOne({ "_id": req.query.id }).exec();
+      if (employee) {
+          return res.status(200).json({ 'status': 'success', message: "Product details fetched successfully", 'result': employee });
+      } else {
+          return res.status(404).json({ 'status': 'failure', message: "No Product details available" })
+      }
+  } catch (error) {
+      console.log(error.message);
+      return res.status(400).json({ "status": 'failure', 'message': error.message })
+  }
+});
 module.exports = router;
