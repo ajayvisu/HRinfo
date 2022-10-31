@@ -5,27 +5,27 @@ function Mgmt() {
   const [approvedLeave, setApprovedLeave] = useState();
   const [totalEmp, setTotalEmp] = useState();
   const [todayLeave, setTodayLeave] = useState();
-const leaveStatus=()=>{
-axios.get('http://localhost:4000/api/emp/leave-status').then(data=>{
-// console.log('data',data.data.approvedLeave)
-setPendingLeave(data.data.pendingLeave)
-setApprovedLeave(data.data.approvedLeave)
-setTotalEmp(data.data.totalEmp)
-setTodayLeave(data.data.todayLeaveCount)
-}).catch(err=>{
-  console.log('err',err.message)
-})
-}
+  const leaveStatus = () => {
+    axios.get('http://localhost:4000/api/emp/leave-status').then(data => {
+      // console.log('data',data.data.approvedLeave)
+      setPendingLeave(data.data.pendingLeave)
+      setApprovedLeave(data.data.approvedLeave)
+      setTotalEmp(data.data.totalEmp)
+      setTodayLeave(data.data.todayLeaveCount)
+    }).catch(err => {
+      console.log('err', err.message)
+    })
+  }
 
-useEffect(()=>{
-  leaveStatus()
- 
-},[])
+  useEffect(() => {
+    leaveStatus()
+
+  }, [])
   return (
     <div>
 
       <head>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
         <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css" />
         <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css" />
@@ -35,7 +35,7 @@ useEffect(()=>{
         <title>Bootstap 5 Responsive Admin Dashboard</title>
       </head>
       {
-        
+
       }
       <div className="grey-bg container-fluid" style={{ padding: "2px" }}>
         <section id="minimal-statistics" >

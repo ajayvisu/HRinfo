@@ -10,7 +10,7 @@ body {
 .main {
   width: 90%;
   margin: 2%;
- 
+
 }
 
 .card {
@@ -35,7 +35,7 @@ body {
 }
 
 .title {
-  
+
   text-align: center;
   padding: 3px;
 }
@@ -43,14 +43,14 @@ body {
 h1 {
   font-size: 20px;
   font-weight: bold;
-  font-style:initial;
-  text-transform:uppercase;
+  font-style: initial;
+  text-transform: uppercase;
 }
 
 .des {
   padding: 40px;
   text-align: center;
-font-weight: bold;
+  font-weight: bold;
   padding-top: 10px;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;

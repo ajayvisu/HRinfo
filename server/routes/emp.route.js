@@ -106,7 +106,7 @@ router.post("/login", async (req, res) => {
               .json({
                 status: "success",
                 message: "successfully login!",
-                token,data
+                token, data
               });
           } else {
             return res.json({
@@ -145,7 +145,7 @@ router.post("/logout", async (req, res) => {
 
         employeeSchema
           .findOneAndUpdate(
-            {  email: empid },
+            { email: empid },
             {
               loginStatus: false,
               wokingHour:
@@ -241,29 +241,29 @@ router.get("/findone", async (req, res) => {
 })
 
 
-router.get('/myleavedetails',async(req,res)=>{
-  try{
-   let myleave= await employeeSchema.findOne({_id:req.query.id})
-   .populate('leaves')
-   .exec((err,data)=>{
-    console.log('data',data)
-    return res.status(200).json({ status:'success', message:'data fetched successfully',result :data.leaves})
-   })
-  }catch(err){
+router.get('/myleavedetails', async (req, res) => {
+  try {
+    let myleave = await employeeSchema.findOne({ _id: req.query.id })
+      .populate('leaves')
+      .exec((err, data) => {
+        console.log('data', data)
+        return res.status(200).json({ status: 'success', message: 'data fetched successfully', result: data.leaves })
+      })
+  } catch (err) {
     return res.json({ 'err': err.message })
   }
 
 })
 
-router.get('/getEmployee',async(req,res)=>{
+router.get('/getEmployee', async (req, res) => {
   try {
-    
+
     const Employees = await employeeSchema.find().exec();
 
-    if(Employees.length > 0){
-      return res.status(200).json({status:"success",message:'Data feched successfully',"result":Employees})
-    }else{
-      return res.status(400).json({status:"failure",message:"somthing went wrong!"})
+    if (Employees.length > 0) {
+      return res.status(200).json({ status: "success", message: 'Data feched successfully', "result": Employees })
+    } else {
+      return res.status(400).json({ status: "failure", message: "somthing went wrong!" })
     }
 
   } catch (err) {
@@ -277,74 +277,75 @@ console.log('minit', time)
 
 router.get("/get-single-emp-details", async (req, res) => {
   try {
-    console.log('req.query._id ',req.query._id )
-      const employeeDetails = await employeeSchema.findOne({ "_id": req.query._id }).exec();
-      if (employeeDetails) {
-          return res.status(200).json({ 'status': 'success', message: "employeeDetails fetched successfully", 'result': employeeDetails });
-      } else {
-          return res.status(404).json({ 'status': 'failure', message: "No employeeDetails available" })
-      }
+    console.log('req.query._id ', req.query._id)
+    const employeeDetails = await employeeSchema.findOne({ "_id": req.query._id }).exec();
+    if (employeeDetails) {
+      return res.status(200).json({ 'status': 'success', message: "employeeDetails fetched successfully", 'result': employeeDetails });
+    } else {
+      return res.status(404).json({ 'status': 'failure', message: "No employeeDetails available" })
+    }
   } catch (error) {
-      console.log(error.message);
-      return res.status(400).json({ "status": 'failure', 'message': error.message })
+    console.log(error.message);
+    return res.status(400).json({ "status": 'failure', 'message': error.message })
   }
 });
-router.get("/loginstatus",async(req,res)=>{
-  try{
-  let loginUsers =  await employeeSchema.find({loginStatus:true}).exec()
-  let totalUsers =  await employeeSchema.find().exec()
-  console.log('loginstatus',loginUsers.length)
-if(loginUsers.length>0){
-  return res.status(200).json({ status: true, message: "data fetched" ,loginUsers:loginUsers.length,totalUsers:totalUsers.length})
-}else{
-  return res.status(200).json({ status: true, message: "All users are in off line" })
-}
-  }catch(error){
+router.get("/loginstatus", async (req, res) => {
+  try {
+    let loginUsers = await employeeSchema.find({ loginStatus: true }).exec()
+    let totalUsers = await employeeSchema.find().exec()
+    console.log('loginstatus', loginUsers.length)
+    if (loginUsers.length > 0) {
+      return res.status(200).json({ status: true, message: "data fetched", loginUsers: loginUsers.length, totalUsers: totalUsers.length })
+    } else {
+      return res.status(200).json({ status: true, message: "All users are in off line" })
+    }
+  } catch (error) {
     console.log(error.message);
     return res.status(400).json({ status: false, 'message': error.message })
   }
 })
-           
-router.put("/update",async(req,res)=>{
-  try{
+
+router.put("/update", async (req, res) => {
+  try {
     const uuid = req.query.uuid;
-    
-    await employeeSchema.findOneAndUpdate({uuid:uuid},req.body,{new:true}).then(result=>{
-        res.json({status:'success',message:'data successfully updated!','result':result})
-    }).catch(err=>{
-        console.log(err.message)
-        res.json({'err':err.message})
+
+    await employeeSchema.findOneAndUpdate({ uuid: uuid }, req.body, { new: true }).then(result => {
+      res.json({ status: 'success', message: 'data successfully updated!', 'result': result })
+    }).catch(err => {
+      console.log(err.message)
+      res.json({ 'err': err.message })
     })
-  }catch(error){
+  } catch (error) {
     return res.status(400).json({ status: false, 'message': error.message })
   }
 })
 
-router.get('/leave-status',async(req,res)=>{
-  try{
-    let pendingLeave =  await leaveSchema.find({status:"pending"}).exec()
-    let approvedLeave =  await leaveSchema.find({status:"approved"}).exec()
-    let totalEmp =  await employeeSchema.find().exec()
-    let todayLeave =  await employeeSchema.find({loginStatus:false}).exec()
-   
-    return res.status(200).json({ status: true, message: "data fetched" ,pendingLeave:pendingLeave.length,
-     approvedLeave:approvedLeave.length,
-     totalEmp:totalEmp.length,
-     todayLeaveCount:todayLeave.length
-  })
-  }catch(error){
-    return res.status(400).json({ status: false, 'message': error.message })
-  }
-})
-router.get('/today-leave',async(req,res)=>{
-  try{
-    let todayLeave =  await employeeSchema.find({loginStatus:false}).exec()
+router.get('/leave-status', async (req, res) => {
+  try {
+    let pendingLeave = await leaveSchema.find({ status: "pending" }).exec()
+    let approvedLeave = await leaveSchema.find({ status: "approved" }).exec()
+    let totalEmp = await employeeSchema.find().exec()
+    let todayLeave = await employeeSchema.find({ loginStatus: false }).exec()
 
-    let present =  await employeeSchema.find({loginStatus:true}).exec()
-    return res.status(200).json({ status: true, message: "data fetched" ,todayLeaveCount:todayLeave.length, todayLeave:todayLeave,present:present})
-  }catch(error){
+    return res.status(200).json({
+      status: true, message: "data fetched", pendingLeave: pendingLeave.length,
+      approvedLeave: approvedLeave.length,
+      totalEmp: totalEmp.length,
+      todayLeaveCount: todayLeave.length
+    })
+  } catch (error) {
     return res.status(400).json({ status: false, 'message': error.message })
   }
 })
-   
+router.get('/today-leave', async (req, res) => {
+  try {
+    let todayLeave = await employeeSchema.find({ loginStatus: false }).exec()
+
+    let present = await employeeSchema.find({ loginStatus: true }).exec()
+    return res.status(200).json({ status: true, message: "data fetched", todayLeaveCount: todayLeave.length, todayLeave: todayLeave, present: present })
+  } catch (error) {
+    return res.status(400).json({ status: false, 'message': error.message })
+  }
+})
+
 module.exports = router;
