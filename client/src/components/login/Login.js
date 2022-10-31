@@ -13,11 +13,23 @@ const Login = () => {
       email: empID,
       password: password,
     };
+    // console.log('data',data);
     axios
-      .post("http://192.168.1.5:4000/api/emp/login", data)
+      .post("http://localhost:4000/api/emp/login", data)
       .then((result) => {
-        console.log("data", result.data);
-        localStorage.setItem('user_id',result.data.data._id)
+        console.log("data", result.data.data);
+        if (result.data.status === "success") {
+          navigate("/emp");
+           localStorage.setItem('name',result.data.data.empName);
+           localStorage.setItem('user_id',result.data.data._id);
+           localStorage.setItem('email',result.data.data.email);
+           localStorage.setItem('id',result.data.data.empID);
+           localStorage.setItem('entryTime',result.data.data.entryTime);
+           localStorage.setItem('token',result.data.token);
+           localStorage.setItem('mobile',result.data.data.mobile);
+           localStorage.setItem('role',result.data.data.role);
+           
+        }
       })
       .catch((err) => {
         console.log("err", err);

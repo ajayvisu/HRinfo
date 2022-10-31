@@ -43,7 +43,7 @@ const ViewDetails = () => {
             <h3>Education</h3>
             <div class="projects_data">
               <div class="data">
-                <h4></h4>
+                <h4>xyz</h4>
                 <p>xyz</p>
               </div>
               <div class="data">

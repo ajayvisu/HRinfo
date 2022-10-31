@@ -14,14 +14,14 @@ const SidebarData = [
     {
         key: 1,
         title: "Dashboard",
-        icon: <WindowsOutlined />,
-        link: "/",
-    },
+        icon: <WindowsOutlined  />,
+        link: "/dashbord",  
+    },    
     {
         key: 2,
         title: "Employees",
         icon: <UsergroupAddOutlined />,
-        link: "/employeeDetails",
+        link: "/emplyeedetails",  
     },
     {
         key: 3,
@@ -33,13 +33,13 @@ const SidebarData = [
         key: 4,
         title: "Performance",
         icon: <StarOutlined />,
-        link: "/performance",
+        link: "/performance",  
     },
     {
         key: 5,
         title: "Attendance",
         icon: <ClockCircleOutlined />,
-        link: "/emp",
+        link: "/dashbord",  
     },
     {
         key: 6,
@@ -51,9 +51,9 @@ const SidebarData = [
         key: 7,
         title: "Account Settings",
         icon: <SettingOutlined />,
-        link: "/account",
+        link: "/profile",  
     },
 
 ]
 
-export default SidebarData
+export default SidebarData;

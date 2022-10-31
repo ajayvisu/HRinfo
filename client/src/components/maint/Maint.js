@@ -1,44 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from 'react'
 import "./Maint.css";
-
+import axios from 'axios';
 const Maint = () => {
+    const [emp ,setEmp] = useState('');
+    const myEmployee = () =>{
+      axios.get('http://localhost:4000/api/emp/getEmployee').then(result=>{
+        console.log('employee data ,', result.data)
+       
+        setEmp(result.data);
+      }).catch(err=>{
+        console.log('err',err.message);
+      })
+     }
+  useEffect(()=>{
+    myEmployee()
+  
+  },[])
   return (
-    <>
-      <img className="hr_bg_img" src="hr_bg.webp" alt="hr_bg_image"></img>
-      <img className="logo_img" src="logo.jpg" alt="hrinfo logo"></img>
-      <div className="hr_bt container mt-4">
-        <div className="row">
-          <div className="col-lg-6 col-sm-6 col-12 mx-auto">
-            <div className="row gy-4">
-              <div className="col-sm-6 col-8 mx-auto">
-                <a href="/hr">
-                  <button className="btn firstbtn1 w-100 py-4">HR</button>
-                </a>
-              </div>
-              <div className="col-sm-6 col-8 mx-auto">
-                <a href="/emp">
-                  <button className="btn firstbtn2 w-100 py-4">EMPLOYEE</button>
-                </a>
-              </div>
-              <div className="col-sm-6 col-8 mx-auto">
-                <a href="/mgmt">
-                  <button className="btn firstbtn1 w-100 py-4">
-                    MANAGEMENT
-                  </button>
-                </a>
-              </div>
-              <div className="col-sm-6 col-8 mx-auto">
-                <a href="/maint">
-                  <button className="btn firstbtn2 w-100 py-4">
-                    MAINTANANCE
-                  </button>
-                </a>
-              </div>
-            </div>
-          </div>
+    <div>
+    <head>
+    {/* <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/> */}
+
+    </head>
+      <section className="bg-light p-5">
+        <h3 className="pb-2">Responsive Table</h3>
+        <div className="table-responsive" id="no-more-tables">
+            <table className="table bg-white">
+                <thead className="bg-dark text-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>EmployeeID</th>
+                        <th>MobileNumber</th>
+                        <th>Loginstatus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                    <tr>
+                        <td data-title="Name">Alisha</td>
+                        <td data-title="EmployeeID">Roy</td>
+                        <td data-title="MobileNumber">20</td>
+                        <td data-title="Loginstatus">Kerala</td>
+                    </tr>
+                  
+                   
+                 
+                  
+                </tbody>
+            </table>
         </div>
-      </div>
-    </>
+    </section>
+    </div>
   );
 };
 
