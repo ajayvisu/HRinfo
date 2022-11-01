@@ -1,42 +1,44 @@
-.work_time{
-    font-size:xx-large;
+.work_time {
+    font-size: xx-large;
     color: green;
-   
-   
+
+
 }
 
-.work-log1{
+.work-log1 {
     text-align: justify;
 }
 
-.work-log2{
+.work-log2 {
     text-align: left;
     margin-left: 20px;
 }
-.project_num span{
-    font-weight:700;
-    color:green;
-    font-size: large;  
-    position:absolute; 
+
+.project_num span {
+    font-weight: 700;
+    color: green;
+    font-size: large;
+    position: absolute;
 }
 
-.project_num{
+.project_num {
     text-align: start;
     height: 70px;
     margin-left: 10px;
     cursor: pointer;
 }
 
-.flex img{
+.flex img {
     width: 40px;
     cursor: pointer;
 }
+
 .dot {
     height: 10px;
     width: 10px;
     background-color: rgb(197, 23, 23);
     border-radius: 50%;
     display: inline-block;
-  }
+}
 
 /* ------------ */

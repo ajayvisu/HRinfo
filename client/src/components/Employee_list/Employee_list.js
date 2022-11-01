@@ -18,11 +18,11 @@ const Employee_list = () => {
     }).catch(err=>{
       console.log('err',err.message);
     })
-   }
-  
-   useEffect(()=>{
-   myEmployee() 
-   }, [])
+  }
+
+  useEffect(() => {
+    myEmployee()
+  }, [])
 
 
    const [searchText, setSearchText] = useState('');

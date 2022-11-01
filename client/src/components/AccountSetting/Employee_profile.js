@@ -57,8 +57,8 @@ const Edit = () =>{
                            </thead> */}
                            <tbody>
                               <tr class="highlight">
-                                 <td class="field">Cantact</td>
-                                 <td><button type="button" onClick={Edit}>Add Your Cantact</button></td>
+                                 <td class="field">Contact</td>
+                                 <td className="contact"><button type="button" onClick={Edit}>Add Your Cantact</button></td>
                               </tr>
                               <tr class="divider">
                                  <td colspan="2"></td>
@@ -80,7 +80,7 @@ const Edit = () =>{
                               </tr>
                               <tr class="highlight">
                                  <td class="field">About Me</td>
-                                 <td><button type="button" onClick={Edit}>Add Description</button></td>
+                                 <td><button className="contact" type="button" onClick={Edit}>Add Description</button></td>
                               </tr>
                               <tr class="divider">
                                  <td colspan="2"></td>
@@ -141,7 +141,7 @@ const Edit = () =>{
                               </tr>
                               <tr class="highlight">
                                  <td class="field">Education</td>
-                                 <td><button type="button" onClick={Edit}>Add Your Education</button></td>
+                                 <td>< button className="contact" type="button" onClick={Edit}>Add Your Education</button></td>
                               </tr>
                               <tr class="divider">
                                  <td colspan="2"></td>

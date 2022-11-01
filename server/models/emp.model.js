@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
 
-const employeeSchema =  mongoose.Schema(
+const employeeSchema = mongoose.Schema(
   {
     empID: { type: String, require: false },
     empName: { type: String, require: true },

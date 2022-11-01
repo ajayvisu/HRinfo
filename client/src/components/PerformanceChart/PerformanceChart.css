@@ -1,0 +1,20 @@
+.donut{
+    padding: 60px;
+}
+.mixed-chart{
+width: 40%;
+float: left;
+margin-left: 5%;
+}
+ .pie{
+width: 30%;
+float: right;
+margin-top: 80px;
+ }
+ .card{
+
+    margin-right:110px;
+ } 
+ .grey-bg {  
+    background-color: #F5F7FA;
+}
