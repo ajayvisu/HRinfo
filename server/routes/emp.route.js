@@ -129,7 +129,7 @@ router.post("/logout", async (req, res) => {
     const empid = req.body.empid;
     const currentTime = moment().format("DD/MM/YYYY,hh:mm a");
     employeeSchema
-      .findOne({ $or: [{ uuid: empid }, { email: empid }] })
+      .findOne( { email: empid } )
       .then((data) => {
         console.log("data", data);
         const loginTime = moment(data.entryTime, "DD/MM/YYYY,hh:mm a");
@@ -143,6 +143,8 @@ router.post("/logout", async (req, res) => {
         );
         console.log("vist", data.entryTime);
 
+        console.log("data",data);
+
         employeeSchema
           .findOneAndUpdate(
             { $or: [{ uuid: empid }, { email: empid }] },
@@ -151,7 +153,7 @@ router.post("/logout", async (req, res) => {
               wokingHour:
                 hours + " hours and " + minutes + " minutes " + days + " days",
             },
-            { new: false }
+            { new: true }
           )
           .then(() => {
             return res.status(200).json({

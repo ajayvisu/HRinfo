@@ -17,13 +17,13 @@ const Edit = () =>{
 
 
     return(<>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-<div class="container">
-   <div class="row">
-      <div class="col-md-12">
-         <div id="content" class="content content-full-width">
+
+    
+        
+
+   
+      
+         <div class="content-full-width">
             <div class="profile">
                <div class="profile-header">
                   <div class="profile-header-cover"></div>
@@ -44,17 +44,17 @@ const Edit = () =>{
             <div class="profile-content">
                 <div class="tab-content p-0">
 
-                   <div class="tab-pane fade in active show" id="profile-about">
+                   <div class="tab-pane fade in active show">
                      <div class="table-responsive">
                         <table class="table table-profile">
-                           <thead>
-                              <tr>
+                           {/* <thead>
+         `                     <tr>
                                  <th></th>
                                  <th>
-                                    <h4>{localStorage.getItem('name')}<small>Lorraine Stokes</small></h4>
+                                    <h2>{localStorage.getItem('name')}<small>Lorraine Stokes</small></h2>
                                  </th>
-                              </tr>
-                           </thead>
+                              </tr>`
+                           </thead> */}
                            <tbody>
                               <tr class="highlight">
                                  <td class="field">Cantact</td>
@@ -211,12 +211,12 @@ const Edit = () =>{
                </div>
             </div>
          </div>
-      </div>
-   </div>
-</div>
-    	</div>
-	</div>
-</div>
+   
+   
+
+
+
+
         
     </>)
 }
