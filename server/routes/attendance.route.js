@@ -5,7 +5,7 @@ const leaveSchema = require("../models/leave.model");
 
 const attendanceSchema = require('../models/attendance.model')
 
-router.get('/getdata',async(req,res)=>{
+router.get('/today-attendance-date',async(req,res)=>{
     try{
         req.body.date=moment().format("DD/MM/YYYY")
    let data= await attendanceSchema.find({date:req.body.date}).exec();
