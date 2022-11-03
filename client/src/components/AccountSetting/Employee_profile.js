@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import './Employee_profile.css'
+import './Employee_profile.css';
+import { PlusOutlined ,UserOutlined} from '@ant-design/icons';
+import { Modal, Upload , Image,Avatar} from 'antd';
+import ImgCrop from 'antd-img-crop';
+import axios from "axios";
+
+
 
 
 
@@ -10,32 +16,68 @@ const [id, setId] = useState(localStorage.getItem('id'))
 const [email, setEmail] = useState(localStorage.getItem('email'))
 const [change,setChange] = useState(true);
 
+const [img,setImg] = useState(localStorage.getItem('img2'));
+
+ 
 const Edit = () =>{
 
    setChange(false);
 }
 
+// const emp = () =>{
+//    let id = localStorage.getItem('id') 
+//    axios.get(`http://localhost:4000/api/emp/findone?empId=${id}`).then(data=>{
+//       console.log("res_emp",data.data.result.image);
+//       setImg(data.data.result.image)
+//    })
+// }
+
+if(img){
+   localStorage.setItem('img2',img);
+}
+
+
+console.log("img1",)
+
+const image_upload = () =>{
+   // const formdata = new FormData();
+   // formdata.append('file',img);
+   // console.log('formdata',formdata);
+   // const email = localStorage.getItem('email')
+   // axios.post(`http://localhost:4000/img/img?email=${email}`,formdata,{headers:{'Content-Type':"multipart/form-data"}}).then(data=>{
+   //    console.log("res",data);
+
+   // }).catch(err=>{
+   //    console.log("err",err.message)
+   // })
+   let image = {
+      image : img
+   }
+   axios.put(`http://localhost:4000/api/emp/imag_update?email=${email}`,image).then(result => {
+      console.log('res',result.data)
+   }).catch(err => {
+      console.log('err',err.message);
+   })
+}
+
 
     return(<>
-
-    
-        
-
-   
-      
+         
          <div class="content-full-width">
             <div class="profile">
                <div class="profile-header">
                   <div class="profile-header-cover"></div>
                   <div class="profile-header-content">
                      <div class="profile-header-img">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt=""/>   
+                        { img ?
+                     <Image width={113} src={img}/> :  <Avatar shape="square" size={113} icon={<UserOutlined />} />
+                        }     
                      </div>
                      <div class="profile-header-info">
                         <h4 class="m-t-10 m-b-5">{localStorage.getItem('name')}</h4>
                         <p class="m-b-10">Web And Frontend Developer</p>
                         {/* <button type="button"  class="btn btn-xs btn-success">Edit Profile</button> */}
-                        <input type="file" id="myfile" name="myfile"/>
+                        <input type="file" id="myfile" name="myfile" onChange={(e)=>setImg(URL.createObjectURL(e.target.files[0]))} />
                      </div>
                   </div>
  
@@ -200,8 +242,8 @@ const Edit = () =>{
                               <tr class="highlight">
                                  <td class="field">&nbsp;</td>
                                  <td class="p-t-10 p-b-10">
-                                    <button type="submit" class="btn btn-primary width-150">Update</button>
-                                    <button type="submit" class="btn btn-white btn-white-without-border width-150 m-l-5">Cancel</button>
+                                    <button type="submit" class="btn btn-primary width-150" onClick={image_upload}>Update</button>
+                                    <button type="submit" class="btn btn-white btn-white-without-border width-150 m-l-5" >Cancel</button>
                                  </td>
                               </tr>
                            </tbody>

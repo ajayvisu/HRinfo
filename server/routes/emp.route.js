@@ -231,7 +231,7 @@ router.post("/emp-leave", (req, res) => {
 });
 router.get("/findone", async (req, res) => {
   try {
-    const data = await employeeSchema.findOne({ empID: req.body.empId }).exec();
+    const data = await employeeSchema.findOne({ empID: req.query.empId }).exec();
     if (data) {
       return res.json({ status: "success", result: data });
     } else {
@@ -239,6 +239,21 @@ router.get("/findone", async (req, res) => {
     }
   } catch (err) {
     return res.json({ err: err.message });
+  }
+})
+
+router.put("/imag_update",async (req,res) => {
+  try {
+    const data = await employeeSchema.findOneAndUpdate({ email: req.query.email },{image : req.body.image},{new:true})
+    .then(result => {
+      res.json({status:'succuss',message : 'image successfully added',result});
+    }).catch(err => {
+      res.json({status:'failure',message:err.message,})
+    })
+
+
+  } catch (error) {
+    return res.json({ error: error.message }); 
   }
 })
 
@@ -291,6 +306,8 @@ router.get("/get-single-emp-details", async (req, res) => {
     return res.status(400).json({ "status": 'failure', 'message': error.message })
   }
 });
+
+
 router.get("/loginstatus", async (req, res) => {
   try {
     let loginUsers = await employeeSchema.find({ loginStatus: true }).exec()
@@ -339,6 +356,7 @@ router.get('/leave-status', async (req, res) => {
     return res.status(400).json({ status: false, 'message': error.message })
   }
 })
+
 router.get('/today-leave', async (req, res) => {
   try {
     let todayLeave = await employeeSchema.find({ loginStatus: false }).exec()

@@ -21,8 +21,8 @@ function Home() {
             .post("http://localhost:4000/api/emp/login", data)
             .then((result) => {
                 console.log("data", result.data.data);
-                if (result.data.status === "success") {
-                    navigate("/pro");
+                if (result.data.data.role == "developer") {
+                    navigate("/dashbord");
                     localStorage.setItem('name', result.data.data.empName);
                     localStorage.setItem('user_id', result.data.data._id);
                     localStorage.setItem('email', result.data.data.email);
@@ -31,7 +31,10 @@ function Home() {
                     localStorage.setItem('token', result.data.token);
                     localStorage.setItem('mobile', result.data.data.mobile);
                     localStorage.setItem('role', result.data.data.role);
+                    localStorage.setItem('img', result.data.data.image);
 
+                }else{
+                    navigate("/profile");
                 }
             })
             .catch((err) => {
