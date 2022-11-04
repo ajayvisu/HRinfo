@@ -8,7 +8,7 @@ const employeeSchema = mongoose.Schema(
     email: { type: String, require: true },
     mobile: { type: Number, require: true },
     gender: { type: String, require: true },
-    DOB :{type:String,require:false},
+    DOB :{type:Date,require:false},
     DOJ : {type:Date,require:false},
     image : {type:String,require:false},
     role: { type: String, require: true },

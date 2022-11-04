@@ -14,6 +14,14 @@ const[role ,setRole] = useState('');
 const[address ,setAddress] = useState('');
 const[salary ,setSalary] = useState('');
 const[DOJ ,setDOJ] = useState('');
+const[Degree ,setDegree] = useState('');
+const[Specialization ,setSpecialization] = useState('');
+const[institue ,setinstitue] = useState('');
+const[passingYear ,setpassingYear] = useState('');
+const[organization ,setorganization] = useState('');
+const[designation ,setdesignation] = useState('');
+const[startDate ,setstartDate] = useState('');
+const[endDate ,setendDate] = useState('');
 
  const AddEmp = () =>{
     const data = {
@@ -163,59 +171,94 @@ const[DOJ ,setDOJ] = useState('');
                                     required
                                 />
                             </div>
-                            {/* <div className="mt-4">
-                                <h3>Deduction Details</h3>
+                            <div className="mt-4">
+                                <h3>Education Details</h3>
+                            
+                            <hr/>
+                            <div class="form-group mt-4">
+                            <select class="form-select mt-4" name="Degree" required onChange={(e)=>setDegree(e.target.value)} >
+                                <option selected disabled>Degree</option> 
+                                <option value="B.SC">B.SC</option>
+                                <option value="B.E">B.E</option>
+                                <option value="BCA">BCA</option>
+                                <option value="B.com">B.com</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-3">
+                            <select class="form-select mt-4" name="Specialization" required onChange={(e)=>setSpecialization(e.target.value)} >
+                                <option selected disabled>Specialization</option> 
+                                <option value="B.SC">Computer Science</option>
+                                <option value="B.E">IT</option>
+                                <option value="BCA">Arts</option>
+                                <option value="B.com">Information tech</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="leave" class="form-label" >College Name</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="institue"
+                                    required
+                                    onChange={(e)=>setinstitue(e.target.value)}
+                                />
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="loan" class="form-label" >passingYear</label>
+                                <input
+                                    type="date"
+                                    class="form-control"
+                                    placeholder="passingYear"
+                                    required
+                                    onChange={(e)=>setpassingYear(e.target.value)}
+                                />
+                            </div>
+                            </div>
+                            <div className="mt-4">
+                                <h3>Experience Details</h3>
                             
                             <hr/>
                             <div class="form-group mt-3">
-                                <label for="did" class="form-label" >Deduction Id.</label>
+                                <label  class="form-label" >organization</label>
                                 <input
-                                    type="number"
-                                    id="did"
-                                    name="did"
+                                    type="text"
                                     class="form-control"
-                                    placeholder="Enter DId."
-
+                                    placeholder="organization"
                                     required
+                                    onChange={(e)=>setorganization(e.target.value)}
                                 />
                             </div>
                             <div class="form-group mt-3">
-                                <label for="tax" class="form-label" >Tax Deduction</label>
+                                <label  class="form-label" >designation</label>
                                 <input
-                                    type="number"
-                                    id="tax"
-                                    name="tax"
+                                    type="text"
                                     class="form-control"
-                                    placeholder="Enter Tax"
-
+                                    placeholder="designation"
                                     required
+                                    onChange={(e)=>setdesignation(e.target.value)}
                                 />
                             </div>
                             <div class="form-group mt-3">
-                                <label for="leave" class="form-label" >Deduction For Leave</label>
+                                <label  class="form-label" >Start Date</label>
                                 <input
-                                    type="number"
-                                    id="leave"
-                                    name="leave"
+                                    type="date"
                                     class="form-control"
-                                    placeholder="Enter per day deduction"
-
+                                    placeholder="designation"
                                     required
+                                    onChange={(e)=>setstartDate(e.target.value)}
                                 />
                             </div>
                             <div class="form-group mt-3">
-                                <label for="loan" class="form-label" >PF Deduction</label>
+                                <label  class="form-label" >End Date</label>
                                 <input
-                                    type="number"
-                                    id="loan"
-                                    name="loan"
+                                    type="date"
                                     class="form-control"
-                                    placeholder="Enter Laon Deduction"
-
+                                    placeholder="designation"
                                     required
+                                    onChange={(e)=>setendDate(e.target.value)}
                                 />
                             </div>
-                            </div> */}
+                            </div>
                             <div className="text-center">
                             <button type="button" onClick={AddEmp} className="btn btn-primary mt-5 col-3">
                                 Register
