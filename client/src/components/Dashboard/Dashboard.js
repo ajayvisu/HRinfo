@@ -29,11 +29,14 @@ import Emp_dashbord from '../Emp_dashbord/Emp_dashbord';
 import Employee_list from '../Employee_list/Employee_list';
 import Employee_profile from '../AccountSetting/Employee_profile';
 import axios from 'axios';
+import AddEmp from '../AddEmployee/AddEmp';
 const { Header, Sider, Content, Footer } = Layout;
 const { Text, Link } = Typography;
 
 
 function Dashboard() {
+
+  //const navigate = useNavigate();
   const [state, setState] = useState({
     collapsed: false,
   })
@@ -49,6 +52,8 @@ function Dashboard() {
 
     axios.post('http://localhost:4000/api/emp/logout', empid).then(result => {
       console.log(result.data);
+    //  navigate('/')
+      
     }).catch(err => {
       console.log('err', err.message);
     })
@@ -117,6 +122,7 @@ function Dashboard() {
                 <Route path="/emplyeedetails" element={<EmployeeDetails />}></Route>
                 <Route path="/viewdetails" element={<ViewDetails />}></Route>
                 <Route path="/dashbord" element={<Employee_list />}></Route>
+                <Route path="/addEmp" element={<AddEmp />}></Route>
               </Routes>
             </div>
           </Content>

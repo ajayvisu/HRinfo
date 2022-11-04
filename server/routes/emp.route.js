@@ -7,7 +7,7 @@ const leaveSchema = require("../models/leave.model");
 const sendMail = require("../middleware/mail");
 const e = require("express");
 require("dotenv").config();
-
+const attendanceSchema = require('../models/attendance.model')
 router.post("/addEmployee", async (req, res) => {
   try {
     let empName = req.body.empName;
@@ -80,99 +80,6 @@ router.post("/addEmployee", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
-  try {
-    console.log(req.body);
-    let email = req.body.email;
-    let password = req.body.password;
-    const time = moment().format("DD/MM/YYYY, hh:mm a");
-    await employeeSchema
-      .findOneAndUpdate(
-        { email: email },
-        { entryTime: time, loginStatus: true }
-      )
-      .then((data) => {
-        bcrypt.compare(password, data.password, function (err, result) {
-          if (err) {
-            res.json({ err: err.message });
-          }
-          if (result) {
-            const token = jwt.sign({ data }, process.env.JWTKEY, {
-              expiresIn: "1h",
-            });
-            console.log("token", token);
-            return res
-              .status(200)
-              .json({
-                status: "success",
-                message: "successfully login!",
-                token, data
-              });
-          } else {
-            return res.json({
-              status: "failure",
-              message: "invalide password",
-            });
-          }
-        });
-      })
-      .catch((err) => {
-        return res.json({ status: "failure", message: "invalide mail id" });
-      });
-  } catch (err) {
-    return res.json({ err: err.message });
-  }
-});
-
-router.post("/logout", async (req, res) => {
-  try {
-    const empid = req.body.empid;
-    const currentTime = moment().format("DD/MM/YYYY,hh:mm a");
-    employeeSchema
-      .findOne( { email: empid } )
-      .then((data) => {
-        console.log("data", data);
-        const loginTime = moment(data.entryTime, "DD/MM/YYYY,hh:mm a");
-        const current = moment(currentTime, "DD/MM/YYYY,hh:mm a");
-        const duration = moment.duration(current.diff(loginTime));
-        const hours = parseInt(duration.asHours());
-        const minutes = parseInt(duration.asMinutes()) % 60;
-        const days = parseInt(duration.asDays());
-        console.log(
-          hours + " hours and " + minutes + " minutes " + days + " days"
-        );
-        console.log("vist", data.entryTime);
-
-        console.log("data",data);
-
-        employeeSchema
-          .findOneAndUpdate(
-            { email: empid },
-            {
-              loginStatus: false,
-              wokingHour:
-                hours + " hours and " + minutes + " minutes " + days + " days",
-            },
-            { new: true }
-          )
-          .then(() => {
-            return res.status(200).json({
-              status: "success",
-              message: "successfully logout!",
-              workingHour:
-                hours + " hours and " + minutes + " minutes " + days + " days",
-            });
-          });
-      })
-      .catch((err) => {
-        return res
-          .status(404)
-          .json({ status: "failure", message: err.message });
-      });
-  } catch (err) {
-    return res.status(500).json({ err: err.message });
-  }
-});
 
 router.post("/emp-leave", (req, res) => {
   let id = req.query.id;
@@ -367,5 +274,127 @@ router.get('/today-leave', async (req, res) => {
     return res.status(400).json({ status: false, 'message': error.message })
   }
 })
+router.post("/login", async (req, res) => {
+  try {
+    console.log(req.body);
+    let email = req.body.email;
+    let password = req.body.password;
+    const time = moment().format("DD/MM/YYYY, hh:mm a");
+    await employeeSchema
+      .findOneAndUpdate(
+        { email: email },
+        { entryTime: time, loginStatus: true }
+      )
+      .then((data) => {
+        bcrypt.compare(password, data.password, function (err, result) {
+          if (err) {
+            res.json({ err: err.message });
+          }
+          if (result) {
+            const token = jwt.sign({ data }, process.env.JWTKEY, {
+              expiresIn: "1h",
+            });
+            console.log("token", token);
+
+            employeeSchema
+              .findOne({ email: email })
+              .populate("attendance")
+              .exec((err, user) => {
+                console.log('user', user)
+                console.log('req.params._id', email)
+                if (err) {
+                  res.json({ err: err.message });
+                } else {
+                  req.body.entryTime = moment().format("DD/MM/YYYY, hh:mm a")
+                  req.body.date= moment().format("DD/MM/YYYY")
+                  console.log(" req.body.date", req.body.date)
+                  attendanceSchema.create(req.body, (err, newAttendance) => {
+                    console.log('newAttendance', newAttendance)
+                    if (err) {
+                      return res
+                        .status(200)
+                        .json({ status: "failed", message: err.message });
+                    } else {
+                      newAttendance.employee.id = user._id
+                      newAttendance.employee.username = user.username
+                      newAttendance.save();
+                      user.attendance.push(newAttendance);
+                      user.save().then((result) => {
+                        //   res.status(200).json({ status: "success", result: result });
+                      });
+                    }
+                  });
+                }
+              });
+            return res
+              .status(200)
+              .json({
+                status: "success",
+                message: "successfully login!",
+                token, data
+              });
+          } else {
+            return res.json({
+              status: "failure",
+              message: "invalide password",
+            });
+          }
+        });
+      })
+      .catch((err) => {
+        return res.json({ status: "failure", message: "invalide mail id" });
+      });
+  } catch (err) {
+    return res.json({ err: err.message });
+  }
+});
+
+router.post("/logout", async (req, res) => {
+  try {
+    const id = req.query.id;
+    const email = req.query.email;
+    const currentTime = moment().format("DD/MM/YYYY,hh:mm a");
+    attendanceSchema
+      .findOne({ _id: id })
+      .then((data) => {
+        console.log("data", data);
+        const loginTime = moment(data.entryTime, "DD/MM/YYYY,hh:mm a");
+        const current = moment(currentTime, "DD/MM/YYYY,hh:mm a");
+        const duration = moment.duration(current.diff(loginTime));
+        const hours = parseInt(duration.asHours());
+        const minutes = parseInt(duration.asMinutes()) % 60;
+        const days = parseInt(duration.asDays());
+        console.log(
+          hours + " hours and " + minutes + " minutes " + days + " days"
+        );
+        attendanceSchema
+          .findOneAndUpdate(
+            { _id: id },
+            {
+              duration:
+                hours + " hours and " + minutes + " minutes " + days + " days",
+            },
+            { new: true }
+          )
+          .then((data) => {
+            return res.status(200).json({
+              status: "success",
+              message: "successfully logout!",
+              duration:
+                hours + " hours and " + minutes + " minutes " + days + " days", data: data
+            });
+          });
+        employeeSchema.findOneAndUpdate({ email: email }, { loginStatus: false })
+
+      })
+      .catch((err) => {
+        return res
+          .status(404)
+          .json({ status: "failure", message: err.message });
+      });
+  } catch (err) {
+    return res.status(500).json({ err: err.message });
+  }
+});
 
 module.exports = router;
