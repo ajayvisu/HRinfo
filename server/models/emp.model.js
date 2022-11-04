@@ -31,6 +31,12 @@ const employeeSchema =  mongoose.Schema(
       designation:{type: String,},
       startDate:{type: String,},
       endDate:{type: String,},
+  }],
+    bankDetails:[{
+      bankName:{type: String},
+      recipientName:{type: String},
+      accountNumber:{type: Number},
+      ifsc:{type: Number},
   }]
   }
 );

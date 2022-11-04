@@ -198,6 +198,33 @@ const Edit = () =>{
                                  <td colspan="2"></td>
                               </tr>
                               <tr class="highlight">
+                                 <td class="field">Bank Details</td>
+                                 <td><button type="button" onClick={Edit}>Add Your Bank Details</button></td>
+                              </tr>
+                              <tr class="divider">
+                                 <td colspan="2"></td>
+                              </tr>
+                              <tr>
+                                 <td class="field">Bank Name </td>
+                                 <td><input type="text" value={''} placeholder="Number" disabled = {change} /></td>
+                              </tr>
+                              <tr>
+                                 <td class="field">Recipient Name </td>
+                                 <td><span>{''}</span></td>
+                              </tr>
+                              <tr>
+                                 <td class="field">Account Number</td>
+                                 <td>{''}</td>
+                              </tr>
+                              <tr>
+                                 <td class="field">IFSC Code</td>
+                                 <td>{''}</td>
+                              </tr>
+
+                              <tr class="divider">
+                                 <td colspan="2"></td>
+                              </tr>
+                              <tr class="highlight">
                                  <td class="field">&nbsp;</td>
                                  <td class="p-t-10 p-b-10">
                                     <button type="submit" class="btn btn-primary width-150">Update</button>
