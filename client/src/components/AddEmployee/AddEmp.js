@@ -187,10 +187,10 @@ const[endDate ,setendDate] = useState('');
                             <div class="form-group mt-3">
                             <select class="form-select mt-4" name="Specialization" required onChange={(e)=>setSpecialization(e.target.value)} >
                                 <option selected disabled>Specialization</option> 
-                                <option value="B.SC">Computer Science</option>
-                                <option value="B.E">IT</option>
-                                <option value="BCA">Arts</option>
-                                <option value="B.com">Information tech</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="IT">IT</option>
+                                <option value="Arts">Arts</option>
+                                <option value="Information tech">Information tech</option>
                                 </select>
                             </div>
                             <div class="form-group mt-3">
