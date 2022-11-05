@@ -11,7 +11,7 @@ import Login from "./components/login/Login";
 import Hr from "./components/hr/Hr";
 import Mgmt from "./components/mgmt/Mgmt";
 import HomePage from './components/homePage/HomePage';
-import App_image from "./components/AccountSetting/image";
+
 import AddEmp from "./components/AddEmployee/AddEmp";
 
 

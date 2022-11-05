@@ -17,6 +17,10 @@ const employeeSchema = mongoose.Schema(
     Address : {type:String,require:false},
     active: { type: Boolean, require: false, default: false },
     loginStatus: { type: Boolean, require: false, default: true },
+    deducationId:{
+      type: String,
+      required : false
+     },
     leaves: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -34,14 +38,20 @@ const employeeSchema = mongoose.Schema(
       Specialization: { type: String, },
       institue: { type: String, },
       passingYear: { type: String, },
-      startDate: { type: String, },
-      endDate: { type: String, },
+      startDate: { type: Date, },
+      endDate: { type: Date, },
     }],
     experience: [{
       organization: { type: String, },
       designation: { type: String, },
       startDate: { type: String, },
       endDate: { type: String, },
+    }],
+    bankDetails:[{
+      bankName:{type:String},
+      recipientName:{type:String},
+      accountNumber:{type:Number},
+      ifsc:{type:String}
     }]
   }
 );

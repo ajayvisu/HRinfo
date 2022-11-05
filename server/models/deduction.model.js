@@ -7,5 +7,11 @@ const deductionSchema = new mongoose.Schema({
     PF : {type:Number,require:false},
 });
 
+deductionSchema.pre("save", function (next) {
+    this.deductionID = "DED" + crypto.pseudoRandomBytes(4).toString("hex").toUpperCase();
+    console.log("uuid", this.empId);
+    next();
+});
+
 const deduction = mongoose.model('deduction',deductionSchema);
 module.exports = deduction;
