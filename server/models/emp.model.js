@@ -10,8 +10,13 @@ const employeeSchema = mongoose.Schema(
     gender: { type: String, require: true },
     role: { type: String, require: true },
     password: { type: String, require: true },
+    baseSalary : {type:Number,require:true},
     active: { type: Boolean, require: false, default: false },
     loginStatus: { type: Boolean, require: false, default: true },
+    deducationId:{
+      type: String,
+      required : true
+  },
     leaves: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -37,7 +42,13 @@ const employeeSchema = mongoose.Schema(
       designation: { type: String, },
       startDate: { type: String, },
       endDate: { type: String, },
-    }]
+    }],
+      bankDetails:[{
+        bankName:{type:String},
+        recipientName:{type:String},
+        accountNumber:{type:Number},
+        ifsc:{type:String}
+      }]
   }
 );
 

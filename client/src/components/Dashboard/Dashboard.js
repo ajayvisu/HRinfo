@@ -17,7 +17,7 @@ import Mgmt from '../mgmt/Mgmt';
 import Login from "../login/Login";
 import Maint from '../maint/Maint';
 import ViewDetails from '../ViewDetails/ViewDetails';
-
+import SignUp from '../SignUp/SignUp';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -106,6 +106,7 @@ function Dashboard() {
 
                 <Route exact path="/contact" element={<Contact />} />
                 <Route path="/" element={<Home />}></Route>
+                <Route path="/signup" element={<SignUp />}></Route>
                 <Route path="/maint" element={<Maint />}></Route>
                 <Route path="/leave" element={<Leave />}></Route>
                 <Route path="/emp" element={<Emp />}></Route>
