@@ -64,7 +64,7 @@ const Performance = () => {
 
 
   return (
-    <div className="donut">
+    <div className="donut" style={{padding:'210px'}}>
 
 
       <div className="mixed-chart">

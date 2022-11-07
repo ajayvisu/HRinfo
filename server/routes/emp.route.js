@@ -87,19 +87,19 @@ router.post("/emp-leave", (req, res) => {
     .findOne({ _id: id })
     .populate("leaves")
     .exec((err, employee) => {
-      console.log('user', employee)
-      console.log('req.params._id', id)
+      // console.log('user', employee)
+      // console.log('req.params._id', id)
       if (err) {
         res.json({ err: err.message });
       } else {
         let startDate = moment(req.body.from).format("DD/MM/YYYY");
-        console.log('startDate', typeof(startDate))
+        // console.log('startDate', typeof(startDate))
         let endDate = moment(req.body.to).format("DD/MM/YYYY");
         let sDate = moment(req.body.from).format("DD"); //get leave start date only
         let eDate = moment(req.body.to).format("DD"); //get leave endday date only
         req.body.days = eDate - sDate + 1;
         let todayDate = moment().format("DD");
-        console.log("todayDate", todayDate);
+        // console.log("todayDate", todayDate);
         let from = employee.email;
 
         const mailData = {
@@ -115,6 +115,7 @@ router.post("/emp-leave", (req, res) => {
             console.log("mail not sending");
           } else {
             leaveSchema.create(req.body, (err, newLeave) => {
+              console.log("newleavenewleave", newLeave);
               if (err) {
                 return res
                   .status(200)
@@ -122,7 +123,7 @@ router.post("/emp-leave", (req, res) => {
               } else {
                 newLeave.employee.id = employee._id;
                 newLeave.employee.empName = employee.empName;
-                // console.log("newleavenewleave", newLeave);
+              
                 newLeave.save();
                 employee.leaves.push(newLeave);
                 employee.save().then((result) => {
@@ -398,5 +399,29 @@ router.post("/logout", async (req, res) => {
     return res.status(500).json({ err: err.message });
   }
 });
+router.post("/contact", (req, res) => {
 
+  const name = req.body.name;
+  const email = req.body.email;
+  const message = req.body.message; 
+  const mailData = {
+    from: name,
+    to: "sabana.platosys@gmail.com",
+    subject: "Contact Form Submission",
+    html: `<p>Name: ${name}</p>
+           <p>Email: ${email}</p>
+           <p>Message: ${message}</p>`,
+  };
+ 
+  console.log("sending mail")
+  
+let sendingMail = sendMail.sendMail(mailData, (error) => {
+ 
+  if (!sendingMail) {
+    console.log("mail not sending");
+  } else {
+    alert("Message sent")
+  }
+  });  
+});
 module.exports = router;

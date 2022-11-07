@@ -36,18 +36,6 @@ console.log("monthTotelLeave",monthTotelLeave)
       return res.status(500).json({ err: error.message });
     }
   })
-  // router.get('/test', async (req, res) => {
-  //   try {
-  //     let myleave = await attendanceSchema.findOne({ 'employee.id':req.query.id })
-  //       .populate('employee')
-  //       .exec((err, data) => {
-  //         console.log('data', data)
-  //         return res.status(200).json({ status: 'success', message: 'data fetched successfully', result: data })
-  //       })
-  //   } catch (err) {
-  //     return res.json({ 'err': err.message })
-  //   }
-  
-  // })
+ 
 
 module.exports = router; 

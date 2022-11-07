@@ -1,20 +1,18 @@
 import { Layout, Menu, Result } from 'antd';
 import { Typography, Space, Modal } from 'antd';
 import React, { useState, useEffect } from 'react';
-import Dashboard_data from './Dashboard_data';
+import Emp_Dashboard_data from './Emp_Dashboard_data'
 import { NavLink, withRouter } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 
 import 'antd/dist/antd.css';
-import './Dashboard.css'
-// import Contact from '../Contact/Contact';
-import Contact from '../employee/Contact/Contact';
-// import Leave from '../leave/Leave';
+import './Emp_Dashboard.css'
 import Leave from '../employee/leave/Leave'
 import Performance from '../employee/PerformanceChart/PerformanceChart';
 import EmployeeDetails from '../employee/EmployeeDetails/EmployeeDetails';
 import AccountSetting from '../employee/AccountSetting/Employee_profile';
-import Payroll from '../admin/Payroll/PayDetails'
+import Employee_Home from '../employee/employeeHome/Employee_Home';
+import Contact from '../employee/Contact/Contact';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -29,7 +27,7 @@ const { Header, Sider, Content, Footer } = Layout;
 const { Text, Link } = Typography;
 
 
-function Dashboard() {
+function Emp_Dashboard() {
 
   //const navigate = useNavigate();
   const [state, setState] = useState({
@@ -76,7 +74,7 @@ function Dashboard() {
             HRINFO
           </div>
           <Menu theme="dark" mode="inline" >
-            {Dashboard_data.map((val, key) => {
+            {Emp_Dashboard_data.map((val, key) => {
               return (
                 <Menu.Item key={key} icon={val.icon}>
 
@@ -108,7 +106,8 @@ function Dashboard() {
               <Route path="/leave" element={<Leave />}></Route>
               <Route path="/performance" element={<Performance />}></Route>
               <Route path="/profile" element={<AccountSetting />}></Route>
-              <Route path="/payroll" element={<Payroll />}></Route>
+              <Route path="/employeehome" element={<Employee_Home />}></Route>
+              <Route path="/contact" element={<Contact />}></Route>
           
               </Routes>
             </div>
@@ -122,4 +121,4 @@ function Dashboard() {
     </Router>
   )
 }
-export default Dashboard;
+export default Emp_Dashboard;
