@@ -19,8 +19,13 @@ const employeeSchema = mongoose.Schema(
     loginStatus: { type: Boolean, require: false, default: true },
     deducationId:{
       type: String,
+<<<<<<< HEAD
       required : true
   },
+=======
+      required : false
+     },
+>>>>>>> 080a12d40fa1522f400ba49bd4a44331d58b90c3
     leaves: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -38,8 +43,8 @@ const employeeSchema = mongoose.Schema(
       Specialization: { type: String, },
       institue: { type: String, },
       passingYear: { type: String, },
-      startDate: { type: String, },
-      endDate: { type: String, },
+      startDate: { type: Date, },
+      endDate: { type: Date, },
     }],
     experience: [{
       organization: { type: String, },
@@ -47,12 +52,21 @@ const employeeSchema = mongoose.Schema(
       startDate: { type: String, },
       endDate: { type: String, },
     }],
+<<<<<<< HEAD
       bankDetails:[{
         bankName:{type:String},
         recipientName:{type:String},
         accountNumber:{type:Number},
         ifsc:{type:String}
       }]
+=======
+    bankDetails:[{
+      bankName:{type:String},
+      recipientName:{type:String},
+      accountNumber:{type:Number},
+      ifsc:{type:String}
+    }]
+>>>>>>> 080a12d40fa1522f400ba49bd4a44331d58b90c3
   }
 );
 

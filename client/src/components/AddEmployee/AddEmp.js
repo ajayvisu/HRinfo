@@ -22,8 +22,35 @@ const[organization ,setorganization] = useState('');
 const[designation ,setdesignation] = useState('');
 const[startDate ,setstartDate] = useState('');
 const[endDate ,setendDate] = useState('');
+const[BankName ,setBankName] = useState('');
+const[recipientName ,setrecipientName] = useState('');
+const[accountNumber ,setaccountNumber] = useState('');
+const[ifsc ,setifsc] = useState('');
+const[deductionID ,setdeductionID] = useState('');
+const[tax ,settax] = useState('');
+const[leave ,setleave] = useState('');
+const[PF ,setPF] = useState('');
 
- const AddEmp = () =>{
+
+const deduction = () => {
+const data = {
+    tax   : tax,
+    leave : leave,
+    PF    : PF
+}
+
+    axios.post('',data).then(result=>{
+        console.log('deduction',result.data);
+        const deducID = result.data.deductionID
+        AddEmp(deducID)
+    }).catch(err => {
+        console.log('err',err.message);
+    })
+}
+
+
+
+ const AddEmp = (id) =>{
     const data = {
         empName     : name,
         email        : mail,
@@ -34,7 +61,29 @@ const[endDate ,setendDate] = useState('');
         DOB          : DOB,
         DOJ          : DOJ,
         Address      : address,
-        baseSalary   : salary
+        baseSalary   : salary,
+        deductionID  : id,
+        education    :{
+            Degree : Degree,
+            Specialization : Specialization,
+            institue : institue,
+            passingYear : passingYear,
+        },
+        experience    :{
+            organization : organization,
+            designation : designation,
+            institue : institue,
+            passingYear : passingYear,
+            startDate : startDate,
+            endDate : endDate
+        },
+        bankDetails:{
+            bankName:BankName,
+            recipientName:recipientName,
+            accountNumber:accountNumber,
+            ifsc:ifsc
+          }
+        
     }
     console.log('data',data)
     axios.post("http://localhost:4000/api/emp/addEmployee",data).then(result => {
@@ -259,8 +308,98 @@ const[endDate ,setendDate] = useState('');
                                 />
                             </div>
                             </div>
+                            <div className="mt-4">
+                                <h3>Bank Details</h3>
+                            
+                            <hr/>
+                            <div class="form-group mt-3">
+                                <label  class="form-label" >bankName</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="bankName"
+                                    required
+                                    onChange={(e)=>setBankName(e.target.value)}
+                                />
+                            </div>
+                            <div class="form-group mt-3">
+                                <label  class="form-label" >recipientName</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="recipientName"
+                                    required
+                                    onChange={(e)=>setrecipientName(e.target.value)}
+                                />
+                            </div>
+                            <div class="form-group mt-3">
+                                <label  class="form-label" >AccountNumber</label>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="AccountNumber"
+                                    required
+                                    onChange={(e)=>setaccountNumber(e.target.value)}
+                                />
+                            </div>
+                            <div class="form-group mt-3">
+                                <label  class="form-label" >ifsc</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="designation"
+                                    required
+                                    onChange={(e)=>setifsc(e.target.value)}
+                                />
+                            </div>
+                            </div>
+                            <div className="mt-4">
+                                <h3>Deduction Details</h3>
+                            
+                            <hr/>
+                            <div class="form-group mt-3">
+                                <label  class="form-label" >deductionID</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="deductionID"
+                                    required
+                                    onChange={(e)=>setdeductionID(e.target.value)}
+                                />
+                            </div>
+                            <div class="form-group mt-3">
+                                <label  class="form-label" >tax</label>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="tax"
+                                    required
+                                    onChange={(e)=>settax(e.target.value)}
+                                />
+                            </div>
+                            <div class="form-group mt-3">
+                                <label  class="form-label" >leave</label>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="leave"
+                                    required
+                                    onChange={(e)=>setleave(e.target.value)}
+                                />
+                            </div>
+                            <div class="form-group mt-3">
+                                <label  class="form-label" >PF</label>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="PF"
+                                    required
+                                    onChange={(e)=>setPF(e.target.value)}
+                                />
+                            </div>
+                            </div>
                             <div className="text-center">
-                            <button type="button" onClick={AddEmp} className="btn btn-primary mt-5 col-3">
+                            <button type="button" onClick={deduction} className="btn btn-primary mt-5 col-3">
                                 Register
                             </button></div>
                         </form>

@@ -31,7 +31,7 @@ function Home() {
                     localStorage.setItem('token', result.data.token);
                     localStorage.setItem('mobile', result.data.data.mobile);
                     localStorage.setItem('role', result.data.data.role);
-                    localStorage.setItem('img', result.data.data.image);
+                    localStorage.setItem('img2', result.data.data.image);
 
                 }else{
                     navigate("/profile");
