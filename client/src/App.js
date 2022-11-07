@@ -10,12 +10,13 @@ import Maint from "./components/maint/Maint";
 import Login from "./components/login/Login";
 import Hr from "./components/hr/Hr";
 import Mgmt from "./components/mgmt/Mgmt";
-
+import HomePage from './components/homePage/HomePage';
 
 
 function App() {
   return (
     <Dashboard/>
+    // <HomePage />
     // <Router>
     //   <Routes>
     //     <Route path="/" element={<Home />}></Route>
