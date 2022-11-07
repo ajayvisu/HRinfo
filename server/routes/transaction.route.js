@@ -53,15 +53,9 @@ console.log('att',attendance)
                     attendance.map(x => unique.filter(a => a.date == x.date).length > 0 ? null : unique.push(x)); //remove duplicate date
                     let monthTotelLeave = - unique.length + 30
                     leaveAmount = deduction.leave * monthTotelLeave
-                    console.log('deduction.leave',deduction.leave)
-                    console.log('monthTotelLeave',monthTotelLeave)
-                    console.log('unique',unique.length)
-                    console.log('leaveamount',leaveAmount)
+                  
                     totalpayment = - deduction.total + salary - leaveAmount
-                    console.log('deduction.total',deduction.total)
-                    console.log('salary',salary)
-                    console.log("totalpayment", totalpayment)
-                    console.log('monthTotelLeave', leaveAmount)
+                   
                     // empId = req.body.empId
                     req.body.amount = totalpayment
                     req.body.month = month
@@ -71,7 +65,7 @@ console.log('att',attendance)
                let transaction=await  transactionSchema.find({ month: req.body.month, empId: empID }).exec()
          
               if(transaction.length !== 0){
-                console.log('xsax')
+                
                 if (!transaction === month && !transaction === empID) {
                     let user = new transactionSchema(req.body);
                      let result = await user.save()
@@ -82,8 +76,6 @@ console.log('att',attendance)
                  }
 
               }else{
-                console.log('newwww')
-
                 let user = new transactionSchema(req.body);
                 let result = await user.save()
                 return res.status(200).json({ status: true, 'message': result })
@@ -134,6 +126,24 @@ if(data.length > 0){
 }
     }catch(error){
         return res.status(400).json({ status: false, 'message': error.message })
+    }
+})
+router.get("/search-emp-id", async (req, res) => {
+    console.log(JSON.stringify(req.query.key))
+    try {
+        let data = await transactionSchema.find({
+            "$or": [
+                { empId: { $regex: req.query.key, $options: "i" } }
+            ]
+        })
+        if (data.length > 0) {
+
+            return res.status(200).json({ 'status': 'success', message: "data details fetched successfully", 'result': data });
+        } else {
+            return res.status(404).json({ 'status': 'failure', message: "No data found" })
+        }
+    } catch (error) {
+        return res.status(200).json({ "status": "failure", "message": error.message })
     }
 })
 module.exports = router

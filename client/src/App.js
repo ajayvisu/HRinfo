@@ -8,9 +8,9 @@ import Home from './components/home/Home'
 
 function App() {
   return (
-    //  <Dashboard/>
+     <Dashboard/>
     //  <Emp_Dashboard/>
-    <Home/>
+    // <Home/>
   );
 }
 

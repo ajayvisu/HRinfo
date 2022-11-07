@@ -7,14 +7,15 @@ import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-route
 
 import 'antd/dist/antd.css';
 import './Dashboard.css'
-// import Contact from '../Contact/Contact';
-import Contact from '../employee/Contact/Contact';
-// import Leave from '../leave/Leave';
-import Leave from '../employee/leave/Leave'
-import Performance from '../employee/PerformanceChart/PerformanceChart';
-import EmployeeDetails from '../employee/EmployeeDetails/EmployeeDetails';
+import Leave from '../admin/leave/Leave'
+import Performance from '../admin/PerformanceChart/PerformanceChart';
+import AddEmployee from '../admin/AddEmployee/AddEmp';
+import AdminHome from '../admin/adminHome/AdminHome';
+import ViewDetails from '../admin/ViewDetails/ViewDetails'
 import AccountSetting from '../employee/AccountSetting/Employee_profile';
-import Payroll from '../admin/Payroll/PayDetails'
+import Payroll from '../admin/Payroll/PayDetails';
+import Contact from '../admin/Contact/Contact';
+import EmployeeDetails from '../admin/EmployeeDetails/EmployeeDetails';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -103,12 +104,17 @@ function Dashboard() {
           <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
             <div style={{ padding: 24, background: "#fff" }}>
               <Routes>
+
               <Route path="/" element={<Contact />}></Route>
-              <Route path="/employeedetails" element={<EmployeeDetails />}></Route>
+              <Route path="/emplyeedetails" element={<EmployeeDetails />}></Route>
               <Route path="/leave" element={<Leave />}></Route>
               <Route path="/performance" element={<Performance />}></Route>
               <Route path="/profile" element={<AccountSetting />}></Route>
               <Route path="/payroll" element={<Payroll />}></Route>
+              <Route path="/viewdetails" element={<ViewDetails />}></Route>
+              <Route path="/adminHome" element={<AdminHome />}></Route>
+              <Route path="/addemployee" element={<AddEmployee />}></Route>
+              <Route path="/contact" element={<Contact/>}/>
           
               </Routes>
             </div>

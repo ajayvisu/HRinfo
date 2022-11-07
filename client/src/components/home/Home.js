@@ -17,16 +17,20 @@ const Home = () => {
                     <li><a href="#hero">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
+                    <li><a href="">Login</a></li>
                 </ul>
             </nav>
         </header>
         <main>
+            <div>
             <section id="hero">
                 <div class="section-inner">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsHzyMlSh8Bo_RDS5UYpw-YreCFb0ajENS2w&usqp=CAU" class="profile-img"/>
                     <h1>Hi, I'm Boberick the llama.</h1>
                 </div>
             </section>
+            </div>
+            <div>
             <section id="about">
                 <div class="section-inner">
                     <h2>About me</h2>
@@ -39,6 +43,8 @@ const Home = () => {
                     </ul>
                 </div>
             </section>
+            </div>
+            <div>
             <section id="contact">
                 <div class="section-inner">
                     <h2>Contact me</h2>
@@ -51,6 +57,7 @@ const Home = () => {
                     <p>Or, you can <a href="mailto:llama@codetheweb.blog">send me an email</a>.</p>
                 </div>
             </section>
+            </div>
         </main>
         <footer>
             © Copyright Boberick The Llama, 2017

@@ -1,13 +1,13 @@
 import React ,{useEffect,useState, useRef} from "react";
-import './Employee_list.css'
+import './AdminHome.css'
 import axios from "axios";
 import { Button, Input, Space, Table } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import Highlighter from 'react-highlight-words';
+import LeaveStatus from "../../leaveStatus/LeaveStatus";
 
-
-const Employee_list = () => {
+const AdminHome = () => {
 
   const [emp ,setEmp] = useState('');
   const myEmployee = () =>{
@@ -189,12 +189,9 @@ const Employee_list = () => {
       onFilter : (value,record) => record.loginStatus.indexOf(value) == 0,
     }
    ]
-
-   
-
-
   return (
       <div>
+<LeaveStatus/>
 <div className="App">
   <header className="App-header">
     <Table columns={columns} dataSource={emp}  pagination = {{ pageSize:10}} scroll={{ y: 270,}} ></Table>
@@ -205,4 +202,4 @@ const Employee_list = () => {
   );
 };
 
-export default Employee_list;
+export default AdminHome;

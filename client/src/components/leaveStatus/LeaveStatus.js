@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-function Mgmt() {
+function LeaveStatus() {
   const [pendingLeave, setPendingLeave] = useState();
   const [approvedLeave, setApprovedLeave] = useState();
   const [totalEmp, setTotalEmp] = useState();
@@ -117,4 +117,4 @@ function Mgmt() {
   )
 }
 
-export default Mgmt
+export default LeaveStatus
