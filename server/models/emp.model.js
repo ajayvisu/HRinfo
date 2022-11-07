@@ -8,9 +8,13 @@ const employeeSchema = mongoose.Schema(
     email: { type: String, require: true },
     mobile: { type: Number, require: true },
     gender: { type: String, require: true },
+    DOB :{type:Date,require:false},
+    DOJ : {type:Date,require:false},
+    image : {type:String,require:false},
     role: { type: String, require: true },
     password: { type: String, require: true },
     baseSalary : {type:Number,require:true},
+    Address : {type:String,require:false},
     active: { type: Boolean, require: false, default: false },
     loginStatus: { type: Boolean, require: false, default: true },
     deducationId:{
