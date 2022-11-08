@@ -20,18 +20,30 @@ function Home() {
         axios
             .post("http://localhost:4000/api/emp/login", data)
             .then((result) => {
-                console.log("data", result.data.data);
-                if (result.data.status === "success") {
-                    navigate("/pro");
+                console.log("data", result.data.data.email);
+                if (result.data.data.role == "developer") {
+                    navigate("/dashbord");
                     localStorage.setItem('name', result.data.data.empName);
                     localStorage.setItem('user_id', result.data.data._id);
-                    localStorage.setItem('email', result.data.data.email);
+                    localStorage.setItem('email',  result.data.data.email);
                     localStorage.setItem('id', result.data.data.empID);
                     localStorage.setItem('entryTime', result.data.data.entryTime);
                     localStorage.setItem('token', result.data.token);
                     localStorage.setItem('mobile', result.data.data.mobile);
                     localStorage.setItem('role', result.data.data.role);
+                    localStorage.setItem('img2', result.data.data.image);
 
+                }else{
+                    navigate("/profile");
+                    localStorage.setItem('name', result.data.data.empName);
+                    localStorage.setItem('user_id', result.data.data._id);
+                    localStorage.setItem('email',  result.data.data.email);
+                    localStorage.setItem('id', result.data.data.empID);
+                    localStorage.setItem('entryTime', result.data.data.entryTime);
+                    localStorage.setItem('token', result.data.token);
+                    localStorage.setItem('mobile', result.data.data.mobile);
+                    localStorage.setItem('role', result.data.data.role);
+                    localStorage.setItem('img', result.data.data.image);
                 }
             })
             .catch((err) => {

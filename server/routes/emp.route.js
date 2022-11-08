@@ -93,6 +93,7 @@ router.post("/emp-leave", (req, res) => {
         res.json({ err: err.message });
       } else {
         let startDate = moment(req.body.from).format("DD/MM/YYYY");
+        console.log('startDate', typeof(startDate))
         let endDate = moment(req.body.to).format("DD/MM/YYYY");
         let sDate = moment(req.body.from).format("DD"); //get leave start date only
         let eDate = moment(req.body.to).format("DD"); //get leave endday date only
@@ -138,7 +139,7 @@ router.post("/emp-leave", (req, res) => {
 });
 router.get("/findone", async (req, res) => {
   try {
-    const data = await employeeSchema.findOne({ empID: req.body.empId }).exec();
+    const data = await employeeSchema.findOne({ empID: req.query.empId }).exec();
     if (data) {
       return res.json({ status: "success", result: data });
     } else {
@@ -146,6 +147,21 @@ router.get("/findone", async (req, res) => {
     }
   } catch (err) {
     return res.json({ err: err.message });
+  }
+})
+
+router.put("/imag_update",async (req,res) => {
+  try {
+    const data = await employeeSchema.findOneAndUpdate({ email: req.query.email },{image : req.body.image},{new:true})
+    .then(result => {
+      res.json({status:'succuss',message : 'image successfully added',result});
+    }).catch(err => {
+      res.json({status:'failure',message:err.message,})
+    })
+
+
+  } catch (error) {
+    return res.json({ error: error.message }); 
   }
 })
 
@@ -166,9 +182,7 @@ router.get('/myleavedetails', async (req, res) => {
 
 router.get('/getEmployee', async (req, res) => {
   try {
-
     const Employees = await employeeSchema.find().exec();
-
     if (Employees.length > 0) {
       return res.status(200).json({ status: "success", message: 'Data feched successfully', "result": Employees })
     } else {
@@ -198,6 +212,8 @@ router.get("/get-single-emp-details", async (req, res) => {
     return res.status(400).json({ "status": 'failure', 'message': error.message })
   }
 });
+
+
 router.get("/loginstatus", async (req, res) => {
   try {
     let loginUsers = await employeeSchema.find({ loginStatus: true }).exec()
@@ -217,8 +233,8 @@ router.get("/loginstatus", async (req, res) => {
 router.put("/update", async (req, res) => {
   try {
     const uuid = req.query.uuid;
-
-    await employeeSchema.findOneAndUpdate({ uuid: uuid }, req.body, { new: true }).then(result => {
+    console.log(uuid)
+    await employeeSchema.findOneAndUpdate({ empID: uuid }, req.body, { new: true }).then(result => {
       res.json({ status: 'success', message: 'data successfully updated!', 'result': result })
     }).catch(err => {
       console.log(err.message)
@@ -246,6 +262,7 @@ router.get('/leave-status', async (req, res) => {
     return res.status(400).json({ status: false, 'message': error.message })
   }
 })
+
 router.get('/today-leave', async (req, res) => {
   try {
     let todayLeave = await employeeSchema.find({ loginStatus: false }).exec()
@@ -272,28 +289,30 @@ router.post("/login", async (req, res) => {
           if (err) {
             res.json({ err: err.message });
           }
+        let  payload ={uuid:data.uuid, role:data.role}
           if (result) {
-            const token = jwt.sign({ data }, process.env.JWTKEY, {
+            const token = jwt.sign(payload, process.env.JWTKEY, {
               expiresIn: "1h",
             });
-            console.log("token", token);
-
             employeeSchema
               .findOne({ email: email })
               .populate("attendance")
               .exec((err, user) => {
-                console.log('user', user)
+                // console.log('user', user)
                 console.log('req.params._id', email)
                 if (err) {
                   res.json({ err: err.message });
                 } else {
                   req.body.entryTime = moment().format("DD/MM/YYYY, hh:mm a")
                   req.body.date= moment().format("DD/MM/YYYY")
+                  
+                  req.body.month=moment().format("MM");
+              
                   console.log(" req.body.date", req.body.date)
                   attendanceSchema.create(req.body, (err, newAttendance) => {
                     console.log('newAttendance', newAttendance)
                     if (err) {
-                      return res
+                       res
                         .status(200)
                         .json({ status: "failed", message: err.message });
                     } else {
@@ -335,9 +354,10 @@ router.post("/logout", async (req, res) => {
   try {
     const id = req.query.id;
     const email = req.query.email;
+    console.log(req.query)
     const currentTime = moment().format("DD/MM/YYYY,hh:mm a");
     attendanceSchema
-      .findOne({ _id: id })
+      .find({ _id: id })
       .then((data) => {
         console.log("data", data);
         const loginTime = moment(data.entryTime, "DD/MM/YYYY,hh:mm a");

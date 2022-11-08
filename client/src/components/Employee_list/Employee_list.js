@@ -194,19 +194,14 @@ const Employee_list = () => {
 
 
   return (
-      <>
+      <div>
 <div className="App">
   <header className="App-header">
     <Table columns={columns} dataSource={emp}  pagination = {{ pageSize:10}} scroll={{ y: 270,}} ></Table>
   </header>
 </div>
 
-
-
-     
-      </>
-    
-
+      </div>
   );
 };
 

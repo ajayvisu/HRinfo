@@ -3,8 +3,8 @@ var leaveSchema =  mongoose.Schema(
   {
     leaveID:{type:String,required:false},
     subject: { type: String, required: true },
-    from: {type:Date,required:true},
-    to:{type:Date,required:true},
+    from: {type:String,required:true},
+    to:{type:String,required:true},
     days : {type:Number,required:false},
   
     status: {
