@@ -7,6 +7,7 @@ const employee = require("./routes/emp.route");
 const img_upload = require('./middleware/image_upload');
 const attendance = require("./routes/attendance.route")
 const transaction = require('./routes/transaction.route')
+const leave = require('./routes/leave.route')
 const cors = require("cors");
 const PORT = process.env.PORT;
 
@@ -15,7 +16,7 @@ app.use(cors());
 app.use("/api/emp", employee);
 app.use('/img',img_upload);
 app.use('/uploads', express.static('uploads'));
-
+app.use('/api/leave',leave)
 app.use("/api/attendance", attendance);
 app.use('/api/transaction',transaction)
 app.get("/", (req, res) => {

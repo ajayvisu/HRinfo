@@ -19,20 +19,18 @@ const employeeSchema = mongoose.Schema(
     loginStatus: { type: Boolean, require: false, default: true },
     deducationId:{
       type: String,
-      required : false
-     },
+      required : true
+  },
     leaves: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "leave"
-      }
-    ],
+      }],
     attendance: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "attendance"
-      }
-    ],
+      }],
     education: [{
       Degree: { type: String, },
       Specialization: { type: String, },
@@ -47,12 +45,12 @@ const employeeSchema = mongoose.Schema(
       startDate: { type: String, },
       endDate: { type: String, },
     }],
-    bankDetails:[{
-      bankName:{type:String},
-      recipientName:{type:String},
-      accountNumber:{type:Number},
-      ifsc:{type:String}
-    }]
+      bankDetails:[{
+        bankName:{type:String},
+        recipientName:{type:String},
+        accountNumber:{type:Number},
+        ifsc:{type:String}
+      }]
   }
 );
 

@@ -15,14 +15,9 @@ const SidebarData = [
         key: 1,
         title: "Dashboard",
         icon: <WindowsOutlined />,
-        link: "/AdminHome",
+        link: "/employeehome",
     },
-    {
-        key: 2,
-        title: "Employees",
-        icon: <UsergroupAddOutlined />,
-        link: "/emplyeedetails",
-    },
+   
     {
         key: 3,
         title: "Leave",
@@ -39,7 +34,7 @@ const SidebarData = [
         key: 5,
         title: "Attendance",
         icon: <ClockCircleOutlined />,
-        link: "/AdminHome",
+        link: "/employeehome",
     },
     {
         key: 6,
@@ -52,12 +47,6 @@ const SidebarData = [
         title: "Account Settings",
         icon: <SettingOutlined />,
         link: "/profile",
-    },
-    {
-        key: 7,
-        title: "Transaction",
-        icon: <SettingOutlined />,
-        link: "/payroll",
     },
 
 ]

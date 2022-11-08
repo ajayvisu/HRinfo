@@ -1,21 +1,18 @@
 import { Layout, Menu, Result } from 'antd';
 import { Typography, Space, Modal } from 'antd';
 import React, { useState, useEffect } from 'react';
-import Dashboard_data from './Dashboard_data';
+import Emp_Dashboard_data from './Emp_Dashboard_data'
 import { NavLink, withRouter } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 
 import 'antd/dist/antd.css';
-import './Dashboard.css'
-import Leave from '../admin/leave/Leave'
-import Performance from '../admin/PerformanceChart/PerformanceChart';
-import AddEmployee from '../admin/AddEmployee/AddEmp';
-import AdminHome from '../admin/adminHome/AdminHome';
-import ViewDetails from '../admin/ViewDetails/ViewDetails'
+import './Emp_Dashboard.css'
+import Leave from '../employee/leave/Leave'
+import Performance from '../employee/PerformanceChart/PerformanceChart';
+import EmployeeDetails from '../employee/EmployeeDetails/EmployeeDetails';
 import AccountSetting from '../employee/AccountSetting/Employee_profile';
-import Payroll from '../admin/Payroll/PayDetails';
-import Contact from '../admin/Contact/Contact';
-import EmployeeDetails from '../admin/EmployeeDetails/EmployeeDetails';
+import Employee_Home from '../employee/employeeHome/Employee_Home';
+import Contact from '../employee/Contact/Contact';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -30,7 +27,7 @@ const { Header, Sider, Content, Footer } = Layout;
 const { Text, Link } = Typography;
 
 
-function Dashboard() {
+function Emp_Dashboard() {
 
   //const navigate = useNavigate();
   const [state, setState] = useState({
@@ -77,7 +74,7 @@ function Dashboard() {
             HRINFO
           </div>
           <Menu theme="dark" mode="inline" >
-            {Dashboard_data.map((val, key) => {
+            {Emp_Dashboard_data.map((val, key) => {
               return (
                 <Menu.Item key={key} icon={val.icon}>
 
@@ -104,17 +101,13 @@ function Dashboard() {
           <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
             <div style={{ padding: 24, background: "#fff" }}>
               <Routes>
-
               <Route path="/" element={<Contact />}></Route>
-              <Route path="/emplyeedetails" element={<EmployeeDetails />}></Route>
+              <Route path="/employeedetails" element={<EmployeeDetails />}></Route>
               <Route path="/leave" element={<Leave />}></Route>
               <Route path="/performance" element={<Performance />}></Route>
               <Route path="/profile" element={<AccountSetting />}></Route>
-              <Route path="/payroll" element={<Payroll />}></Route>
-              <Route path="/viewdetails" element={<ViewDetails />}></Route>
-              <Route path="/adminHome" element={<AdminHome />}></Route>
-              <Route path="/addemployee" element={<AddEmployee />}></Route>
-              <Route path="/contact" element={<Contact/>}/>
+              <Route path="/employeehome" element={<Employee_Home />}></Route>
+              <Route path="/contact" element={<Contact />}></Route>
           
               </Routes>
             </div>
@@ -128,4 +121,4 @@ function Dashboard() {
     </Router>
   )
 }
-export default Dashboard;
+export default Emp_Dashboard;

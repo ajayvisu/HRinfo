@@ -13,11 +13,4 @@ deductionSchema.pre("save", function (next) {
     next();
 });
 
-deductionSchema.pre("save", function (next) {
-    this.deductionID = "DED" + crypto.pseudoRandomBytes(4).toString("hex").toUpperCase();
-    console.log("uuid", this.empId);
-    next();
-});
-
-const deduction = mongoose.model('deduction',deductionSchema);
-module.exports = deduction;
+module.exports = mongoose.model("deduction", deductionSchema);
