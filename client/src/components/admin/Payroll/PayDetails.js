@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Table } from 'antd';
 const PayDetails = () => {
   const navigate = useNavigate()
+  //const [search,setSearch] = useState([]);
   const [dataSource, setDataSource] = useState([]);
   const [getEmployeeList,setEmployeeList] = useState([])
   const [ transaction, setTransaction] = useState({
@@ -49,10 +50,10 @@ try{
     })
 }catch(err){
   console.log("error",err.message)
-}
-  
-       
+}     
   }
+
+
   const handleChange = (e) =>{
 const {name,value} =e.target
 console.log('value',value)

@@ -113,7 +113,6 @@ if(payrecord.length  > 0){
         return res.status(400).json({ status: false, 'message': error.message })
   }
 })
-
 router.get("/search-emp-id/:key", async (req, res) => {
     console.log(JSON.stringify(req.query.key))
     try {

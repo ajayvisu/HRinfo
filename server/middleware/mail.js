@@ -6,8 +6,8 @@ async function sendMail(mailData) {
         port: 587,
         secure: false,
         auth: {
-            user: 'snowbellplanet@gmail.com',
-            pass: "fuxgibhnudirssms",
+            user: "safamsg@gmail.com",
+            pass: "iglhyqpekuescteh",
         },
     });
     let mailDetails = await transporter.sendMail({
@@ -15,6 +15,7 @@ async function sendMail(mailData) {
         to: mailData.to,
         subject: mailData.subject,
         text: mailData.text,
+        html:mailData.html
 
 
     });

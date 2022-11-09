@@ -25,14 +25,12 @@ const employeeSchema = mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "leave"
-      }
-    ],
+      }],
     attendance: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "attendance"
-      }
-    ],
+      }],
     education: [{
       Degree: { type: String, },
       Specialization: { type: String, },

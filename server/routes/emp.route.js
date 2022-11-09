@@ -209,7 +209,7 @@ router.get("/get-single-emp-details", async (req, res) => {
       return res.status(404).json({ 'status': 'failure', message: "No employeeDetails available" })
     }
   } catch (error) {
-    console.log(error.message);
+    consoyle.log(error.message);
     return res.status(400).json({ "status": 'failure', 'message': error.message })
   }
 });
