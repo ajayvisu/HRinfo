@@ -283,7 +283,7 @@ router.post("/login", async (req, res) => {
     await employeeSchema
       .findOneAndUpdate(
         { email: email },
-        { entryTime: time, loginStatus: true }
+        { loginStatus: true }
       )
       .then((data) => {
         bcrypt.compare(password, data.password, function (err, result) {
@@ -300,7 +300,7 @@ router.post("/login", async (req, res) => {
               .populate("attendance")
               .exec((err, user) => {
                 // console.log('user', user)
-                console.log('req.params._id', email)
+                // console.log('req.params._id', email)
                 if (err) {
                   res.json({ err: err.message });
                 } else {
@@ -309,9 +309,9 @@ router.post("/login", async (req, res) => {
                   
                   req.body.month=moment().format("MM");
               
-                  console.log(" req.body.date", req.body.date)
+                  // console.log(" req.body.date", req.body.date)
                   attendanceSchema.create(req.body, (err, newAttendance) => {
-                    console.log('newAttendance', newAttendance)
+                    // console.log('newAttendance', newAttendance)
                     if (err) {
                        res
                         .status(200)
@@ -319,7 +319,10 @@ router.post("/login", async (req, res) => {
                     } else {
                       newAttendance.employee.id = user._id
                       newAttendance.employee.username = user.username
-                      newAttendance.save();
+                     newAttendance.save().then(data=>{
+                      console.log('data',data)
+
+                     })
                       user.attendance.push(newAttendance);
                       user.save().then((result) => {
                         //   res.status(200).json({ status: "success", result: result });
@@ -353,14 +356,18 @@ router.post("/login", async (req, res) => {
 
 router.post("/logout", async (req, res) => {
   try {
-    const id = req.query.id;
-    const email = req.query.email;
+    let id = req.query.id;
+    let email = req.query.email;
     console.log(req.query)
     const currentTime = moment().format("DD/MM/YYYY,hh:mm a");
+   let test = await attendanceSchema
+    .find({ _id: id }).exec()
+    console.log('test',test)
     attendanceSchema
-      .find({ _id: id })
-      .then((data) => {
+      .findOne({ _id: id })
+      .then(data => {
         console.log("data", data);
+        console.log("entry",data.entryTime)
         const loginTime = moment(data.entryTime, "DD/MM/YYYY,hh:mm a");
         const current = moment(currentTime, "DD/MM/YYYY,hh:mm a");
         const duration = moment.duration(current.diff(loginTime));
@@ -370,12 +377,17 @@ router.post("/logout", async (req, res) => {
         console.log(
           hours + " hours and " + minutes + " minutes " + days + " days"
         );
+        console.log('current',current)
+        // console.log('duration',duration)
+        console.log('login',loginTime)
+        
         attendanceSchema
           .findOneAndUpdate(
             { _id: id },
             {
-              duration:
-                hours + " hours and " + minutes + " minutes " + days + " days",
+              durationHours:
+                hours , 
+                durationMinutes: minutes 
             },
             { new: true }
           )
@@ -384,7 +396,7 @@ router.post("/logout", async (req, res) => {
               status: "success",
               message: "successfully logout!",
               duration:
-                hours + " hours and " + minutes + " minutes " + days + " days", data: data
+                hours + " hours and " + minutes + " minutes ", data: data
             });
           });
         employeeSchema.findOneAndUpdate({ email: email }, { loginStatus: false })

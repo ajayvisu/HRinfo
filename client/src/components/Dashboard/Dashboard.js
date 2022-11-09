@@ -3,8 +3,8 @@ import { Typography, Space, Modal } from 'antd';
 import React, { useState, useEffect } from 'react';
 import Dashboard_data from './Dashboard_data';
 import { NavLink, withRouter } from 'react-router-dom';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import PaySlip from '../admin/Payroll/PaySlip';
 import 'antd/dist/antd.css';
 import './Dashboard.css'
 import Leave from '../admin/leave/Leave'
@@ -104,6 +104,7 @@ function Dashboard() {
           <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
             <div style={{ padding: 24, background: "#fff" }}>
               <Routes>
+              <Route path="/payslip" element={<PaySlip />}></Route>
 
               <Route path="/" element={<Contact />}></Route>
               <Route path="/emplyeedetails" element={<EmployeeDetails />}></Route>

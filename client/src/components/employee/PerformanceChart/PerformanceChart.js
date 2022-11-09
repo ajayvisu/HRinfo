@@ -9,25 +9,8 @@ const Performance = () => {
       labels: ['LoggedOut', 'LoggedIn']
     },
     series: [0, 0],
-
-
   });
-  const [loginStatus, setLoginStatus] = useState({
-    options: {
-      chart: {
-        id: "basic-bar"
-      },
-      xaxis: {
-        categories: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-      }
-    },
-    series: [
-      {
-        name: "series-1",
-        data: [30, 40, 45, 50, 49]
-      }
-    ]
-  })
+
   const loginUserStatus = () => {
     axios.get('http://localhost:4000/api/emp/loginstatus').then(data => {
       let login = data.data.loginUsers / data.data.totalUsers * 100
@@ -40,6 +23,24 @@ const Performance = () => {
       console.log("err", err)
     })
   }
+
+  const [performance, setPerformance] = useState({
+
+    options: {
+      chart: {
+        id: "basic-bar"
+      },
+      xaxis: {
+        categories: []
+      }
+    },
+    series: [
+      {
+        name: "series-1",
+        data: [0, 0, 0, 0, 0]
+      }
+    ]
+  })
   const data1 = [
     { time: "09:00-11:00", work: 10 },
     { time: "11:00-01:00", work: 9 },
@@ -47,30 +48,33 @@ const Performance = () => {
     { time: "04:00-03:00", work: 6 },
   ];
 
-  const [emp, setEmp] = useState('');
 
-  const myEmployee = () => {
-    axios.get('http://localhost:4000/api/emp/getEmployee').then(result => {
-      console.log('employee data ,', result.data)
-      setEmp(result.data);
+  let duration = []
+
+  const workPerformance = () => {
+    axios.get(`http://localhost:4000/api/leave/getDetails`).then(res => {
+      console.log('workperformance', res.data.result)
+      res.data.result.map(item => {
+        console.log('item', item.durationHours)
+        duration.push(item.durationHours)
+      })
+      setPerformance({ ...performance, series: [{ data: duration }] })
     }).catch(err => {
       console.log('err', err.message);
     })
   }
   useEffect(() => {
     loginUserStatus()
-    myEmployee()
+    workPerformance()
   }, [])
 
 
   return (
-    <div className="donut" style={{padding:'210px'}}>
-
-
+    <div className="donut" style={{ padding: '210px' }}>
       <div className="mixed-chart">
         <Chart
-          options={loginStatus.options}
-          series={loginStatus.series}
+          options={performance.options}
+          series={performance.series}
           type="bar"
           width="600"
         />
@@ -78,7 +82,7 @@ const Performance = () => {
       <div className='pie'>
         <Chart options={datas.options} series={datas.series} type="donut" width="380" />
       </div>
-      <div class="card">
+      {/* <div class="card">
         <h5 class="card-header">Work Log</h5>
         <div class="card-body">
           <div className="flex">
@@ -98,7 +102,7 @@ const Performance = () => {
           </div>
           <button type="button" className="btn btn-danger">Clock out</button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 

@@ -5,8 +5,8 @@ var attendanceSchema = mongoose.Schema(
     date: { type: String, required: false },
     entryTime: { type: String, require: false },
     month:{type: String, require: false},
-    duration: { type: String, required: false },
-    wokingHour: { type: String, require: false },
+    durationHours: { type: Number, required: false },
+    durationMinutes: { type: Number, require: false },
     employee: {
       id: {
         type: mongoose.Schema.Types.ObjectId,

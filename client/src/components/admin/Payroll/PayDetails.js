@@ -87,7 +87,21 @@ setTransaction({
     
     
   ];
+  const searchproduct = (key) => {
+    console.log(key)
+    if(key){
+      axios.get(`http://localhost:4000/api/transaction/search-emp-id/+?key=${key}` )
      
+        .then((res) => {
+  
+          setDataSource(res.data.result)
+          
+          console.log("search", res.data.result)
+        }).catch((error) => {
+          console.log(error)
+        })
+    }
+  }
 
   useEffect(() => {
     fetchSalaryRecord()
@@ -99,7 +113,7 @@ setTransaction({
   {/* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></link> */}
 
     </head>
-    <input type="text" placeholder="Search.." style={{marginLeft:"70%", marginTop:'20px'}} name="search"/>
+    <input type="text" placeholder="Search.." onChange={(key) => searchproduct(key.target.value)} style={{marginLeft:"70%", marginTop:'20px'}} name="search"/>
 
 {/* <!-- Button trigger modal --> */}
 <button type="button" className="btn btn-primary" style={{marginLeft:"85%"}} data-bs-toggle="modal" data-bs-target="#exampleModal">

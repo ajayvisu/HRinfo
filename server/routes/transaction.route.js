@@ -48,7 +48,7 @@ router.post("/transaction", isAdmin, async (req, res) => {
                     'employee.id':req.query.id,
                     createdAt: { $gte: start, $lte: end }
                 }).then(async function (attendance) {
-console.log('att',attendance)
+                   console.log('att',attendance)
                     const unique = []; //created empty array for stroing removed duplicate values
                     attendance.map(x => unique.filter(a => a.date == x.date).length > 0 ? null : unique.push(x)); //remove duplicate date
                     let monthTotelLeave = - unique.length + 30
@@ -113,22 +113,8 @@ if(payrecord.length  > 0){
         return res.status(400).json({ status: false, 'message': error.message })
   }
 })
-router.get('/search',async(req,res)=>{
-    try{
-    
-   let data = await transactionSchema.find({"or":[ {empId:req.query.key,$options:"i"} ]})
-if(data.length > 0){
-  return res.status(200).json({ status: true, message: 'data fetched successfully',result:data })
 
-}else{
-  return res.status(200).json({ status: true, message: 'data not found' })
-
-}
-    }catch(error){
-        return res.status(400).json({ status: false, 'message': error.message })
-    }
-})
-router.get("/search-emp-id", async (req, res) => {
+router.get("/search-emp-id/:key", async (req, res) => {
     console.log(JSON.stringify(req.query.key))
     try {
         let data = await transactionSchema.find({
@@ -147,3 +133,4 @@ router.get("/search-emp-id", async (req, res) => {
     }
 })
 module.exports = router
+

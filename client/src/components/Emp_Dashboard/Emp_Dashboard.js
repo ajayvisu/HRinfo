@@ -13,6 +13,8 @@ import EmployeeDetails from '../employee/EmployeeDetails/EmployeeDetails';
 import AccountSetting from '../employee/AccountSetting/Employee_profile';
 import Employee_Home from '../employee/employeeHome/Employee_Home';
 import Contact from '../employee/Contact/Contact';
+import Dashboard from "../Dashboard/Dashboard";
+
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -108,7 +110,7 @@ function Emp_Dashboard() {
               <Route path="/profile" element={<AccountSetting />}></Route>
               <Route path="/employeehome" element={<Employee_Home />}></Route>
               <Route path="/contact" element={<Contact />}></Route>
-          
+              <Route path="/dashboard" element={<Dashboard />}></Route>
               </Routes>
             </div>
           </Content>
