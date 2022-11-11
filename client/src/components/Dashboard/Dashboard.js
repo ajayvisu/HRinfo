@@ -43,18 +43,20 @@ function Dashboard() {
   };
 
 
+ 
   const logout = () => {
-    const empid = localStorage.getItem('email')
+    const email = localStorage.getItem('email')
+    const id = localStorage.getItem('attendanceId')
 
-    axios.post('http://localhost:4000/api/emp/logout', empid).then(result => {
+    axios.post(`http://localhost:4000/api/emp/logout?id=${id}&email=${email}`).then(result => {
       console.log(result.data);
+      localStorage.clear();
     //  navigate('/')
       
     }).catch(err => {
       console.log('err', err.message);
     })
   }
-
 
   return (
 
@@ -106,14 +108,14 @@ function Dashboard() {
               <Routes>
               <Route path="/payslip" element={<PaySlip />}></Route>
 
-              <Route path="/" element={<Contact />}></Route>
+          
               <Route path="/emplyeedetails" element={<EmployeeDetails />}></Route>
               <Route path="/leave" element={<Leave />}></Route>
               <Route path="/performance" element={<Performance />}></Route>
               <Route path="/profile" element={<AccountSetting />}></Route>
               <Route path="/payroll" element={<Payroll />}></Route>
               <Route path="/viewdetails" element={<ViewDetails />}></Route>
-              <Route path="/adminHome" element={<AdminHome />}></Route>
+              <Route path="/" element={<AdminHome />}></Route>
               <Route path="/addemployee" element={<AddEmployee />}></Route>
               <Route path="/contact" element={<Contact/>}/>
           

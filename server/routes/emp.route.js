@@ -277,6 +277,7 @@ router.get('/today-leave', async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     console.log(req.body);
+    // let attendancedata;
     let email = req.body.email;
     let password = req.body.password;
     const time = moment().format("DD/MM/YYYY, hh:mm a");
@@ -285,7 +286,7 @@ router.post("/login", async (req, res) => {
         { email: email },
         { loginStatus: true }
       )
-      .then((data) => {
+      .then(async function(data) {
         bcrypt.compare(password, data.password, function (err, result) {
           if (err) {
             res.json({ err: err.message });
@@ -310,7 +311,7 @@ router.post("/login", async (req, res) => {
                   req.body.month=moment().format("MM");
               
                   // console.log(" req.body.date", req.body.date)
-                  attendanceSchema.create(req.body, (err, newAttendance) => {
+                  attendanceSchema.create(req.body,async (err, newAttendance) => {
                     // console.log('newAttendance', newAttendance)
                     if (err) {
                        res
@@ -319,25 +320,22 @@ router.post("/login", async (req, res) => {
                     } else {
                       newAttendance.employee.id = user._id
                       newAttendance.employee.username = user.username
-                     newAttendance.save().then(data=>{
-                      console.log('data',data)
-
-                     })
+                    let  attendancedata = await newAttendance.save()
+                      
                       user.attendance.push(newAttendance);
-                      user.save().then((result) => {
-                        //   res.status(200).json({ status: "success", result: result });
+                      user.save()
+                      return res
+                      .status(200)
+                      .json({
+                        status: "success",
+                        message: "successfully login!",
+                        token, data ,attendancedata:attendancedata
                       });
                     }
                   });
                 }
               });
-            return res
-              .status(200)
-              .json({
-                status: "success",
-                message: "successfully login!",
-                token, data
-              });
+        
           } else {
             return res.json({
               status: "failure",

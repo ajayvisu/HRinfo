@@ -18,11 +18,13 @@ const [getUser,setUser]=useState("")
     axios
       .post("http://localhost:4000/api/emp/login", data)
       .then((result) => {
-        console.log("datas", result.data.data);
+        console.log("datas", result.data);
         let role = localStorage.getItem('role')
         setUser(role)
         console.log(getUser)
+        console.log('attendance',result.data.attendancedata._id)
         if (result.data.status === "success") {
+          localStorage.setItem('attendanceId',result.data.attendancedata._id)
           localStorage.setItem('status',result.data.status);
            localStorage.setItem('name',result.data.data.empName);
            localStorage.setItem('user_id',result.data.data._id);
