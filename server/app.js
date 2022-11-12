@@ -19,6 +19,7 @@ app.use('/uploads', express.static('uploads'));
 app.use('/api/leave',leave)
 app.use("/api/attendance", attendance);
 app.use('/api/transaction',transaction)
+app.use(express.static('uploads'))
 app.get("/", (req, res) => {
   res.send({ status: "sucuss", message: "its working" });
 });
