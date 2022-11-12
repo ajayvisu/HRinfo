@@ -103,12 +103,12 @@ function Emp_Dashboard() {
           <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
             <div style={{ padding: 24, background: "#fff" }}>
               <Routes>
-              <Route path="/" element={<AccountSetting />}></Route>
+              
               <Route path="/employeedetails" element={<EmployeeDetails />}></Route>
               <Route path="/leave" element={<Leave />}></Route>
               <Route path="/performance" element={<Performance />}></Route>
               <Route path="/profile" element={<AccountSetting />}></Route>
-              <Route path="/employeehome" element={<Employee_Home />}></Route>
+              <Route path="/" element={<Employee_Home />}></Route>
               <Route path="/contact" element={<Contact />}></Route>
               <Route path="/dashboard" element={<Dashboard />}></Route>
               </Routes>

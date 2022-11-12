@@ -15,7 +15,7 @@ const SidebarData = [
         key: 1,
         title: "Dashboard",
         icon: <WindowsOutlined />,
-        link: "/AdminHome",
+        link: "/",
     },
     {
         key: 2,
@@ -39,7 +39,7 @@ const SidebarData = [
         key: 5,
         title: "Attendance",
         icon: <ClockCircleOutlined />,
-        link: "/AdminHome",
+        link: "/",
     },
     {
         key: 6,

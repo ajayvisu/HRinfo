@@ -5,11 +5,53 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const leaveSchema = require("../models/leave.model");
 const sendMail = require("../middleware/mail");
+const multer = require('multer');
 const e = require("express");
 require("dotenv").config();
 const attendanceSchema = require('../models/attendance.model')
-const joiSchema = require ('../middleware/joiValid');
 
+const storage = multer.diskStorage({
+  destination:(req,file,cb)=>{
+  return cb(null,'uploads')
+  },
+  filename:(req,file,cb)=>{
+  return cb(null,Date.now()+'_'+file.originalname)
+  }
+})
+
+router.put("/updateimage", async (req, res) => {
+  try {
+    console.log(req.body,req.file,req.query)
+    const id = req.query.id;
+    const upload = multer({storage:storage}).single('file')
+
+    upload(req, res, async function (err) {
+      if (!req.file) {
+        return res.send("Please select an image to upload");
+      } else if (err instanceof multer.MulterError) {
+        return res.send(err);
+      } else if (err) {
+        return res.send(err);
+      }
+      console.log(JSON.stringify(req.body))
+      reqData = {
+
+        image:req.file.filename   
+      }
+console.log(req.body)
+      const data = await employeeSchema.findOneAndUpdate({_id:id},reqData,{ new: true }).exec()
+      if(data){
+          return res.status(200).json({ 'status': 'success', "message": " successfully added", "result": data })
+      }else{
+          return res.status(200).json({ 'status': 'failed', "message": "somthing went wrong" })
+      }
+    });
+ 
+} catch (error) {
+  console.log(error.message);
+  return res.status(400).json({ "status": 'failure', 'message': error.message })
+}
+});
 router.post("/addEmployee", async (req, res) => {
   try {
     let empName = req.body.empName;
@@ -140,9 +182,9 @@ router.post("/emp-leave", (req, res) => {
       }
     });
 });
-router.get("/findone", async (req, res) => {
+router.get("/getIndivData", async (req, res) => {
   try {
-    const data = await employeeSchema.findOne({ empID: req.query.empId }).exec();
+    const data = await employeeSchema.findOne({ _id: req.query.id }).exec();
     if (data) {
       return res.json({ status: "success", result: data });
     } else {
@@ -236,6 +278,7 @@ router.get("/loginstatus", async (req, res) => {
 router.put("/update", async (req, res) => {
   try {
     const uuid = req.query.uuid;
+    const upload = multer({storage:storage}).single('file')
     console.log(uuid)
     await employeeSchema.findOneAndUpdate({ empID: uuid }, req.body, { new: true }).then(result => {
       res.json({ status: 'success', message: 'data successfully updated!', 'result': result })
@@ -279,6 +322,7 @@ router.get('/today-leave', async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     console.log(req.body);
+    // let attendancedata;
     let email = req.body.email;
     let password = req.body.password;
 
@@ -288,7 +332,7 @@ router.post("/login", async (req, res) => {
         { email: email },
         { loginStatus: true }
       )
-      .then((data) => {
+      .then(async function(data) {
         bcrypt.compare(password, data.password, function (err, result) {
           if (err) {
             res.json({ err: err.message });
@@ -296,7 +340,7 @@ router.post("/login", async (req, res) => {
         let  payload ={uuid:data.uuid, role:data.role}
           if (result) {
             const token = jwt.sign(payload, process.env.JWTKEY, {
-              expiresIn: "1h",
+              // expiresIn: "1h",
             });
             employeeSchema
               .findOne({ email: email })
@@ -313,7 +357,7 @@ router.post("/login", async (req, res) => {
                   req.body.month=moment().format("MM");
               
                   // console.log(" req.body.date", req.body.date)
-                  attendanceSchema.create(req.body, (err, newAttendance) => {
+                  attendanceSchema.create(req.body,async (err, newAttendance) => {
                     // console.log('newAttendance', newAttendance)
                     if (err) {
                        res
@@ -322,25 +366,22 @@ router.post("/login", async (req, res) => {
                     } else {
                       newAttendance.employee.id = user._id
                       newAttendance.employee.username = user.username
-                     newAttendance.save().then(data=>{
-                      console.log('data',data)
-
-                     })
+                    let  attendancedata = await newAttendance.save()
+                      
                       user.attendance.push(newAttendance);
-                      user.save().then((result) => {
-                        //   res.status(200).json({ status: "success", result: result });
+                      user.save()
+                      return res
+                      .status(200)
+                      .json({
+                        status: "success",
+                        message: "successfully login!",
+                        token, data ,attendancedata:attendancedata
                       });
                     }
                   });
                 }
               });
-            return res
-              .status(200)
-              .json({
-                status: "success",
-                message: "successfully login!",
-                token, data
-              });
+        
           } else {
             return res.json({
               status: "failure",
