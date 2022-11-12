@@ -47,7 +47,7 @@ function Emp_Dashboard() {
 
     axios.post('http://localhost:4000/api/emp/logout', empid).then(result => {
       console.log(result.data);
-    //  navigate('/')
+     //navigate('/')
       
     }).catch(err => {
       console.log('err', err.message);
@@ -103,7 +103,7 @@ function Emp_Dashboard() {
           <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
             <div style={{ padding: 24, background: "#fff" }}>
               <Routes>
-              <Route path="/" element={<Contact />}></Route>
+              <Route path="/" element={<AccountSetting />}></Route>
               <Route path="/employeedetails" element={<EmployeeDetails />}></Route>
               <Route path="/leave" element={<Leave />}></Route>
               <Route path="/performance" element={<Performance />}></Route>

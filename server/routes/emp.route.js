@@ -8,6 +8,8 @@ const sendMail = require("../middleware/mail");
 const e = require("express");
 require("dotenv").config();
 const attendanceSchema = require('../models/attendance.model')
+const joiSchema = require ('../middleware/joiValid');
+
 router.post("/addEmployee", async (req, res) => {
   try {
     let empName = req.body.empName;
@@ -279,6 +281,7 @@ router.post("/login", async (req, res) => {
     console.log(req.body);
     let email = req.body.email;
     let password = req.body.password;
+
     const time = moment().format("DD/MM/YYYY, hh:mm a");
     await employeeSchema
       .findOneAndUpdate(

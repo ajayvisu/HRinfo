@@ -46,8 +46,9 @@ function Dashboard() {
   const logout = () => {
     const empid = localStorage.getItem('email')
 
-    axios.post('http://localhost:4000/api/emp/logout', empid).then(result => {
+    axios.post(`http://localhost:4000/api/emp/logout?id=${empid}`).then(result => {
       console.log(result.data);
+      localStorage.clear();
     //  navigate('/')
       
     }).catch(err => {
