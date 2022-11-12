@@ -42,18 +42,20 @@ function Emp_Dashboard() {
   };
 
 
+  
   const logout = () => {
-    const empid = localStorage.getItem('email')
+    const email = localStorage.getItem('email')
+    const id = localStorage.getItem('attendanceId')
 
-    axios.post('http://localhost:4000/api/emp/logout', empid).then(result => {
+    axios.post(`http://localhost:4000/api/emp/logout?id=${id}&email=${email}`).then(result => {
       console.log(result.data);
+      localStorage.clear();
     //  navigate('/')
       
     }).catch(err => {
       console.log('err', err.message);
     })
   }
-
 
   return (
 

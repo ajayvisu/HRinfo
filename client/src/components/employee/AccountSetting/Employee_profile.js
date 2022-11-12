@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import "./Employee_profile.css";
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { Modal, Upload, Image, Avatar } from "antd";
@@ -6,55 +6,55 @@ import ImgCrop from "antd-img-crop";
 import axios from "axios";
 
 const Employee_profile = () => {
+  const [image, setImg] =useState();
+  const [images, setImgs] =useState();
+
   const [number, setMobile] = useState(localStorage.getItem("mobile"));
   const [id, setId] = useState(localStorage.getItem("id"));
   const [email, setEmail] = useState(localStorage.getItem("email"));
   const [change, setChange] = useState(true);
 console.log('email',email)
-  const [img, setImg] = useState(localStorage.getItem("img2"));
-
   const Edit = () => {
     setChange(false);
   };
 
-  // const emp = () =>{
-  //    let id = localStorage.getItem('id')
-  //    axios.get(`http://localhost:4000/api/emp/findone?empId=${id}`).then(data=>{
-  //       console.log("res_emp",data.data.result.image);
-  //       setImg(data.data.result.image)
-  //    })
-  // }
+  const formDataFun=(file,body={})=>{
+    console.log("file",file)
+    console.log("body",body)
+    const formdata = new FormData
 
-  if (img) {
-    localStorage.setItem("img2", img);
-  }
-
-  console.log("img1");
+    formdata.append('file',file[0]);
+    for (const key in body) {
+        formdata.append(key,body[key]);
+    }
+    return formdata
+}
 
   const image_upload = () => {
-    // const formdata = new FormData();
-    // formdata.append('file',img);
-    // console.log('formdata',formdata);
-    // const email = localStorage.getItem('email')
-    // axios.post(`http://localhost:4000/img/img?email=${email}`,formdata,{headers:{'Content-Type':"multipart/form-data"}}).then(data=>{
-    //    console.log("res",data);
-
-    // }).catch(err=>{
-    //    console.log("err",err.message)
-    // })
-    let image = {
-      image: img,
-    };
+  let id=localStorage.getItem("user_id")
+    const retData = formDataFun(image)
     axios
-      .put(`http://localhost:4000/api/emp/imag_update?email=${email}`, image)
+      .put(`http://localhost:4000/api/emp/updateimage?id=${id}`, retData)
       .then((result) => {
         console.log("res", result.data);
+      data()
       })
       .catch((err) => {
         console.log("err", err.message);
       });
   };
-
+const data = () =>{
+  let id =localStorage.getItem('user_id')
+  axios.get(`http://localhost:4000/api/emp/getIndivData?id=${id}`).then(result=>{
+   console.log("getIndivData",result.data.result)
+   setImgs(result.data.result.image)
+  
+  })
+}
+useEffect(()=>{
+  data()
+  
+},[])
   return (
     <>
       <div class="content-full-width">
@@ -63,8 +63,9 @@ console.log('email',email)
             <div class="profile-header-cover"></div>
             <div class="profile-header-content">
               <div class="profile-header-img">
-                {img ? (
-                  <Image width={113} src={img} />
+                
+                {images ? (
+                  <Image width={113} src={"http://localhost:4000/"+images} />
                 ) : (
                   <Avatar shape="square" size={113} icon={<UserOutlined />} />
                 )}
@@ -77,9 +78,8 @@ console.log('email',email)
                   type="file"
                   id="myfile"
                   name="myfile"
-                  onChange={(e) =>
-                    setImg(URL.createObjectURL(e.target.files[0]))
-                  }
+                  // value={image}
+                  onChange={ (event)=>setImg(event.target.files) }
                 />
               </div>
             </div>
@@ -99,14 +99,7 @@ console.log('email',email)
                               </tr>`
                            </thead> */}
                   <tbody>
-                    <tr class="highlight">
-                      <td class="field">Contact</td>
-                      <td className="contact">
-                        <button type="button" onClick={Edit}>
-                          Add Your Cantact
-                        </button>
-                      </td>
-                    </tr>
+                    
                     <tr class="divider">
                       <td colspan="2"></td>
                     </tr>
@@ -134,104 +127,19 @@ console.log('email',email)
                     <tr class="divider">
                       <td colspan="2"></td>
                     </tr>
-                    <tr class="highlight">
-                      <td class="field">About Me</td>
-                      <td>
-                        <button
-                          className="contact"
-                          type="button"
-                          onClick={Edit}
-                        >
-                          Add Description
-                        </button>
-                      </td>
-                    </tr>
+                   
                     <tr class="divider">
                       <td colspan="2"></td>
                     </tr>
-                    <tr>
-                      <td class="field">Country/Region</td>
-                      <td>
-                        <select
-                          class="form-control input-inline input-xs"
-                          name="region"
-                        >
-                          <option value="US" selected="">
-                            United State
-                          </option>
-                          <option value="AF">Afghanistan</option>
-                          <option value="AL">Albania</option>
-                          <option value="DZ">Algeria</option>
-                          <option value="AS">American Samoa</option>
-                          <option value="AD">Andorra</option>
-                          <option value="AO">Angola</option>
-                          <option value="AI">Anguilla</option>
-                          <option value="AQ">Antarctica</option>
-                          <option value="AG">Antigua and Barbuda</option>
-                          <option value="IN">India</option>
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="field">City</td>
-                      <td>
-                        <input
-                          type="text"
-                          value="Los Angeles"
-                          placeholder="Number"
-                          disabled={false}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="field">State</td>
-                      <td>
-                        <input
-                          type="text"
-                          value="Tamil Nadu"
-                          placeholder="Number"
-                          disabled={false}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="field">Gitup-Link</td>
-                      <td>
-                        <a href="javascript:;">Add Webpage</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="field">Gender</td>
-                      <td>
-                        <select
-                          class="form-control input-inline input-xs"
-                          name="gender"
-                        >
-                          <option value="male">Male</option>
-                          <option value="female">Female</option>
-                        </select>
-                      </td>
-                    </tr>
+                  
+                
                     <tr>
                       <td class="field">Birthdate</td>
                       <td>
                         <input type="text" placeholder="DOB" disabled={false} />
                       </td>
                     </tr>
-                    <tr>
-                      <td class="field">Language</td>
-                      <td>
-                        <select
-                          class="form-control input-inline input-xs"
-                          name="language"
-                        >
-                          <option value="TA" selected="">
-                            Tamil
-                          </option>
-                          <option value="EN">English</option>
-                        </select>
-                      </td>
-                    </tr>
+                 
                     <tr class="highlight">
                       <td class="field">Education</td>
                       <td>
