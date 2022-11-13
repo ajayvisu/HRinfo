@@ -14,7 +14,8 @@ import AccountSetting from '../employee/AccountSetting/Employee_profile';
 import Employee_Home from '../employee/employeeHome/Employee_Home';
 import Contact from '../employee/Contact/Contact';
 import Dashboard from "../Dashboard/Dashboard";
-
+import Home from '../home/Home';
+import Attendance from '../employee/attendance/Attendance';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -31,7 +32,7 @@ const { Text, Link } = Typography;
 
 function Emp_Dashboard() {
 
-  //const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [state, setState] = useState({
     collapsed: false,
   })
@@ -50,8 +51,7 @@ function Emp_Dashboard() {
     axios.post(`http://localhost:4000/api/emp/logout?id=${id}&email=${email}`).then(result => {
       console.log(result.data);
       localStorage.clear();
-    //  navigate('/')
-      
+      // window.location.href='/home'
     }).catch(err => {
       console.log('err', err.message);
     })
@@ -113,7 +113,10 @@ function Emp_Dashboard() {
               <Route path="/" element={<Employee_Home />}></Route>
               <Route path="/contact" element={<Contact />}></Route>
               <Route path="/dashboard" element={<Dashboard />}></Route>
-              </Routes>
+              <Route path='/home' element={<Home/>}/>
+              <Route path='/attendance' element={<Attendance/>}/>
+             
+             </Routes>
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>

@@ -34,7 +34,7 @@ const SidebarData = [
         key: 5,
         title: "Attendance",
         icon: <ClockCircleOutlined />,
-        link: "/",
+        link: "/attendance",
     },
     {
         key: 6,

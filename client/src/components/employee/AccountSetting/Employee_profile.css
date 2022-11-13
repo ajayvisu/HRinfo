@@ -1,6 +1,15 @@
 
 /* ------------ */
-
+.upload{
+   margin-right: 90px;
+    color: #eef4f6;
+    background-color: #1a7b99;
+/* height: 40px;
+margin-top: 20px; */
+}
+.education{
+    font-weight: bold;
+}
 table input{
     border-radius: 5px;
     height: 30px;

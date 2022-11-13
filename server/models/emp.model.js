@@ -6,7 +6,7 @@ const employeeSchema = mongoose.Schema(
     empID: { type: String, require: false },
     empName: { type: String, require: true },
     email: { type: String, require: true },
-    mobile: { type: Number, require: true },
+    mobile: { type: String, require: true },
     gender: { type: String, require: true },
     DOB :{type:Date,require:false},
     DOJ : {type:Date,require:false},
@@ -31,7 +31,7 @@ const employeeSchema = mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "attendance"
       }],
-    education: [{
+    education:[{
       Degree: { type: String, },
       Specialization: { type: String, },
       institue: { type: String, },
@@ -42,8 +42,7 @@ const employeeSchema = mongoose.Schema(
     experience: [{
       organization: { type: String, },
       designation: { type: String, },
-      startDate: { type: String, },
-      endDate: { type: String, },
+     TotelExperience:{type:String}
     }],
       bankDetails:[{
         bankName:{type:String},

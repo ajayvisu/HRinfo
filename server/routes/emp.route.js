@@ -35,7 +35,14 @@ router.put("/updateimage", async (req, res) => {
       }
       console.log(JSON.stringify(req.body))
       reqData = {
-
+        Degree:req.body.Degree,
+        Specialization:req.body.Specialization,
+        institue:req.body.institue,
+        passingYear:req.body.passingYear,
+        startDate:req.body.startDate,
+        endDate:req.body.endDate,
+        organization:req.body.organization,
+        designation:req.body.designation,
         image:req.file.filename   
       }
 console.log(req.body)
@@ -277,10 +284,10 @@ router.get("/loginstatus", async (req, res) => {
 
 router.put("/update", async (req, res) => {
   try {
-    const uuid = req.query.uuid;
-    const upload = multer({storage:storage}).single('file')
-    console.log(uuid)
-    await employeeSchema.findOneAndUpdate({ empID: uuid }, req.body, { new: true }).then(result => {
+    const id = req.query.id;
+    
+    console.log(id)
+    await employeeSchema.findOneAndUpdate({ _id: id }, req.body, { new: true }).then(result => {
       res.json({ status: 'success', message: 'data successfully updated!', 'result': result })
     }).catch(err => {
       console.log(err.message)

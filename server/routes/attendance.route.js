@@ -14,6 +14,18 @@ router.get('/today-attendance-list',async(req,res)=>{
     return res.status(500).json({ err: err.message });
     }
 })
+router.get('/my-attendance-list',async(req,res)=>{
+  try{
+    let data= await attendanceSchema.find({'employee.id':req.query.id}).exec();
+    if(data.length >0){
+      return res.status(200).json({data:data });
+    }else{
+    return res.status(200).json({message:"There is no attendance record found" });
+    }
+  }catch(error){
+    return res.status(500).json({ err: err.message });
+  }
+})
 router.get('/get-last-30days-record',async(req,res)=>{
     try{
       id=req.query.id
