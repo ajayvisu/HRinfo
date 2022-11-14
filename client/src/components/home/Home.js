@@ -22,7 +22,7 @@ const [getUser,setUser]=useState("")
         let role = localStorage.getItem('role')
         setUser(role)
         console.log(getUser)
-        console.log('attendance',result.data.attendancedata._id)
+          
         if (result.data.status === "success") {
           localStorage.setItem('attendanceId',result.data.attendancedata._id)
           localStorage.setItem('status',result.data.status);
