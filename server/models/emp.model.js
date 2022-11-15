@@ -6,7 +6,7 @@ const employeeSchema = mongoose.Schema(
     empID: { type: String, require: false },
     empName: { type: String, require: true },
     email: { type: String, require: true },
-    mobile: { type: Number, require: true },
+    mobile: { type: String, require: true },
     gender: { type: String, require: true },
     DOB :{type:Date,require:false},
     DOJ : {type:Date,require:false},
@@ -17,10 +17,7 @@ const employeeSchema = mongoose.Schema(
     Address : {type:String,require:false},
     active: { type: Boolean, require: false, default: false },
     loginStatus: { type: Boolean, require: false, default: true },
-    deducationId:{
-      type: String,
-      required : true
-  },
+    deductionId:{ type: String, required : false },
     leaves: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -31,7 +28,7 @@ const employeeSchema = mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "attendance"
       }],
-    education: [{
+    education:[{
       Degree: { type: String, },
       Specialization: { type: String, },
       institue: { type: String, },
@@ -42,8 +39,7 @@ const employeeSchema = mongoose.Schema(
     experience: [{
       organization: { type: String, },
       designation: { type: String, },
-      startDate: { type: String, },
-      endDate: { type: String, },
+     TotelExperience:{type:String}
     }],
       bankDetails:[{
         bankName:{type:String},
@@ -54,10 +50,14 @@ const employeeSchema = mongoose.Schema(
   }
 );
 
+
+
+
 employeeSchema.pre("save", function (next) {
   this.empID = "EMP" + crypto.pseudoRandomBytes(4).toString("hex").toUpperCase();
   console.log("uuid", this.empId);
   next();
 });
+
 
 module.exports = mongoose.model("emp", employeeSchema);

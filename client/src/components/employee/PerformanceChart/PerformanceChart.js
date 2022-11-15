@@ -31,7 +31,7 @@ const Performance = () => {
         id: "basic-bar"
       },
       xaxis: {
-        categories: []
+        categories: ["Monday","Tuesday","Wednesday","Thursday" ,"Friday"]
       }
     },
     series: [

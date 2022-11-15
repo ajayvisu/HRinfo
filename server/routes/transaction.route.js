@@ -20,6 +20,7 @@ router.post("/add-deduction", async (req, res) => {
     }
 })
 
+
 router.post("/transaction", isAdmin, async (req, res) => {
     try {
         console.log(req.query)

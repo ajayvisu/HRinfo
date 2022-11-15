@@ -14,10 +14,7 @@ const[role ,setRole] = useState('');
 const[address ,setAddress] = useState('');
 const[salary ,setSalary] = useState('');
 const[DOJ ,setDOJ] = useState('');
-const[Degree ,setDegree] = useState('');
-const[Specialization ,setSpecialization] = useState('');
-const[institue ,setinstitue] = useState('');
-const[passingYear ,setpassingYear] = useState('');
+
 const[organization ,setorganization] = useState('');
 const[designation ,setdesignation] = useState('');
 const[startDate ,setstartDate] = useState('');
@@ -39,12 +36,13 @@ const data = {
     PF    : PF
 }
 
-    axios.post('',data).then(result=>{
+    axios.post('http://localhost:4000/api/transaction/add-deduction',data).then(result=>{
         console.log('deduction',result.data);
         const deducID = result.data.deductionID
         AddEmp(deducID)
-    }).catch(err => {
+    }).catch(err => {        
         console.log('err',err.message);
+
     })
 }
 
@@ -62,18 +60,12 @@ const data = {
         DOJ          : DOJ,
         Address      : address,
         baseSalary   : salary,
-        deductionID  : id,
-        education    :{
-            Degree : Degree,
-            Specialization : Specialization,
-            institue : institue,
-            passingYear : passingYear,
-        },
+        deductionID  : id ,
+        
         experience    :{
             organization : organization,
             designation : designation,
-            institue : institue,
-            passingYear : passingYear,
+            
             startDate : startDate,
             endDate : endDate
         },
@@ -220,49 +212,8 @@ const data = {
                                     required
                                 />
                             </div>
-                            <div className="mt-4">
-                                <h3>Education Details</h3>
                             
-                            <hr/>
-                            <div class="form-group mt-4">
-                            <select class="form-select mt-4" name="Degree" required onChange={(e)=>setDegree(e.target.value)} >
-                                <option selected disabled>Degree</option> 
-                                <option value="B.SC">B.SC</option>
-                                <option value="B.E">B.E</option>
-                                <option value="BCA">BCA</option>
-                                <option value="B.com">B.com</option>
-                                </select>
-                            </div>
-                            <div class="form-group mt-3">
-                            <select class="form-select mt-4" name="Specialization" required onChange={(e)=>setSpecialization(e.target.value)} >
-                                <option selected disabled>Specialization</option> 
-                                <option value="Computer Science">Computer Science</option>
-                                <option value="IT">IT</option>
-                                <option value="Arts">Arts</option>
-                                <option value="Information tech">Information tech</option>
-                                </select>
-                            </div>
-                            <div class="form-group mt-3">
-                                <label for="leave" class="form-label" >College Name</label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="institue"
-                                    required
-                                    onChange={(e)=>setinstitue(e.target.value)}
-                                />
-                            </div>
-                            <div class="form-group mt-3">
-                                <label for="loan" class="form-label" >passingYear</label>
-                                <input
-                                    type="date"
-                                    class="form-control"
-                                    placeholder="passingYear"
-                                    required
-                                    onChange={(e)=>setpassingYear(e.target.value)}
-                                />
-                            </div>
-                            </div>
+                            
                             <div className="mt-4">
                                 <h3>Experience Details</h3>
                             
@@ -357,7 +308,7 @@ const data = {
                                 <h3>Deduction Details</h3>
                             
                             <hr/>
-                            <div class="form-group mt-3">
+                            {/* <div class="form-group mt-3">
                                 <label  class="form-label" >deductionID</label>
                                 <input
                                     type="text"
@@ -366,7 +317,7 @@ const data = {
                                     required
                                     onChange={(e)=>setdeductionID(e.target.value)}
                                 />
-                            </div>
+                            </div> */}
                             <div class="form-group mt-3">
                                 <label  class="form-label" >tax</label>
                                 <input

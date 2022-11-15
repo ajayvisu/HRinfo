@@ -3,24 +3,46 @@ import "./Home.css";
 import axios from "axios";
 import Dashboard from "../Dashboard/Dashboard"
 import Emp_Dashboard from "../Emp_Dashboard/Emp_Dashboard";
-
+import { Formik,useFormik, Form, Field, ErrorMessage } from 'formik';
 const Home = () => {
+  const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
-  const [empID, setempId] = useState("");
-  const [password, setpassword] = useState("");
 const [getUser,setUser]=useState("")
+
+const validate =values =>{
+const errors ={};
+if(!values.email){
+  errors.email = "*Required"
+}else if(!EMAIL_REGEX.test(values.email)){
+  errors.email ="*Invalid Email Address"
+}
+if(!values.password){
+  errors.password = "*Required"
+}
+return errors;
+}
+const formik =useFormik({
+  initialValues:{
+email:"",
+password:""
+  },
+  validate,
+  onSubmit:values =>{
+    console.log('value',values)
+  }
+
+})
+const [refresh,setRefresh]=useState()
   const login = () => {
-    let data = {
-      email: empID,
-      password: password,
-    };
-    // console.log('data',data);
+    let values = formik.values
     axios
-      .post("http://localhost:4000/api/emp/login", data)
+      .post("http://localhost:4000/api/emp/login", values)
       .then((result) => {
-        console.log("datas", result.data);
+        console.log("datas", result.data.message);
+     
         let role = localStorage.getItem('role')
         setUser(role)
+       
         console.log(getUser)
           
         if (result.data.status === "success") {
@@ -41,9 +63,11 @@ const [getUser,setUser]=useState("")
         console.log("err", err);
       });
   };
+
+
     let role = localStorage.getItem('role')
   useEffect(() => {
-    login()
+login()
   }, [getUser])
   if(getUser === 'admin'){
     return(
@@ -65,70 +89,90 @@ const [getUser,setUser]=useState("")
         <div>
            
          <header className='head'>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsHzyMlSh8Bo_RDS5UYpw-YreCFb0ajENS2w&usqp=CAU" class="profile-img"/>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsHzyMlSh8Bo_RDS5UYpw-YreCFb0ajENS2w&usqp=CAU" className="profile-img"/>
                 <nav>
                     <ul>
                         <li><a href="#hero">Home</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>
-                        <li ><a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" href="">Login</a></li>
+                        <li ><a className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" href="">Login</a></li>
                     </ul>
                 </nav>
                 
             </header>
             {/* <!-- Modal --> */}
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="exampleModalLabel">Login</h5>
+            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
-          <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <div class="input-group">
-                                 <input class="form-control"
-                                  onChange={(e) => setempId(e.target.value)}
+          <div className="modal-body">
+          
+          <div className="row">
+                    <div className="col-sm-12">
+                        <div className="form-group">
+                            <div className="input-group">
+                                 <input className="form-control"
+                                 name='email'
+                                  onChange={formik.handleChange}
+                                 value = {formik.values.email}
+                                 onBlur={formik.handleBlur}
                                   type="text" placeholder="Email ID"/> 
                                  </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <div class="input-group">
-                                 <input class="form-control" 
-                                   onChange={(e) => setpassword(e.target.value)}
+                {
+                formik.touched.email &&  formik.errors.email? <span className='span'>
+                    {formik.errors.email}
+                    </span> :null
+                }
+                <div className="row">
+                    <div className="col-sm-12">
+                        <div className="form-group">
+                            <div className="input-group">
+                                 <input className="form-control" 
+                                 name='password'
+                                 onChange={formik.handleChange}
+                                 onBlur={formik.handleBlur}
+                                 value = {formik.values.password}
                                  type="password" placeholder="Password"/> 
                                  </div>
                         </div>
                     </div>
                 </div>
+                {
+                   formik.touched.password &&  formik.errors.password? <span className='span'>
+                    {formik.errors.password}
+                    </span> :null
+                }
+             
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
             <button type="button" 
              onClick={login}
-            class="btn btn-primary btn-block confirm-button" style={{height:'40px'}}>sign-in</button>
+            className="btn btn-primary btn-block confirm-button" style={{height:'40px'}}>sign-in</button>
+            
           </div>
+          
         </div>
       </div>
     </div>
             <main>
                 <div>
                 <section className='option' id="hero">
-                    <div class="section-inner">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsHzyMlSh8Bo_RDS5UYpw-YreCFb0ajENS2w&usqp=CAU" class="profile-img"/>
+                    <div className="section-inner">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsHzyMlSh8Bo_RDS5UYpw-YreCFb0ajENS2w&usqp=CAU" className="profile-img"/>
                         <h1>Hi, I'm Boberick the llama.</h1>
                     </div>
                 </section>
                 </div>
                 <div>
                 <section className='option' id="about">
-                    <div class="section-inner">
+                    <div className="section-inner">
                         <h2>About me</h2>
                         <p>I'm a really awesome llama. Every day I wake up, munch on some grass, do some coding and then go back to sleep.</p>
                         <h3>Achievements</h3>
@@ -142,7 +186,7 @@ const [getUser,setUser]=useState("")
                 </div>
                 <div>
                 <section className='option' id="contact">
-                    <div class="section-inner">
+                    <div className="section-inner">
                         <h2>Contact me</h2>
                         <p>You can find me on:</p>
                         <ul>

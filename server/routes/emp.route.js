@@ -8,7 +8,8 @@ const sendMail = require("../middleware/mail");
 const multer = require('multer');
 const e = require("express");
 require("dotenv").config();
-const attendanceSchema = require('../models/attendance.model')
+const attendanceSchema = require('../models/attendance.model');
+const deductionSchema = require('../models/deduction.model');
 
 const storage = multer.diskStorage({
   destination:(req,file,cb)=>{
@@ -35,7 +36,14 @@ router.put("/updateimage", async (req, res) => {
       }
       console.log(JSON.stringify(req.body))
       reqData = {
-
+        Degree:req.body.Degree,
+        Specialization:req.body.Specialization,
+        institue:req.body.institue,
+        passingYear:req.body.passingYear,
+        startDate:req.body.startDate,
+        endDate:req.body.endDate,
+        organization:req.body.organization,
+        designation:req.body.designation,
         image:req.file.filename   
       }
 console.log(req.body)
@@ -60,6 +68,9 @@ router.post("/addEmployee", async (req, res) => {
     let gender = req.body.gender;
     let role = req.body.role;
     let password = req.body.password;
+    
+
+    
     if (empName) {
       let Name = await employeeSchema.findOne({ empName: empName }).exec();
       if (Name) {
@@ -277,10 +288,10 @@ router.get("/loginstatus", async (req, res) => {
 
 router.put("/update", async (req, res) => {
   try {
-    const uuid = req.query.uuid;
-    const upload = multer({storage:storage}).single('file')
-    console.log(uuid)
-    await employeeSchema.findOneAndUpdate({ empID: uuid }, req.body, { new: true }).then(result => {
+    const id = req.query.id;
+    
+    console.log(id)
+    await employeeSchema.findOneAndUpdate({ _id: id }, req.body, { new: true }).then(result => {
       res.json({ status: 'success', message: 'data successfully updated!', 'result': result })
     }).catch(err => {
       console.log(err.message)
