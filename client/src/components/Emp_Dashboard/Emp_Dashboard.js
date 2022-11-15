@@ -9,7 +9,7 @@ import 'antd/dist/antd.css';
 import './Emp_Dashboard.css'
 import Leave from '../employee/leave/Leave'
 import Performance from '../employee/PerformanceChart/PerformanceChart';
-import EmployeeDetails from '../employee/EmployeeDetails/EmployeeDetails';
+
 import AccountSetting from '../employee/AccountSetting/Employee_profile';
 import Employee_Home from '../employee/employeeHome/Employee_Home';
 import Contact from '../employee/Contact/Contact';
@@ -43,9 +43,11 @@ function Emp_Dashboard() {
   };
 
 
-  
+  const email = localStorage.getItem('email')
+  console.log('email1',email)
   const logout = () => {
     const email = localStorage.getItem('email')
+    console.log('email',email)
     const id = localStorage.getItem('attendanceId')
 
     axios.post(`http://localhost:4000/api/emp/logout?id=${id}&email=${email}`).then(result => {
@@ -106,7 +108,7 @@ function Emp_Dashboard() {
             <div style={{ padding: 24, background: "#fff" }}>
               <Routes>
               
-              <Route path="/employeedetails" element={<EmployeeDetails />}></Route>
+            
               <Route path="/leave" element={<Leave />}></Route>
               <Route path="/performance" element={<Performance />}></Route>
               <Route path="/profile" element={<AccountSetting />}></Route>

@@ -48,13 +48,11 @@ const [refresh,setRefresh]=useState()
         if (result.data.status === "success") {
           localStorage.setItem('attendanceId',result.data.attendancedata._id)
           localStorage.setItem('status',result.data.status);
-           localStorage.setItem('name',result.data.data.empName);
            localStorage.setItem('user_id',result.data.data._id);
            localStorage.setItem('email',result.data.data.email);
            localStorage.setItem('id',result.data.data.empID);
            localStorage.setItem('entryTime',result.data.data.entryTime);
            localStorage.setItem('token',result.data.token);
-           localStorage.setItem('mobile',result.data.data.mobile);
            localStorage.setItem('role',result.data.data.role);
            
         }

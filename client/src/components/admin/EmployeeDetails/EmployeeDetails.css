@@ -1,6 +1,8 @@
 
 
-
+.avatar{
+  margin-top: 70px;
+}
 .main {
   width: 90%;
   margin: 2%;
@@ -8,7 +10,7 @@
 }
 
 .card {
-  /* width: 20%; */
+
   display: inline-block;
   box-shadow: 2px 2px 20px black;
   border-radius: 5px;

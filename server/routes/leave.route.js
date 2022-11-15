@@ -22,5 +22,16 @@ let attendance = await attendanceSchema.find({
         return res.status(400).json({ status: false, 'message': error.message })     
     }
 })
+router.get('/today-leave',async(req,res)=>{
+    try{
+        
+let todayLeave = await employeeSchema.find({loginStatus:false}).exec()
+return res.status(200).json({ status: true, 'message':"data fetched successfully", result:todayLeave })     
 
+
+}catch(error){
+        return res.status(400).json({ status: false, 'message': error.message })     
+
+    }
+})
 module.exports = router

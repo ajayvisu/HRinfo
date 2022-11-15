@@ -10,6 +10,7 @@ const employeeSchema = mongoose.Schema(
     gender: { type: String, require: true },
     DOB :{type:Date,require:false},
     DOJ : {type:Date,require:false},
+    domain:{type: String, require: true},
     image : {type:String,require:false},
     role: { type: String, require: true },
     password: { type: String, require: true },
@@ -55,7 +56,6 @@ const employeeSchema = mongoose.Schema(
 
 employeeSchema.pre("save", function (next) {
   this.empID = "EMP" + crypto.pseudoRandomBytes(4).toString("hex").toUpperCase();
-  console.log("uuid", this.empId);
   next();
 });
 

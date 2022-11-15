@@ -19,14 +19,9 @@ function App() {
 
 // }, [])
   return (
-    //  <Dashboard/>
-    //  <Emp_Dashboard/>
-   
-   
+    
      <div>
-
-<Home/>
-           
+       <Home/>    
      </div>
         
   );
