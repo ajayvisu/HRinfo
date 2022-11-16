@@ -14,7 +14,7 @@ const[role ,setRole] = useState('');
 const[address ,setAddress] = useState('');
 const[salary ,setSalary] = useState('');
 const[DOJ ,setDOJ] = useState('');
-
+const[domain, setDomain] = useState('');
 const[organization ,setorganization] = useState('');
 const[designation ,setdesignation] = useState('');
 const[startDate ,setstartDate] = useState('');
@@ -23,7 +23,6 @@ const[BankName ,setBankName] = useState('');
 const[recipientName ,setrecipientName] = useState('');
 const[accountNumber ,setaccountNumber] = useState('');
 const[ifsc ,setifsc] = useState('');
-const[deductionID ,setdeductionID] = useState('');
 const[tax ,settax] = useState('');
 const[leave ,setleave] = useState('');
 const[PF ,setPF] = useState('');
@@ -61,7 +60,7 @@ const data = {
         Address      : address,
         baseSalary   : salary,
         deductionID  : id ,
-        
+        domain       : domain,
         experience    :{
             organization : organization,
             designation : designation,
@@ -90,7 +89,7 @@ const data = {
     <div class="container fluid">
                 <div class="mt-5">
                         <h1 class="text-center" style={{ fontWeight: 'bold',paddingTop:'50px' }}>
-                            <i class="fas fa-user-plus"></i> Register Employee
+                            <i class="fas fa-user-plus"></i>Employee Registration
                         </h1>
                         <form > 
                         <div className="mt-3">
@@ -104,7 +103,7 @@ const data = {
                                     id="name"
                                     name="name"
                                     class="form-control"
-                                    placeholder="Enter Name"
+                                   
                                     required
                                     onChange={(e)=>setName(e.target.value)}
                                 />
@@ -121,7 +120,7 @@ const data = {
                                     id="dob"
                                     name="dob"
                                     class="form-control"
-                                    placeholder="Enter Date of Birth"
+                                    
                                     onChange={(e)=>setDOB(e.target.value)}
                                     required
                                 />
@@ -133,7 +132,7 @@ const data = {
                                     id="doj"
                                     name="doj"
                                     class="form-control"
-                                    placeholder="Enter Date of Joining"
+                                    
                                     required
 
                                     onChange={(e)=>setDOJ(e.target.value)}
@@ -146,7 +145,6 @@ const data = {
                                     id="phone"
                                     name="phone"
                                     class="form-control"
-                                    placeholder="Enter Phone"
 
                                     onChange={(e)=>setMobile(e.target.value)}
 
@@ -158,7 +156,7 @@ const data = {
                                 <input
                                     type="text"
                                     class="form-control"
-                                    placeholder="Enter Designation"
+                              
                                     onChange={(e)=>setMail(e.target.value)}
                                     required
                                 />
@@ -170,32 +168,31 @@ const data = {
                                     id="address"
                                     name="address"
                                     class="form-control"
-                                    placeholder="Enter Address"
+                                   
                                     onChange={(e)=>setAddress(e.target.value)}
                                     required
                                 />
 
                             </div>
-                            {/* <div class="form-group mt-3">
-                                <label for="dno" class="form-label">Department No.</label>
-                                <input
-                                    type="number"
-                                    id="dno"
-                                    name="dno"
-                                    class="form-control"
-                                    placeholder="Enter Department No."
-
-                                    required
-                                />
-                            </div> */}
+                          
                             <div class="form-group mt-3">
-                                <label for="designation" class="form-label">Designation</label>
+                                <label for="designation" class="form-label">Domain</label>
                                 <input
                                     type="text"
                                     id="designation"
                                     name="designation"
                                     class="form-control"
-                                    placeholder="Enter Designation"
+                                    onChange={(e)=>setDomain(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="Role" class="form-label">Role</label>
+                                <input
+                                    type="text"
+                                    id="Role"
+                                    name="Role"
+                                    class="form-control"
                                     onChange={(e)=>setRole(e.target.value)}
                                     required
                                 />
@@ -207,7 +204,6 @@ const data = {
                                     id="base"
                                     name="base"
                                     class="form-control"
-                                    placeholder="Enter Base Salary"
                                     onChange={(e)=>setSalary(e.target.value)}
                                     required
                                 />
@@ -219,21 +215,21 @@ const data = {
                             
                             <hr/>
                             <div class="form-group mt-3">
-                                <label  class="form-label" >organization</label>
+                                <label  class="form-label" >Organization</label>
                                 <input
                                     type="text"
                                     class="form-control"
-                                    placeholder="organization"
+                                   
                                     required
                                     onChange={(e)=>setorganization(e.target.value)}
                                 />
                             </div>
                             <div class="form-group mt-3">
-                                <label  class="form-label" >designation</label>
+                                <label  class="form-label" >Designation</label>
                                 <input
                                     type="text"
                                     class="form-control"
-                                    placeholder="designation"
+                                  
                                     required
                                     onChange={(e)=>setdesignation(e.target.value)}
                                 />
@@ -243,7 +239,7 @@ const data = {
                                 <input
                                     type="date"
                                     class="form-control"
-                                    placeholder="designation"
+                                    
                                     required
                                     onChange={(e)=>setstartDate(e.target.value)}
                                 />
@@ -253,7 +249,7 @@ const data = {
                                 <input
                                     type="date"
                                     class="form-control"
-                                    placeholder="designation"
+                                   
                                     required
                                     onChange={(e)=>setendDate(e.target.value)}
                                 />
@@ -264,41 +260,42 @@ const data = {
                             
                             <hr/>
                             <div class="form-group mt-3">
-                                <label  class="form-label" >bankName</label>
+                                <label  class="form-label" >Bank Name</label>
                                 <input
                                     type="text"
                                     class="form-control"
-                                    placeholder="bankName"
+                                   
                                     required
                                     onChange={(e)=>setBankName(e.target.value)}
                                 />
                             </div>
                             <div class="form-group mt-3">
-                                <label  class="form-label" >recipientName</label>
+                                <label  class="form-label" >Recipient Name</label>
                                 <input
                                     type="text"
                                     class="form-control"
-                                    placeholder="recipientName"
+                                    
                                     required
                                     onChange={(e)=>setrecipientName(e.target.value)}
                                 />
                             </div>
                             <div class="form-group mt-3">
-                                <label  class="form-label" >AccountNumber</label>
+                                <label  class="form-label" >Account Number</label>
                                 <input
                                     type="number"
                                     class="form-control"
-                                    placeholder="AccountNumber"
+                                   
+                                    
                                     required
                                     onChange={(e)=>setaccountNumber(e.target.value)}
                                 />
                             </div>
                             <div class="form-group mt-3">
-                                <label  class="form-label" >ifsc</label>
+                                <label  class="form-label" >IFSC</label>
                                 <input
                                     type="text"
                                     class="form-control"
-                                    placeholder="designation"
+                                 
                                     required
                                     onChange={(e)=>setifsc(e.target.value)}
                                 />
@@ -308,32 +305,23 @@ const data = {
                                 <h3>Deduction Details</h3>
                             
                             <hr/>
-                            {/* <div class="form-group mt-3">
-                                <label  class="form-label" >deductionID</label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="deductionID"
-                                    required
-                                    onChange={(e)=>setdeductionID(e.target.value)}
-                                />
-                            </div> */}
+                           
                             <div class="form-group mt-3">
-                                <label  class="form-label" >tax</label>
+                                <label  class="form-label" >Tax</label>
                                 <input
                                     type="number"
                                     class="form-control"
-                                    placeholder="tax"
+                                    
                                     required
                                     onChange={(e)=>settax(e.target.value)}
                                 />
                             </div>
                             <div class="form-group mt-3">
-                                <label  class="form-label" >leave</label>
+                                <label  class="form-label" >Leave</label>
                                 <input
                                     type="number"
                                     class="form-control"
-                                    placeholder="leave"
+                                    
                                     required
                                     onChange={(e)=>setleave(e.target.value)}
                                 />
@@ -343,7 +331,7 @@ const data = {
                                 <input
                                     type="number"
                                     class="form-control"
-                                    placeholder="PF"
+                                   
                                     required
                                     onChange={(e)=>setPF(e.target.value)}
                                 />

@@ -4,6 +4,7 @@ import {
     UsergroupAddOutlined,
     ClockCircleOutlined,
     StarOutlined,
+    UserAddOutlined,
     PhoneOutlined,
     SettingOutlined,
     CalendarOutlined
@@ -39,7 +40,7 @@ const SidebarData = [
         key: 5,
         title: "Attendance",
         icon: <ClockCircleOutlined />,
-        link: "/",
+        link: "/attendance",
     },
     {
         key: 6,
@@ -49,9 +50,9 @@ const SidebarData = [
     },
     {
         key: 7,
-        title: "Account Settings",
-        icon: <SettingOutlined />,
-        link: "/profile",
+        title: "AddEmployee",
+        icon: <UserAddOutlined />,
+        link: "/addemployee",
     },
     {
         key: 7,

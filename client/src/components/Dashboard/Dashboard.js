@@ -16,6 +16,7 @@ import AccountSetting from '../employee/AccountSetting/Employee_profile';
 import Payroll from '../admin/Payroll/PayDetails';
 import Contact from '../admin/Contact/Contact';
 import EmployeeDetails from '../admin/EmployeeDetails/EmployeeDetails';
+import AttendanceAdmin from '../admin/attendance/Attendance';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -25,13 +26,11 @@ import {
 import { LogoutOutlined } from '@ant-design/icons';
 
 import axios from 'axios';
+import Home from '../home/Home';
 
 const { Header, Sider, Content, Footer } = Layout;
 const { Text, Link } = Typography;
-
-
 function Dashboard() {
-
   //const navigate = useNavigate();
   const [state, setState] = useState({
     collapsed: false,
@@ -48,6 +47,7 @@ function Dashboard() {
     axios.post(`http://localhost:4000/api/emp/logout?id=${id}&email=${email}`).then(result => {
       console.log(result.data);
       localStorage.clear();
+      // window.location.href = '/home';
     }).catch(err => {
       console.log('err', err.message);
     })
@@ -102,9 +102,8 @@ function Dashboard() {
             <div style={{ padding: 24, background: "#fff" }}>
               <Routes>
               <Route path="/payslip" element={<PaySlip />}></Route>
-
-          
               <Route path="/emplyeedetails" element={<EmployeeDetails />}></Route>
+              <Route path="/home" element={<Home />}></Route>
               <Route path="/leave" element={<Leave />}></Route>
               <Route path="/performance" element={<Performance />}></Route>
               <Route path="/profile" element={<AccountSetting />}></Route>
@@ -113,7 +112,8 @@ function Dashboard() {
               <Route path="/" element={<AdminHome />}></Route>
               <Route path="/addemployee" element={<AddEmployee />}></Route>
               <Route path="/contact" element={<Contact/>}/>
-          
+              <Route path="/attendance" element={<AttendanceAdmin/>}/>
+
               </Routes>
             </div>
           </Content>

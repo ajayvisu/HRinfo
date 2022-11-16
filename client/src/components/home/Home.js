@@ -4,6 +4,7 @@ import axios from "axios";
 import Dashboard from "../Dashboard/Dashboard"
 import Emp_Dashboard from "../Emp_Dashboard/Emp_Dashboard";
 import { Formik,useFormik, Form, Field, ErrorMessage } from 'formik';
+import{ FacebookFilled , InstagramFilled, TwitterCircleFilled, MailFilled  } from  '@ant-design/icons';
 const Home = () => {
   const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
@@ -48,13 +49,11 @@ const [refresh,setRefresh]=useState()
         if (result.data.status === "success") {
           localStorage.setItem('attendanceId',result.data.attendancedata._id)
           localStorage.setItem('status',result.data.status);
-           localStorage.setItem('name',result.data.data.empName);
            localStorage.setItem('user_id',result.data.data._id);
            localStorage.setItem('email',result.data.data.email);
            localStorage.setItem('id',result.data.data.empID);
            localStorage.setItem('entryTime',result.data.data.entryTime);
            localStorage.setItem('token',result.data.token);
-           localStorage.setItem('mobile',result.data.data.mobile);
            localStorage.setItem('role',result.data.data.role);
            
         }
@@ -90,6 +89,7 @@ login()
            
          <header className='head'>
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsHzyMlSh8Bo_RDS5UYpw-YreCFb0ajENS2w&usqp=CAU" className="profile-img"/>
+            
                 <nav>
                     <ul>
                         <li><a href="#hero">Home</a></li>
@@ -166,41 +166,63 @@ login()
                 <section className='option' id="hero">
                     <div className="section-inner">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsHzyMlSh8Bo_RDS5UYpw-YreCFb0ajENS2w&usqp=CAU" className="profile-img"/>
-                        <h1>Hi, I'm Boberick the llama.</h1>
+                        <h1>HRinfo Management System</h1>
                     </div>
                 </section>
                 </div>
                 <div>
                 <section className='option' id="about">
                     <div className="section-inner">
-                        <h2>About me</h2>
-                        <p>I'm a really awesome llama. Every day I wake up, munch on some grass, do some coding and then go back to sleep.</p>
-                        <h3>Achievements</h3>
-                        <ul>
-                            <li>Bachelor of photogenic posing, 2010</li>
-                            <li>Llamaness certification from the Llama Institute, 2014</li>
-                            <li>I coded a website, 2017</li>
-                        </ul>
+                        <h2>Ease Your HR, Payroll and Compliance Worries</h2>
+
+
+                        <h5>Manage employee data, track leaves &
+attendance and automate payroll with the
+best HR & Payroll management software.
+Ensure faster payroll processing with
+complete employee life cycle management.</h5>
+                       
                     </div>
                 </section>
                 </div>
                 <div>
                 <section className='option' id="contact">
                     <div className="section-inner">
-                        <h2>Contact me</h2>
+
+                      
+
+                    <a href="https://twitter.com/llama">
+                            <TwitterCircleFilled style={{ fontSize: '500%', width: '2em'} } /></a>
+
+                            <a href="https://www.instagram.com/llamasporfavor/">
+                              <InstagramFilled  style={{ fontSize: '500%', width: '2em' }} /></a>   
+
+                              <a href="https://twitter.com/llama">
+                            < FacebookFilled style={{fontSize: '500%', width: '2em'}}/></a>    
+
+                            <a href="mailto:safamsg@gmail.com">
+                            <MailFilled style={{fontSize: '500%', width: '2em'}} />  </a>.
+
+
+                        {/* <h2>Contact me</h2>
                         <p>You can find me on:</p>
                         <ul>
-                            <li><a href="https://twitter.com/llama">Twitter</a></li>
-                            <li><a href="https://www.reddit.com/user/llama">Reddit</a></li>
-                            <li><a href="https://www.instagram.com/llamasporfavor/">Instagram</a></li>
+                            <li><a href="https://twitter.com/llama">
+                            <TwitterCircleFilled /></a></li>
+                            
+                            <li><a href="https://www.instagram.com/llamasporfavor/">
+                              <InstagramFilled /></a></li>
+
+                              <li><a href="https://twitter.com/llama">
+                            < FacebookFilled/></a></li>
                         </ul>
-                        <p>Or, you can <a href="mailto:llama@codetheweb.blog">send me an email</a>.</p>
+                        <p>Or, you can <a href="mailto:safamsg@gmail.com">send a email</a>.</p> */}
                     </div>
                 </section>
                 </div>
             </main>
             <footer>
-                © Copyright Boberick The Llama, 2017
+                © HRInfo Management System, 2022
             </footer>
         </div>
     )    

@@ -4,12 +4,13 @@ const moment = require("moment");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const leaveSchema = require("../models/leave.model");
+const deductionSchema= require("../models/deduction.model")
 const sendMail = require("../middleware/mail");
 const multer = require('multer');
 const e = require("express");
 require("dotenv").config();
 const attendanceSchema = require('../models/attendance.model');
-const deductionSchema = require('../models/deduction.model');
+// const deductionSchema = require('../models/deduction.model');
 
 const storage = multer.diskStorage({
   destination:(req,file,cb)=>{
@@ -34,19 +35,9 @@ router.put("/updateimage", async (req, res) => {
       } else if (err) {
         return res.send(err);
       }
-      console.log(JSON.stringify(req.body))
       reqData = {
-        Degree:req.body.Degree,
-        Specialization:req.body.Specialization,
-        institue:req.body.institue,
-        passingYear:req.body.passingYear,
-        startDate:req.body.startDate,
-        endDate:req.body.endDate,
-        organization:req.body.organization,
-        designation:req.body.designation,
         image:req.file.filename   
       }
-console.log(req.body)
       const data = await employeeSchema.findOneAndUpdate({_id:id},reqData,{ new: true }).exec()
       if(data){
           return res.status(200).json({ 'status': 'success', "message": " successfully added", "result": data })
@@ -68,9 +59,9 @@ router.post("/addEmployee", async (req, res) => {
     let gender = req.body.gender;
     let role = req.body.role;
     let password = req.body.password;
-    
-
-    
+    let tax = req.body.tax;
+    let leave = req.body.leave;
+    let PF = req.body.PF
     if (empName) {
       let Name = await employeeSchema.findOne({ empName: empName }).exec();
       if (Name) {
@@ -111,25 +102,33 @@ router.post("/addEmployee", async (req, res) => {
         message: "Please enter employee mobile number",
       });
     }
+    let user = new deductionSchema(req.body);
+    let result = await user.save().then(async function(deduction){
+    req.body.deducationId = deduction._id
+    console.log("deduction",deduction._id)
+    console.log("req.body.deducationId",req.body.deducationId)
+     
+    let employeeData = await employeeSchema(req.body);
 
-    const employeeData = await employeeSchema(req.body);
-    const salt = await bcrypt.genSalt(10);
-    employeeData.password = bcrypt.hashSync(password, salt);
-
-    employeeData
-      .save()
-      .then((result) => {
-        return res.status(201).json({
-          status: "success",
-          message: "employee data successfully created!",
-          result: result,
+      const salt = await bcrypt.genSalt(10);
+      employeeData.password = bcrypt.hashSync(password, salt);
+  
+      employeeData
+        .save()
+        .then((result) => {
+          return res.status(201).json({
+            status: "success",
+            message: "employee data successfully created!",
+            result: result,
+          });
+        })
+        .catch((err) => {
+          return res
+            .status(400)
+            .json({ status: "failure", message: err.message });
         });
-      })
-      .catch((err) => {
-        return res
-          .status(400)
-          .json({ status: "failure", message: err.message });
-      });
+    })
+  
   } catch (err) {
     return res.status(500).json({ err: err.message });
   }
@@ -350,10 +349,8 @@ router.post("/login", async (req, res) => {
           }
         let  payload ={uuid:data.uuid, role:data.role}
           if (result) {
-            const token = jwt.sign(payload, process.env.JWTKEY, {
-              // expiresIn: "1h",
-            });
-            employeeSchema
+            const token = jwt.sign(payload, process.env.JWTKEY);
+                        employeeSchema
               .findOne({ email: email })
               .populate("attendance")
               .exec((err, user) => {
@@ -420,7 +417,7 @@ router.post("/logout", async (req, res) => {
     console.log('test',test)
     attendanceSchema
       .findOne({ _id: id })
-      .then(data => {
+      .then(async function(data)  {
         console.log("data", data);
         console.log("entry",data.entryTime)
         const loginTime = moment(data.entryTime, "DD/MM/YYYY,hh:mm a");
@@ -435,6 +432,7 @@ router.post("/logout", async (req, res) => {
         console.log('current',current)
         // console.log('duration',duration)
         console.log('login',loginTime)
+        console.log('email',email)
         
         attendanceSchema
           .findOneAndUpdate(
@@ -454,7 +452,7 @@ router.post("/logout", async (req, res) => {
                 hours + " hours and " + minutes + " minutes ", data: data
             });
           });
-        employeeSchema.findOneAndUpdate({ email: email }, { loginStatus: false })
+          await employeeSchema.findOneAndUpdate({ email: email }, { loginStatus: false }, {new:true}).exec()
 
       })
       .catch((err) => {
