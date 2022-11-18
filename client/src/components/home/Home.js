@@ -3,9 +3,10 @@ import "./Home.css";
 import axios from "axios";
 import Dashboard from "../Dashboard/Dashboard"
 import Emp_Dashboard from "../Emp_Dashboard/Emp_Dashboard";
-import { Formik, useFormik, Form, Field, ErrorMessage } from 'formik';
 import { SERVER_URL_EMPLOYEE, SERVER_URL_LEAVE } from "../Globals";
 import { message } from 'antd';
+import { Formik,useFormik, Form, Field, ErrorMessage } from 'formik';
+import{ FacebookFilled , InstagramFilled, TwitterCircleFilled, MailFilled  } from  '@ant-design/icons';
 const Home = () => {
   const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
@@ -47,6 +48,7 @@ const Home = () => {
 
         console.log(getUser)
         console.log('attendance', result.data.attendancedata._id)
+          
         if (result.data.status === "success") {
             
  
@@ -173,15 +175,71 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <main>
-        <div>
-          <section className='option' id="hero">
-            <div className="section-inner">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsHzyMlSh8Bo_RDS5UYpw-YreCFb0ajENS2w&usqp=CAU" className="profile-img" />
-              <h1>Hi, I'm Boberick the llama.</h1>
-            </div>
-          </section>
-        </div>
+
+            <main>
+                <div>
+                <section className='option' id="hero">
+                    <div className="section-inner">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsHzyMlSh8Bo_RDS5UYpw-YreCFb0ajENS2w&usqp=CAU" className="profile-img"/>
+                        <h1>HRinfo Management System</h1>
+                    </div>
+                </section>
+                </div>
+                <div>
+                <section className='option' id="about">
+                    <div className="section-inner">
+                        <h2>Ease Your HR, Payroll and Compliance Worries</h2>
+
+
+                        <h5>Manage employee data, track leaves &
+attendance and automate payroll with the
+best HR & Payroll management software.
+Ensure faster payroll processing with
+complete employee life cycle management.</h5>
+                       
+                    </div>
+                </section>
+                </div>
+                <div>
+                <section className='option' id="contact">
+                    <div className="section-inner">
+
+                      
+
+                    <a href="https://twitter.com/llama">
+                            <TwitterCircleFilled style={{ fontSize: '500%', width: '2em'} } /></a>
+
+                            <a href="https://www.instagram.com/llamasporfavor/">
+                              <InstagramFilled  style={{ fontSize: '500%', width: '2em' }} /></a>   
+
+                              <a href="https://twitter.com/llama">
+                            < FacebookFilled style={{fontSize: '500%', width: '2em'}}/></a>    
+
+                            <a href="mailto:safamsg@gmail.com">
+                            <MailFilled style={{fontSize: '500%', width: '2em'}} />  </a>.
+
+
+                        {/* <h2>Contact me</h2>
+                        <p>You can find me on:</p>
+                        <ul>
+                            <li><a href="https://twitter.com/llama">
+                            <TwitterCircleFilled /></a></li>
+                            
+                            <li><a href="https://www.instagram.com/llamasporfavor/">
+                              <InstagramFilled /></a></li>
+
+                              <li><a href="https://twitter.com/llama">
+                            < FacebookFilled/></a></li>
+                        </ul>
+                        <p>Or, you can <a href="mailto:safamsg@gmail.com">send a email</a>.</p> */}
+                    </div>
+                </section>
+                </div>
+            </main>
+            <footer>
+                © HRInfo Management System, 2022
+            </footer>
+       
         <div>
           <section className='option' id="about">
             <div className="section-inner">
@@ -210,11 +268,11 @@ const Home = () => {
             </div>
           </section>
         </div>
-      </main>
+     
       <footer>
         © Copyright Boberick The Llama, 2017
       </footer>
-    </div>
+     </div>
   )
 }
 

@@ -8,7 +8,8 @@ const deductionSchema = new mongoose.Schema({
 },
     { timestamps: true });
 deductionSchema.pre("save", function (next) {
-    this.deductionID = "DED" + crypto.pseudoRandomBytes(4).toString("hex").toUpperCase();
+    this.deductionID = "DED" + crypto.pseudoRandomBytes(4).toString("hex").toUpperCase()
+    
     console.log("uuid", this.empId);
     next();
 });

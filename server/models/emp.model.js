@@ -18,10 +18,7 @@ const employeeSchema = mongoose.Schema(
     Address : {type:String,require:false},
     active: { type: Boolean, require: false, default: false },
     loginStatus: { type: Boolean, require: false, default: true },
-    deducationId:{
-      type: String,
-      required : true
-  },
+    deductionId:{ type: String, required : false },
     leaves: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -54,9 +51,13 @@ const employeeSchema = mongoose.Schema(
   }
 );
 
+
+
+
 employeeSchema.pre("save", function (next) {
   this.empID = "EMP" + crypto.pseudoRandomBytes(4).toString("hex").toUpperCase();
   next();
 });
+
 
 module.exports = mongoose.model("emp", employeeSchema);

@@ -9,7 +9,8 @@ const sendMail = require("../middleware/mail");
 const multer = require('multer');
 const e = require("express");
 require("dotenv").config();
-const attendanceSchema = require('../models/attendance.model')
+const attendanceSchema = require('../models/attendance.model');
+// const deductionSchema = require('../models/deduction.model');
 
 const storage = multer.diskStorage({
   destination:(req,file,cb)=>{
@@ -334,6 +335,7 @@ router.post("/login", async (req, res) => {
     // let attendancedata;
     let email = req.body.email;
     let password = req.body.password;
+
     const time = moment().format("DD/MM/YYYY, hh:mm a");
     await employeeSchema
       .findOneAndUpdate(
