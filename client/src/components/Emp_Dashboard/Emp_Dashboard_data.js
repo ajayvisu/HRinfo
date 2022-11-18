@@ -15,7 +15,7 @@ const SidebarData = [
         key: 1,
         title: "Dashboard",
         icon: <WindowsOutlined />,
-        link: "/",
+        link: "/Employee_Home",
     },
    
     {

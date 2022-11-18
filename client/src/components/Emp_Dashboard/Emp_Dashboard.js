@@ -9,6 +9,7 @@ import 'antd/dist/antd.css';
 import './Emp_Dashboard.css'
 import Leave from '../employee/leave/Leave'
 import Performance from '../employee/PerformanceChart/PerformanceChart';
+import { SERVER_URL_EMPLOYEE, SERVER_URL } from "../Globals";
 
 import AccountSetting from '../employee/AccountSetting/Employee_profile';
 import Employee_Home from '../employee/employeeHome/Employee_Home';
@@ -44,15 +45,16 @@ function Emp_Dashboard() {
 
 
   const email = localStorage.getItem('email')
-  console.log('email1',email)
+  console.log('email1', email)
   const logout = () => {
     const email = localStorage.getItem('email')
-    console.log('email',email)
+    console.log('email', email)
     const id = localStorage.getItem('attendanceId')
 
-    axios.post(`http://localhost:4000/api/emp/logout?id=${id}&email=${email}`).then(result => {
+    axios.post(SERVER_URL_EMPLOYEE + `logout?id=${id}&email=${email}`).then(result => {
       console.log(result.data);
       localStorage.clear();
+      window.location.href = '/';
       // window.location.href='/home'
     }).catch(err => {
       console.log('err', err.message);
@@ -107,18 +109,18 @@ function Emp_Dashboard() {
           <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
             <div style={{ padding: 24, background: "#fff" }}>
               <Routes>
-              
-            
-              <Route path="/leave" element={<Leave />}></Route>
-              <Route path="/performance" element={<Performance />}></Route>
-              <Route path="/profile" element={<AccountSetting />}></Route>
-              <Route path="/" element={<Employee_Home />}></Route>
-              <Route path="/contact" element={<Contact />}></Route>
-              <Route path="/dashboard" element={<Dashboard />}></Route>
-              <Route path='/home' element={<Home/>}/>
-              <Route path='/attendance' element={<Attendance/>}/>
-             
-             </Routes>
+
+
+                <Route path="/leave" element={<Leave />}></Route>
+                <Route path="/performance" element={<Performance />}></Route>
+                <Route path="/profile" element={<AccountSetting />}></Route>
+                <Route path="/" element={<Employee_Home />}></Route>
+                <Route path="/contact" element={<Contact />}></Route>
+                <Route path="/dashboard" element={<Dashboard />}></Route>
+                <Route path='/home' element={<Home />} />
+                <Route path='/attendance' element={<Attendance />} />
+
+              </Routes>
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import {SERVER_URL_EMPLOYEE} from "../../Globals";
 const Contact = () => {
   const [status, setStatus] = useState("Submit");
   const handleSubmit = async (e) => {
@@ -11,7 +11,7 @@ const Contact = () => {
       email: email.value,
       message: message.value,
     };
-    let response = await fetch("http://localhost:4000/api/emp/contact", {
+    let response = await fetch(SERVER_URL_EMPLOYEE+"contact", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",

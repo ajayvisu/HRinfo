@@ -102,7 +102,7 @@ router.post("/addEmployee", async (req, res) => {
       });
     }
     let user = new deductionSchema(req.body);
-    let result = await user.save().then(async function(deduction){
+     await user.save().then(async function(deduction){
     req.body.deducationId = deduction._id
     console.log("deduction",deduction._id)
     console.log("req.body.deducationId",req.body.deducationId)
@@ -236,7 +236,7 @@ router.get('/myleavedetails', async (req, res) => {
 
 router.get('/getEmployee', async (req, res) => {
   try {
-    const Employees = await employeeSchema.find().exec();
+    const Employees = await employeeSchema.find({role:"user"}).exec();
     if (Employees.length > 0) {
       return res.status(200).json({ status: "success", message: 'Data feched successfully', "result": Employees })
     } else {
@@ -352,7 +352,7 @@ router.post("/login", async (req, res) => {
               .findOne({ email: email })
               .populate("attendance")
               .exec((err, user) => {
-                // console.log('user', user)
+                console.log('username',user.empName)
                 // console.log('req.params._id', email)
                 if (err) {
                   res.json({ err: err.message });
@@ -371,7 +371,7 @@ router.post("/login", async (req, res) => {
                         .json({ status: "failed", message: err.message });
                     } else {
                       newAttendance.employee.id = user._id
-                      newAttendance.employee.username = user.username
+                      newAttendance.employee.empName = user.empName
                     let  attendancedata = await newAttendance.save()
                       
                       user.attendance.push(newAttendance);

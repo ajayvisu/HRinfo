@@ -4,7 +4,7 @@ import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { Modal, Upload, Image, Avatar } from "antd";
 import ImgCrop from "antd-img-crop";
 import axios from "axios";
-
+import {SERVER_URL_EMPLOYEE,SERVER_URL} from "../../Globals";
 const Employee_profile = () => {
   const [image, setImg] = useState();
   const [images, setImgs] = useState();
@@ -52,7 +52,7 @@ const[TotelExperience,setTotelExperience] = useState()
  
     const retData = formDataFun(image)
     axios
-      .put(`http://localhost:4000/api/emp/updateimage?id=${id}`, retData)
+      .put(SERVER_URL_EMPLOYEE+`updateimage?id=${id}`, retData)
       .then((result) => {
         console.log("res", result.data);
         data()
@@ -63,7 +63,7 @@ const[TotelExperience,setTotelExperience] = useState()
   };
   const data = () => {
     let id = localStorage.getItem('user_id')
-    axios.get(`http://localhost:4000/api/emp/getIndivData?id=${id}`).then(result => {
+    axios.get(SERVER_URL_EMPLOYEE+`getIndivData?id=${id}`).then(result => {
       console.log("getIndivData", result.data.result.education)
       result.data.result.education.map(item => {
         console.log('item', item.Degree)
@@ -105,7 +105,7 @@ result.data.result.experience.map(item=>{
 
       mobile:mobile
     }
-    axios.put(`http://localhost:4000/api/emp/update?id=${id}`,data).then(result => {
+    axios.put(SERVER_URL_EMPLOYEE+`update?id=${id}`,data).then(result => {
       console.log("getIndivData", result.data.result)
      
     }).catch(err=>{
@@ -126,7 +126,7 @@ result.data.result.experience.map(item=>{
               <div class="profile-header-img">
 
                 {images ? (
-                  <Image width={113} src={"http://localhost:4000/" + images} />
+                  <Image width={113} src={SERVER_URL + images} />
                 ) : (
                   <Avatar shape="square" size={113} icon={<UserOutlined />} />
                 )}

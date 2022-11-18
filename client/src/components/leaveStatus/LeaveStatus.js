@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios';
+import axios from 'axios';  
+import { useNavigate } from "react-router-dom";
+import {SERVER_URL_EMPLOYEE,SERVER_URL_LEAVE}  from '../Globals';
 function LeaveStatus() {
+  const navigate = useNavigate();
   const [pendingLeave, setPendingLeave] = useState();
   const [approvedLeave, setApprovedLeave] = useState();
   const [totalEmp, setTotalEmp] = useState();
   const [todayLeave, setTodayLeave] = useState();
   const leaveStatus = () => {
-    axios.get('http://localhost:4000/api/emp/leave-status').then(data => {
+    axios.get(SERVER_URL_EMPLOYEE+'leave-status').then(data => {
       // console.log('data',data.data.approvedLeave)
       setPendingLeave(data.data.pendingLeave)
       setApprovedLeave(data.data.approvedLeave)
@@ -34,9 +37,7 @@ function LeaveStatus() {
         <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet"></link>
         <title>Bootstap 5 Responsive Admin Dashboard</title>
       </head>
-      {
-
-      }
+     
       <div className="grey-bg container-fluid" style={{ padding: "2px" }}>
         <section id="minimal-statistics" >
           <div className='row'>
@@ -57,7 +58,7 @@ function LeaveStatus() {
                 </div>
               </div>
             </div>
-
+{/* 
             <div className="col-xl-3 col-sm-6 col-12">
               <div className="card" style={{ width: "90%", marginTop: '30px' }}>
                 <div className="card-content">
@@ -68,13 +69,13 @@ function LeaveStatus() {
                       </div>
                       <div className="media-body text-right">
                         <h3>{approvedLeave}</h3>
-                        <span>APPROVERD LEAVES</span>
+                        <span><c/></span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="col-xl-3 col-sm-6 col-12">
               <div className="card" style={{ width: "90%", marginTop: '30px' }}>
@@ -93,7 +94,7 @@ function LeaveStatus() {
                 </div>
               </div>
             </div>
-            <div className="col-xl-3 col-sm-6 col-12">
+            <div className="col-xl-3 col-sm-6 col-12"  onClick={() => navigate("/leave")}>
               <div className="card" style={{ width: "90%", marginTop: '30px' }}>
                 <div className="card-content">
                   <div className="card-body">
@@ -110,6 +111,9 @@ function LeaveStatus() {
                 </div>
               </div>
             </div>
+            {/* <div style={{marginTop:"-28%",marginLeft:'10%'}}>
+            <Performance/>
+            </div> */}
           </div>
         </section>
       </div>

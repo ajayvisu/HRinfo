@@ -6,7 +6,7 @@ var leaveSchema =  mongoose.Schema(
     from: {type:String,required:true},
     to:{type:String,required:true},
     days : {type:Number,required:false},
-  
+    AllLeaveDates:[{type:String,required:false}],
     status: {
       type: String,
       enum: ["pending", "approved", "denied"],

@@ -3,10 +3,12 @@ import './ViewDetails.css'
 import { useNavigate } from 'react-router-dom'
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { SERVER_URL } from "../../Globals";
+
 const ViewDetails = () => {
   const navigate = useNavigate()
   const { state } = useLocation();
-  const { states } = useLocation();
+
   console.log("sdgsrtgtr", state.experience)
   let degree;
   let Specialization;
@@ -14,14 +16,14 @@ const ViewDetails = () => {
   let organization;
   let TotelExperience;
   let designation
-  state.education.map(data=>{
+  state.education.map(data => {
     console.log("edu", data.Degree)
     degree = data.Degree
     Specialization = data.Specialization
     passingYear = data.passingYear
   })
-  state.experience.map(data=>{
-    console.log("edu", data.TotelExperience)
+  state.experience.map(data => {
+    console.log("experience", data.organization)
     designation = data.designation
     TotelExperience = data.TotelExperience
     organization = data.organization
@@ -33,10 +35,10 @@ const ViewDetails = () => {
     <div>
       <div class="wrapper">
         <div class="left">
-          <img src={"http://localhost:4000/" + state.image} alt="user" width="100" />
+          <img src={SERVER_URL + state.image} alt="user" width="100" />
           <h4>{state.empName}</h4>
           <p>EMPID : {state.empID}</p>
-          <p>DOMAIN : UI Developer</p>
+          <p>DOMAIN : {state.domain}</p>
         </div>
         <div class="right">
           <div class="info">
@@ -76,23 +78,31 @@ const ViewDetails = () => {
           </div>
           <div class="projects">
             <h3>Experience</h3>
-            <div class="projects_data">
-              
-              <div class="data">
-                <h4>organization</h4>
-                <p>{organization}</p>
-              </div>
-              <div class="data">
-                <h4>designation</h4>
-                <p>{designation}</p>
-              </div>
-              <div class="data">
-                <h4>TotelExperience</h4>
-                <p>{TotelExperience}</p>
-              </div>
-            </div>
-          </div>
+            {
+              state.experience.map((curElem, index) => {
+                console.log("cur", curElem.organization)
+                return (
 
+                  <div class="projects_data">
+
+                    <div class="data">
+                      <h4>organization</h4>
+                      <p>{curElem.organization}</p>
+                    </div>
+                    <div class="data">
+                      <h4>designation</h4>
+                      <p>{curElem.designation}</p>
+                    </div>
+                    <div class="data">
+                      <h4>TotelExperience</h4>
+                      <p>{curElem.TotelExperience}</p>
+                    </div>
+                  </div>
+
+                )
+              })
+            }
+          </div>
         </div>
       </div>
     </div>

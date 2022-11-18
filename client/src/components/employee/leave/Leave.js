@@ -4,6 +4,8 @@ import { Table } from "antd";
 import "react-datepicker/dist/react-datepicker.css";
 import './Leave.css'
 import 'antd/dist/antd.css';
+import {SERVER_URL_EMPLOYEE} from "../../Globals";
+
 function Leave() {
   const [leave, setLeave] = useState({
     from: "",
@@ -30,7 +32,7 @@ function Leave() {
     console.log("subject", subject)
     let user_id = localStorage.getItem('user_id')
     console.log('user_id', user_id)
-    axios.post(`http://localhost:4000/api/emp/emp-leave?id=${user_id}`, leave, {
+    axios.post(SERVER_URL_EMPLOYEE+`emp-leave?id=${user_id}`, leave, {
       headers: { "user_id": user_id }
     }).then((Response) => {
       console.log("leave",Response)
@@ -70,7 +72,7 @@ function Leave() {
     let user_id = localStorage.getItem('user_id')
     console.log('user_id', user_id)
     axios
-      .get(`http://localhost:4000/api/emp/myleavedetails?id=${user_id}`)
+      .get(SERVER_URL_EMPLOYEE+`myleavedetails?id=${user_id}`)
       .then((res) => {
         console.log('res', res)
         console.log('days', res.data.result)
