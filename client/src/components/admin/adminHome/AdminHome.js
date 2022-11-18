@@ -6,7 +6,7 @@ import { Button, Input, Space, Table } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import Chart from 'react-apexcharts'
-import { SERVER_URL_EMPLOYEE } from "../../Globals";
+import { SERVER_URL_EMPLOYEE,SERVER_URL_LEAVE } from "../../Globals";
 
 import Highlighter from 'react-highlight-words';
 import LeaveStatus from "../../leaveStatus/LeaveStatus";
@@ -43,7 +43,7 @@ const AdminHome = () => {
       setPendingLeave(data.data.pendingLeave)
       setApprovedLeave(data.data.approvedLeave)
       setTotalEmp(data.data.totalEmp)
-      setTodayLeave(data.data.todayLeaveCount)
+
     }).catch(err => {
       console.log('err', err.message)
     })
@@ -57,11 +57,19 @@ const AdminHome = () => {
       console.log('err', err.message);
     })
   }
-
+  const TodayLeave = () => {
+    axios
+      .get(SERVER_URL_LEAVE+`today-leave`)
+      .then((res) => {
+        console.log('TodayLeave',res.data.lengthOfLeave)
+        setTodayLeave(res.data.lengthOfLeave)
+      });
+  };
   useEffect(() => {
     myEmployee()
     loginUserStatus()
     leaveStatus()
+    TodayLeave()
   }, [])
 
 

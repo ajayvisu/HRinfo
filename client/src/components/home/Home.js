@@ -45,17 +45,11 @@ const Home = () => {
 
         let role = localStorage.getItem('role')
         setUser(role)
-
-        console.log(getUser)
         console.log('attendance', result.data.attendancedata._id)
           
         if (result.data.status === "success") {
-            
- 
-            
-          window.location.href = '/';
- 
 
+          window.location.href = '/';
           localStorage.setItem('attendanceId', result.data.attendancedata._id)
           localStorage.setItem('status', result.data.status);
           localStorage.setItem('user_id', result.data.data._id);

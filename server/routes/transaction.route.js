@@ -20,7 +20,6 @@ router.post("/add-deduction", async (req, res) => {
     }
 })
 
-
 router.post("/transaction", isAdmin, async (req, res) => {
     try {
         console.log(req.query)
@@ -137,17 +136,17 @@ function getDatesInRange(startDate, endDate) {
     const end = new Date(new Date(endDate).setUTCHours(0, 0, 0, 0));
     
  const date = new Date(start.getTime());
-console.log('date1',date)
-console.log('date',start)
+// console.log('date1',date)
+// console.log('date',start)
 
-    const dates = [];
-
+    let dates = [];
+// console.log('dates',dates)
  while (date <= end) {
   dates.push(new Date(date));
   date.setDate(date.getDate() + 1);
  }
 
- return dates;
+// console.log('dates',dates)
 }
 
 const travel_start = "2022/03/20";

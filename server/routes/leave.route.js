@@ -24,95 +24,51 @@ let attendance = await attendanceSchema.find({
 })
 router.get('/today-leave',async(req,res)=>{
     try{
-        
-let todayLeave = await employeeSchema.find({loginStatus:false}).exec()
-return res.status(200).json({ status: true, 'message':"data fetched successfully", result:todayLeave })     
+  
 
-
+        let todayDate = new Date()
+        let year = todayDate.getFullYear()
+        let month = todayDate.getMonth() + 1
+        let date= todayDate.getDate()
+        let currentDate=year + "-" + month + "-" + date
+ let todayLeaveData = await leaveSchema.find({allLeaveDates:currentDate,status:"approved"}).exec()
+ let lengthOfLeave =todayLeaveData.length
+ console.log('lengthOfLeave',lengthOfLeave)
+if(todayLeaveData.length>0){
+  return res.status(200).json({ status: true, 'message':"data fetched successfully", result:todayLeaveData ,lengthOfLeave:lengthOfLeave})     
+}else{
+return res.status(200).json({ status: true, 'message':"no data found" })     
+}
 }catch(error){
         return res.status(400).json({ status: false, 'message': error.message })     
 
     }
 })
-router.post("/emp-leave", (req, res) => {
-  let id = req.query.id;
-  employeeSchema
-    .findOne({ _id: id })
-    .populate("leaves")
-    .exec((err, employee) => {
-      // console.log('user', employee)
-      // console.log('req.params._id', id)
-      if (err) {
-        res.json({ err: err.message });
-      } else {
-        const startDate = moment(req.body.from).format("DD/MM/YYYY");
-        // console.log('startDate', typeof(startDate))
-        const endDate = moment(req.body.to).format("DD/MM/YYYY");
-        let sDate = moment(req.body.from).format("DD"); //get leave start date only
-        let eDate = moment(req.body.to).format("DD"); //get leave endday date only
-        req.body.days = eDate - sDate + 1;
-        let todayDate = moment().format("DD");
-        // console.log("todayDate", todayDate);
-        let from = employee.email;
 
-        // const mailData = {
-        //   from: employee.email,
-        //   to: "sajna.platosys@gmail.com",
-        //   subject: "Leave Permission",
-        //   text: `Leave start ${startDate} to ${endDate}`,
-        // };
-        function getDatesInRange(startDate, endDate) {
-          const start = moment(startDate).format("DD/MM/YYYY")
-          const end = moment(endDate).format("DD/MM/YYYY")
+router.post('/leaves',async(req,res)=>{
+  try{
+const startDate=req.body.from.split("-");
+console.log('startf',startDate)
 
-          
-      //  const date = new Date(start.getTime());
-   
-      console.log('date',start)
-      
-          const dates = [];
-      
-       while (start <= end) {
-        dates.push(new Date(start));
-        start.setDate(start.getDate() + 1);
-       }
-      
-       return dates;
-      }
+const start = new Date(new Date(req.body.from));
+const end = new Date(new Date(req.body.to));
+   const date = new Date(start.getTime());
+      const dates = [];
+   while (date <= end) {
+    dates.push(date);
+    date.setDate(date.getDate() + 1);
+   }
+  
+   console.log('dates',dates)
+ 
+  
+  }catch(error){
+        return res.status(400).json({ status: false, 'message': error.message })     
 
-const res1 = getDatesInRange(startDate, endDate);
+    }
+})
 
-
-console.log('res1', res1)
-console.log('start', startDate,"+",endDate)
-
-        if (todayDate < sDate) {
-          // let sendingMail = sendMail.sendMail(mailData);
-          // if (!sendingMail) {
-          //   console.log("mail not sending");
-          // } else {
-            leaveSchema.create(req.body, (err, newLeave) => {
-              console.log("newleavenewleave", newLeave);
-              if (err) {
-                return res
-                  .status(200)
-                  .json({ status: "failed", message: err.message });
-              } else {
-                newLeave.employee.id = employee._id;
-                newLeave.employee.empName = employee.empName;
-              
-                newLeave.save();
-                employee.leaves.push(newLeave);
-                employee.save().then((result) => {
-                  res.status(200).json({ status: "success", result: result });
-                });
-              }
-            });
-          // }
-        } else {
-          res.json({ status: "success", message: "ghv" });
-        }
-      }
-    });
-});
+// router.get("/test",async(req,res)=>{
+//   await employeeSchema.find
+// })
 module.exports = router

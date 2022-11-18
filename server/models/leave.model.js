@@ -6,7 +6,7 @@ var leaveSchema =  mongoose.Schema(
     from: {type:String,required:true},
     to:{type:String,required:true},
     days : {type:Number,required:false},
-    AllLeaveDates:[{type:String,required:false}],
+    allLeaveDates:[{type:Date,required:false}],
     status: {
       type: String,
       enum: ["pending", "approved", "denied"],
@@ -17,7 +17,9 @@ var leaveSchema =  mongoose.Schema(
         type:mongoose.Schema.Types.ObjectId,
         ref: "emp"
       },
-      empName: String
+      empName: String,
+      empID: String
+
     }
   },
   { timestamps: true }

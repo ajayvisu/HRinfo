@@ -16,28 +16,35 @@ function Leave() {
 
     {
       title: 'EmployeeName',
-      dataIndex: 'empName',
+      dataIndex: 'employee',
+      render: (employee) => employee.empName,
       key: '1',
     },
     {
       title: 'EmpID',
-      dataIndex: 'empID',
+      dataIndex: 'employee',
+      render: (employee) => employee.empID,
       key: '2',
+    },
+    {
+      title: 'StartDate',
+      dataIndex: 'from',
+      key: '3',
     },
     {
       title: 'EndDate',
       dataIndex: 'to',
-      key: '3',
+      key: '4',
     },
     {
       title: 'Days',
       dataIndex: 'days',
-      key: '4',
+      key: '5',
     },
     {
       title: 'Status',
       dataIndex: 'status',
-      key: '4',
+      key: '6',
     },
 
 
@@ -48,8 +55,9 @@ function Leave() {
     let user_id = localStorage.getItem('user_id')
     console.log('user_id', user_id)
     axios
-      .get(SERVER_URL_LEAVE + `today-leave`)
+      .get(SERVER_URL_LEAVE+`today-leave`)
       .then((res) => {
+        console.log('res',res)
         setDataSource(res.data.result);
         setTotalPages(res.data.totalPages);
         setLoading(false);
