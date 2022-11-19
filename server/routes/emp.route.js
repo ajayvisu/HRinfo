@@ -4,7 +4,7 @@ const moment = require("moment");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const leaveSchema = require("../models/leave.model");
-const deductionSchema= require("../models/deduction.model")
+const deductionSchema = require("../models/deduction.model")
 const sendMail = require("../middleware/mail");
 const multer = require('multer');
 const e = require("express");
@@ -13,19 +13,19 @@ const attendanceSchema = require('../models/attendance.model');
 // const deductionSchema = require('../models/deduction.model');
 
 const storage = multer.diskStorage({
-  destination:(req,file,cb)=>{
-  return cb(null,'uploads')
+  destination: (req, file, cb) => {
+    return cb(null, 'uploads')
   },
-  filename:(req,file,cb)=>{
-  return cb(null,Date.now()+'_'+file.originalname)
+  filename: (req, file, cb) => {
+    return cb(null, Date.now() + '_' + file.originalname)
   }
 })
 
 router.put("/updateimage", async (req, res) => {
   try {
-    console.log(req.body,req.file,req.query)
+    console.log(req.body, req.file, req.query)
     const id = req.query.id;
-    const upload = multer({storage:storage}).single('file')
+    const upload = multer({ storage: storage }).single('file')
 
     upload(req, res, async function (err) {
       if (!req.file) {
@@ -36,20 +36,20 @@ router.put("/updateimage", async (req, res) => {
         return res.send(err);
       }
       reqData = {
-        image:req.file.filename   
+        image: req.file.filename
       }
-      const data = await employeeSchema.findOneAndUpdate({_id:id},reqData,{ new: true }).exec()
-      if(data){
-          return res.status(200).json({ 'status': 'success', "message": " successfully added", "result": data })
-      }else{
-          return res.status(200).json({ 'status': 'failed', "message": "somthing went wrong" })
+      const data = await employeeSchema.findOneAndUpdate({ _id: id }, reqData, { new: true }).exec()
+      if (data) {
+        return res.status(200).json({ 'status': 'success', "message": " successfully added", "result": data })
+      } else {
+        return res.status(200).json({ 'status': 'failed', "message": "somthing went wrong" })
       }
     });
- 
-} catch (error) {
-  console.log(error.message);
-  return res.status(400).json({ "status": 'failure', 'message': error.message })
-}
+
+  } catch (error) {
+    console.log(error.message);
+    return res.status(400).json({ "status": 'failure', 'message': error.message })
+  }
 });
 router.post("/addEmployee", async (req, res) => {
   try {
@@ -103,16 +103,16 @@ router.post("/addEmployee", async (req, res) => {
       });
     }
     let user = new deductionSchema(req.body);
-    let result = await user.save().then(async function(deduction){
-    req.body.deducationId = deduction._id
-    console.log("deduction",deduction._id)
-    console.log("req.body.deducationId",req.body.deducationId)
-     
-    let employeeData = await employeeSchema(req.body);
+    await user.save().then(async function (deduction) {
+      req.body.deducationId = deduction._id
+      console.log("deduction", deduction._id)
+      console.log("req.body.deducationId", req.body.deducationId)
+
+      let employeeData = await employeeSchema(req.body);
 
       const salt = await bcrypt.genSalt(10);
       employeeData.password = bcrypt.hashSync(password, salt);
-  
+
       employeeData
         .save()
         .then((result) => {
@@ -128,7 +128,7 @@ router.post("/addEmployee", async (req, res) => {
             .json({ status: "failure", message: err.message });
         });
     })
-  
+
   } catch (err) {
     return res.status(500).json({ err: err.message });
   }
@@ -153,7 +153,17 @@ router.post("/emp-leave", (req, res) => {
         let eDate = moment(req.body.to).format("DD"); //get leave endday date only
         req.body.days = eDate - sDate + 1;
         let todayDate = moment().format("DD");
-        // console.log("todayDate", todayDate);
+        //all leave days----------------
+        const start = new Date(new Date(req.body.from));
+        const end = new Date(new Date(req.body.to));
+        const date = new Date(start.getTime());
+         req.body.allLeaveDates = [];
+        while (date <= end) {
+          req.body.allLeaveDates.push(new Date(date));
+          date.setDate(date.getDate() + 1);
+        }
+        // console.log('dates', dates)
+        //--------------------------
         let from = employee.email;
 
         const mailData = {
@@ -177,7 +187,8 @@ router.post("/emp-leave", (req, res) => {
               } else {
                 newLeave.employee.id = employee._id;
                 newLeave.employee.empName = employee.empName;
-              
+                newLeave.employee.empID = employee.empID;
+
                 newLeave.save();
                 employee.leaves.push(newLeave);
                 employee.save().then((result) => {
@@ -205,18 +216,18 @@ router.get("/getIndivData", async (req, res) => {
   }
 })
 
-router.put("/imag_update",async (req,res) => {
+router.put("/imag_update", async (req, res) => {
   try {
-    const data = await employeeSchema.findOneAndUpdate({ email: req.query.email },{image : req.body.image},{new:true})
-    .then(result => {
-      res.json({status:'succuss',message : 'image successfully added',result});
-    }).catch(err => {
-      res.json({status:'failure',message:err.message,})
-    })
+    const data = await employeeSchema.findOneAndUpdate({ email: req.query.email }, { image: req.body.image }, { new: true })
+      .then(result => {
+        res.json({ status: 'succuss', message: 'image successfully added', result });
+      }).catch(err => {
+        res.json({ status: 'failure', message: err.message, })
+      })
 
 
   } catch (error) {
-    return res.json({ error: error.message }); 
+    return res.json({ error: error.message });
   }
 })
 
@@ -237,7 +248,7 @@ router.get('/myleavedetails', async (req, res) => {
 
 router.get('/getEmployee', async (req, res) => {
   try {
-    const Employees = await employeeSchema.find().exec();
+    const Employees = await employeeSchema.find({ role: "user" }).exec();
     if (Employees.length > 0) {
       return res.status(200).json({ status: "success", message: 'Data feched successfully', "result": Employees })
     } else {
@@ -288,7 +299,7 @@ router.get("/loginstatus", async (req, res) => {
 router.put("/update", async (req, res) => {
   try {
     const id = req.query.id;
-    
+
     console.log(id)
     await employeeSchema.findOneAndUpdate({ _id: id }, req.body, { new: true }).then(result => {
       res.json({ status: 'success', message: 'data successfully updated!', 'result': result })
@@ -342,54 +353,56 @@ router.post("/login", async (req, res) => {
         { email: email },
         { loginStatus: true }
       )
-      .then(async function(data) {
+      .then(async function (data) {
         bcrypt.compare(password, data.password, function (err, result) {
           if (err) {
             res.json({ err: err.message });
           }
-        let  payload ={uuid:data.uuid, role:data.role}
+          let payload = { uuid: data.uuid, role: data.role }
           if (result) {
             const token = jwt.sign(payload, process.env.JWTKEY);
-                        employeeSchema
+            employeeSchema
               .findOne({ email: email })
               .populate("attendance")
               .exec((err, user) => {
-                // console.log('user', user)
+                console.log('username', user.empName)
                 // console.log('req.params._id', email)
                 if (err) {
                   res.json({ err: err.message });
                 } else {
                   req.body.entryTime = moment().format("DD/MM/YYYY, hh:mm a")
-                  req.body.date= moment().format("DD/MM/YYYY")
-                  
-                  req.body.month=moment().format("MM");
-              
+                  req.body.date = moment().format("DD/MM/YYYY")
+
+                  req.body.month = moment().format("MM");
+
                   // console.log(" req.body.date", req.body.date)
-                  attendanceSchema.create(req.body,async (err, newAttendance) => {
+                  attendanceSchema.create(req.body, async (err, newAttendance) => {
                     // console.log('newAttendance', newAttendance)
                     if (err) {
-                       res
+                      res
                         .status(200)
                         .json({ status: "failed", message: err.message });
                     } else {
                       newAttendance.employee.id = user._id
-                      newAttendance.employee.username = user.username
-                    let  attendancedata = await newAttendance.save()
-                      
+                      newAttendance.employee.empName = user.empName
+                      newAttendance.employee.role = user.role
+
+                      let attendancedata = await newAttendance.save()
+
                       user.attendance.push(newAttendance);
                       user.save()
                       return res
-                      .status(200)
-                      .json({
-                        status: "success",
-                        message: "successfully login!",
-                        token, data ,attendancedata:attendancedata
-                      });
+                        .status(200)
+                        .json({
+                          status: "success",
+                          message: "successfully login!",
+                          token, data, attendancedata: attendancedata
+                        });
                     }
                   });
                 }
               });
-        
+
           } else {
             return res.json({
               status: "failure",
@@ -412,14 +425,14 @@ router.post("/logout", async (req, res) => {
     let email = req.query.email;
     console.log(req.query)
     const currentTime = moment().format("DD/MM/YYYY,hh:mm a");
-   let test = await attendanceSchema
-    .find({ _id: id }).exec()
-    console.log('test',test)
+    let test = await attendanceSchema
+      .find({ _id: id }).exec()
+    console.log('test', test)
     attendanceSchema
       .findOne({ _id: id })
-      .then(async function(data)  {
+      .then(async function (data) {
         console.log("data", data);
-        console.log("entry",data.entryTime)
+        console.log("entry", data.entryTime)
         const loginTime = moment(data.entryTime, "DD/MM/YYYY,hh:mm a");
         const current = moment(currentTime, "DD/MM/YYYY,hh:mm a");
         const duration = moment.duration(current.diff(loginTime));
@@ -429,18 +442,18 @@ router.post("/logout", async (req, res) => {
         console.log(
           hours + " hours and " + minutes + " minutes " + days + " days"
         );
-        console.log('current',current)
+        console.log('current', current)
         // console.log('duration',duration)
-        console.log('login',loginTime)
-        console.log('email',email)
-        
+        console.log('login', loginTime)
+        console.log('email', email)
+
         attendanceSchema
           .findOneAndUpdate(
             { _id: id },
             {
               durationHours:
-                hours , 
-                durationMinutes: minutes 
+                hours,
+              durationMinutes: minutes
             },
             { new: true }
           )
@@ -452,7 +465,7 @@ router.post("/logout", async (req, res) => {
                 hours + " hours and " + minutes + " minutes ", data: data
             });
           });
-          await employeeSchema.findOneAndUpdate({ email: email }, { loginStatus: false }, {new:true}).exec()
+        await employeeSchema.findOneAndUpdate({ email: email }, { loginStatus: false }, { new: true }).exec()
 
       })
       .catch((err) => {
@@ -468,7 +481,7 @@ router.post("/contact", (req, res) => {
 
   const name = req.body.name;
   const email = req.body.email;
-  const message = req.body.message; 
+  const message = req.body.message;
   const mailData = {
     from: name,
     to: "sabana.platosys@gmail.com",
@@ -477,16 +490,16 @@ router.post("/contact", (req, res) => {
            <p>Email: ${email}</p>
            <p>Message: ${message}</p>`,
   };
- 
+
   console.log("sending mail")
-  
-let sendingMail = sendMail.sendMail(mailData, (error) => {
- 
-  if (!sendingMail) {
-    console.log("mail not sending");
-  } else {
-    alert("Message sent")
-  }
-  });  
+
+  let sendingMail = sendMail.sendMail(mailData, (error) => {
+
+    if (!sendingMail) {
+      console.log("mail not sending");
+    } else {
+      alert("Message sent")
+    }
+  });
 });
 module.exports = router;

@@ -8,7 +8,7 @@ const attendanceSchema = require('../models/attendance.model')
 router.get('/today-attendance-list',async(req,res)=>{
     try{
         req.body.date=moment().format("DD/MM/YYYY")
-   let data= await attendanceSchema.find({date:req.body.date}).exec();
+   let data= await attendanceSchema.find({date:req.body.date ,"employee.role":'user'}).exec();
    return res.status(200).json({data:data });
     }catch(error){
     return res.status(500).json({ err: err.message });

@@ -24,14 +24,51 @@ let attendance = await attendanceSchema.find({
 })
 router.get('/today-leave',async(req,res)=>{
     try{
-        
-let todayLeave = await employeeSchema.find({loginStatus:false}).exec()
-return res.status(200).json({ status: true, 'message':"data fetched successfully", result:todayLeave })     
+  
 
-
+        let todayDate = new Date()
+        let year = todayDate.getFullYear()
+        let month = todayDate.getMonth() + 1
+        let date= todayDate.getDate()
+        let currentDate=year + "-" + month + "-" + date
+ let todayLeaveData = await leaveSchema.find({allLeaveDates:currentDate,status:"approved"}).exec()
+ let lengthOfLeave =todayLeaveData.length
+ console.log('lengthOfLeave',lengthOfLeave)
+if(todayLeaveData.length>0){
+  return res.status(200).json({ status: true, 'message':"data fetched successfully", result:todayLeaveData ,lengthOfLeave:lengthOfLeave})     
+}else{
+return res.status(200).json({ status: true, 'message':"no data found" })     
+}
 }catch(error){
         return res.status(400).json({ status: false, 'message': error.message })     
 
     }
 })
+
+router.post('/leaves',async(req,res)=>{
+  try{
+const startDate=req.body.from.split("-");
+console.log('startf',startDate)
+
+const start = new Date(new Date(req.body.from));
+const end = new Date(new Date(req.body.to));
+   const date = new Date(start.getTime());
+      const dates = [];
+   while (date <= end) {
+    dates.push(date);
+    date.setDate(date.getDate() + 1);
+   }
+  
+   console.log('dates',dates)
+ 
+  
+  }catch(error){
+        return res.status(400).json({ status: false, 'message': error.message })     
+
+    }
+})
+
+// router.get("/test",async(req,res)=>{
+//   await employeeSchema.find
+// })
 module.exports = router

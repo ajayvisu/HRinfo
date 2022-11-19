@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import "./AddEmp.css";
+import { SERVER_URL_EMPLOYEE,  SERVER_URL_TRANSACTION } from "../../Globals";
 
 
 const AddEmp = () => {
@@ -35,7 +36,7 @@ const data = {
     PF    : PF
 }
 
-    axios.post('http://localhost:4000/api/transaction/add-deduction',data).then(result=>{
+    axios.post(SERVER_URL_TRANSACTION+'add-deduction',data).then(result=>{
         console.log('deduction',result.data);
         const deducID = result.data.deductionID
         AddEmp(deducID)
@@ -77,7 +78,7 @@ const data = {
         
     }
     console.log('data',data)
-    axios.post("http://localhost:4000/api/emp/addEmployee",data).then(result => {
+    axios.post(SERVER_URL_EMPLOYEE+"addEmployee",data).then(result => {
         console.log("data",result.data);
     }).catch(err=>{
         console.log('err1',err.message);

@@ -20,7 +20,6 @@ router.post("/add-deduction", async (req, res) => {
     }
 })
 
-
 router.post("/transaction", isAdmin, async (req, res) => {
     try {
         console.log(req.query)
@@ -132,5 +131,33 @@ router.get("/search-emp-id/:key", async (req, res) => {
         return res.status(200).json({ "status": "failure", "message": error.message })
     }
 })
+function getDatesInRange(startDate, endDate) {
+    const start = new Date(new Date(startDate).setUTCHours(0, 0, 0, 0));
+    const end = new Date(new Date(endDate).setUTCHours(0, 0, 0, 0));
+    
+ const date = new Date(start.getTime());
+// console.log('date1',date)
+// console.log('date',start)
+
+    let dates = [];
+// console.log('dates',dates)
+ while (date <= end) {
+  dates.push(new Date(date));
+  date.setDate(date.getDate() + 1);
+ }
+
+// console.log('dates',dates)
+}
+
+const travel_start = "2022/03/20";
+const travel_start2  ="2022/03/20";
+
+const travel_end = "2022-03-23"; 
+
+const res1 = getDatesInRange(travel_start, travel_end);
+const res2 = getDatesInRange(travel_start2,travel_end);
+
+// console.log('res1', res1)
+// console.log('res2', res2)
 module.exports = router
 

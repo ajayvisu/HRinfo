@@ -2,6 +2,8 @@ import React, { Component, useState, useEffect } from 'react';
 import Chart from 'react-apexcharts'
 import axios from 'axios';
 import './PerformanceChart.css'
+import { SERVER_URL_EMPLOYEE, SERVER_URL_LEAVE } from "../../Globals";
+
 const Performance = () => {
 
   const [datas, setData] = useState({
@@ -12,7 +14,7 @@ const Performance = () => {
   });
 
   const loginUserStatus = () => {
-    axios.get('http://localhost:4000/api/emp/loginstatus').then(data => {
+    axios.get(SERVER_URL_EMPLOYEE + 'loginstatus').then(data => {
       let login = data.data.loginUsers / data.data.totalUsers * 100
       let notLoginUsers = data.data.totalUsers - data.data.loginUsers
       let notlogin = notLoginUsers / data.data.totalUsers * 100
@@ -31,7 +33,7 @@ const Performance = () => {
         id: "basic-bar"
       },
       xaxis: {
-        categories: ["Monday","Tuesday","Wednesday","Thursday" ,"Friday"]
+        categories: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
       }
     },
     series: [
@@ -52,7 +54,7 @@ const Performance = () => {
   let duration = []
 
   const workPerformance = () => {
-    axios.get(`http://localhost:4000/api/leave/getDetails`).then(res => {
+    axios.get(SERVER_URL_LEAVE + `leave/getDetails`).then(res => {
       console.log('workperformance', res.data.result)
       res.data.result.map(item => {
         console.log('item', item.durationHours)
