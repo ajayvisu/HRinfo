@@ -10,9 +10,7 @@ const Employee_profile = () => {
   const [images, setImgs] = useState();
 
   // const [number, setMobile] = useState(localStorage.getItem("mobile"));
-  const [id, setId] = useState(localStorage.getItem("id"));
-  const [email, setEmail] = useState(localStorage.getItem("email"));
-  const [change, setChange] = useState(true);
+  
  
   const [ updateDatas, setUpdateData] = useState({
     Degree: "",
@@ -34,6 +32,10 @@ const[organization,setorganization] = useState()
 const[designation,setdesignation] = useState()
 const[mobile,setMobile] = useState()
 const[TotelExperience,setTotelExperience] = useState()
+const [domain, setDomain] = useState();
+const [empName, setEmpName] = useState();
+const [email, setEmail] = useState();
+const [empID, setEmpID] = useState();
 
   const formDataFun = (file, body = {}) => {
     console.log("file", file)
@@ -65,6 +67,7 @@ const[TotelExperience,setTotelExperience] = useState()
     let id = localStorage.getItem('user_id')
     axios.get(SERVER_URL_EMPLOYEE+`getIndivData?id=${id}`).then(result => {
       console.log("getIndivData", result.data.result.education)
+
       result.data.result.education.map(item => {
         console.log('item', item.Degree)
         setDegree( item.Degree)
@@ -73,9 +76,14 @@ const[TotelExperience,setTotelExperience] = useState()
         setSpecialization(item.Specialization)
         setinstitue(item.institue)
         setpassingYear(item.passingYear)
+       
       })
       setImgs(result.data.result.image)
 setMobile(result.data.result.mobile )
+setDomain(result.data.result.domain)
+setEmail(result.data.result.email)
+setEmpName(result.data.result.empName)
+setEmpID(result.data.result.empID)
 result.data.result.experience.map(item=>{
   setorganization(item.organization)
   setdesignation(item.designation)
@@ -107,7 +115,7 @@ result.data.result.experience.map(item=>{
     }
     axios.put(SERVER_URL_EMPLOYEE+`update?id=${id}`,data).then(result => {
       console.log("getIndivData", result.data.result)
-     
+     image_upload()
     }).catch(err=>{
       console.log('err',err)
     })
@@ -133,22 +141,15 @@ result.data.result.experience.map(item=>{
               </div>
               <div class="profile-header-info">
                 <h4 class="m-t-20 m-b-5">{localStorage.getItem("name")}</h4>
-                <p class="m-b-10">{id}</p>
-                {/* <button type="button"  class="btn btn-xs btn-success">Edit Profile</button> */}
+                <p class="m-b-10">EMPLOYEE_ID : {empID}</p>
+                <p class="m-b-10">Domain : {domain}</p>
+
                 <input
                   type="file"
                   id="myfile"
                   name="myfile"
-                  // value={image}
                   onChange={(event) => setImg(event.target.files)}
                 />
-                   <button
-                          type="submit"
-                          class="upload"
-                          onClick={image_upload}
-                        >
-                          Upload Image
-                        </button>
               </div>
             </div>
           </div>
@@ -185,7 +186,7 @@ result.data.result.experience.map(item=>{
                     </tr>
                     <tr>
                       <td class="field">ID</td>
-                      <td>{id}</td>
+                      <td>{empID}</td>
                     </tr>
                     <tr class="divider">
                       <td colspan="2"></td>

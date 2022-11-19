@@ -38,7 +38,7 @@ const AdminHome = () => {
     })
   }
   const leaveStatus = () => {
-    axios.get(SERVER_URL_EMPLOYEE + 'leave-status').then(data => {
+    axios.get(SERVER_URL_LEAVE + 'leave-status').then(data => {
       // console.log('data',data.data.approvedLeave)
       setPendingLeave(data.data.pendingLeave)
       setApprovedLeave(data.data.approvedLeave)
@@ -272,7 +272,7 @@ const AdminHome = () => {
                 </div>
               </div>
 
-              <div className="col-xl-3 col-sm-6 col-12">
+              <div className="col-xl-3 col-sm-6 col-12" onClick={() => navigate("/leaveresponse")}>
                 <div className="card" style={{ width: "90%", marginTop: '30px' }}>
                   <div className="card-content">
                     <div className="card-body">

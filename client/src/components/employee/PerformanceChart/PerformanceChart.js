@@ -81,9 +81,9 @@ const Performance = () => {
           width="600"
         />
       </div>
-      <div className='pie'>
+      {/* <div className='pie'>
         <Chart options={datas.options} series={datas.series} type="donut" width="380" />
-      </div>
+      </div> */}
       {/* <div class="card">
         <h5 class="card-header">Work Log</h5>
         <div class="card-body">
