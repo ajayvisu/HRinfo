@@ -166,7 +166,7 @@ login()
                 <section className='option' id="hero">
                     <div className="section-inner">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsHzyMlSh8Bo_RDS5UYpw-YreCFb0ajENS2w&usqp=CAU" className="profile-img"/>
-                        <h1>HRinfo Management System</h1>
+                        <h1>HRinfo</h1>
                     </div>
                 </section>
                 </div>

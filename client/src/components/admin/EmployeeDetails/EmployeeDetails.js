@@ -8,7 +8,7 @@ const EmployeeDetails = () => {
     const navigate = useNavigate();
     const [employeeDetails, setEmployeeDetails] = useState([]);
     const getEmployeeDetails = async (data) => {
-        await axios.get(`http://192.168.1.5:4000/api/emp/getEmployee`)
+        await axios.get(`http://localhost:4000/api/emp/getEmployee`)
             .then((res) => {
                 console.log("deatilss", res.data.result)
                 setEmployeeDetails(res.data.result)
@@ -21,7 +21,7 @@ const EmployeeDetails = () => {
 
         console.log(data)
 
-        await axios.get(`http://192.168.1.5:4000/api/emp/get-single-emp-details?_id=${data}`)
+        await axios.get(`http://localhost:4000/api/emp/get-single-emp-details?_id=${data}`)
             .then((res) => {
                 if (res.data.result) {
                     console.log("deatilss", res.data.result)

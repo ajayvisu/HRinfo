@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+   import React, { useState, useEffect } from 'react'
 import axios from "axios";
 import { Table } from "antd";
 import "react-datepicker/dist/react-datepicker.css";
@@ -111,18 +111,8 @@ function Leave() {
           </div>
         </section>
       </div>
-      <section className='get_in_touch'>
-        <div className='container'>
-          <div className='contact-form row'>
-            <div className='form-field col-lg-6'>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Table style={{marginTop:'80px'}}
+      <div>
+      <Table style={{marginTop:'20px'}}
                   loading={loading}
                   columns={columns}
                   dataSource={dataSource}
@@ -133,12 +123,9 @@ function Leave() {
                       fetchRecords(page);
                     },
                   }}
+                  
                 ></Table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
   )
 }

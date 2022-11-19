@@ -114,12 +114,12 @@ setTransaction({
   {/* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></link> */}
 
     </head>
-    <input type="text" placeholder="Search.." onChange={(key) => searchproduct(key.target.value)} style={{marginLeft:"70%", marginTop:'20px'}} name="search"/>
-
+    {/* <input type="text" placeholder="Search.." onChange={(key) => searchproduct(key.target.value)} style={{marginLeft:"70%", marginTop:'20px'}} name="search"/> */}
+    <div class="form-outline">
+  <input type="search" id="form1" class="form-control" placeholder="Search Transaction" aria-label="Search" onChange={(key) => searchproduct(key.target.value)} />
+</div>
 {/* <!-- Button trigger modal --> */}
-<button type="button" className="btn btn-primary" style={{marginLeft:"85%"}} data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Add Transaction
-</button>
+
 
 {/* <!-- Modal --> */}
 <div className="modal fade" id="exampleModal" style={{marginTop:"10%"}} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -234,6 +234,9 @@ setTransaction({
     }}
     
   />
+  <button type="button" className="btn btn-primary" style={{marginRight:"85%"}} data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Add Transaction
+</button>
    
    
     </div>
