@@ -15,6 +15,8 @@ import {SERVER_URL_EMPLOYEE,SERVER_URL} from "../Globals";
 import Payroll from '../admin/Payroll/PayDetails';
 import EmployeeDetails from '../admin/EmployeeDetails/EmployeeDetails';
 import AttendanceAdmin from '../admin/attendance/Attendance';
+import LeaveResponse from '../admin/leave/LeaveResponse';
+import Response from '../admin/leave/Response';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -108,6 +110,8 @@ function Dashboard() {
               <Route exact path="/" element={<AdminHome />}></Route>
               <Route exact path="/addemployee" element={<AddEmployee />}></Route>
               <Route exact path="/attendance" element={<AttendanceAdmin/>}/>
+              <Route exact path="/leaveresponse" element={<LeaveResponse />}></Route>
+              <Route exact path="/response" element={<Response />}></Route>
 
               </Routes>
             </div>
