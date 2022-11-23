@@ -7,6 +7,14 @@ var attendanceSchema = mongoose.Schema(
     month:{type: String, require: false},
     durationHours: { type: Number, required: false },
     durationMinutes: { type: Number, require: false },
+   todayAttendance: [
+      {
+        date : String,
+        entryTime : String,
+        month : String,
+        durationHours : Number,
+        durationMinutes : Number
+       }],
     employee: {
       id: {
         type: mongoose.Schema.Types.ObjectId,

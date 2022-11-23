@@ -44,8 +44,9 @@ function Emp_Dashboard() {
   };
 
 
-  const email = localStorage.getItem('email')
-  console.log('email1', email)
+  // const email = localStorage.getItem('email')
+  // console.log('email1', email)
+  
   const logout = () => {
     const email = localStorage.getItem('email')
     console.log('email', email)

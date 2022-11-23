@@ -133,8 +133,6 @@ router.post("/addEmployee", async (req, res) => {
     return res.status(500).json({ err: err.message });
   }
 });
-
-
 router.post("/emp-leave", (req, res) => {
   let id = req.query.id;
   employeeSchema
@@ -215,7 +213,6 @@ router.get("/getIndivData", async (req, res) => {
     return res.json({ err: err.message });
   }
 })
-
 router.put("/imag_update", async (req, res) => {
   try {
     const data = await employeeSchema.findOneAndUpdate({ email: req.query.email }, { image: req.body.image }, { new: true })
@@ -230,8 +227,6 @@ router.put("/imag_update", async (req, res) => {
     return res.json({ error: error.message });
   }
 })
-
-
 router.get('/myleavedetails', async (req, res) => {
   try {
     let myleave = await employeeSchema.findOne({ _id: req.query.id })
@@ -245,7 +240,6 @@ router.get('/myleavedetails', async (req, res) => {
   }
 
 })
-
 router.get('/getEmployee', async (req, res) => {
   try {
     const Employees = await employeeSchema.find({ role: "user" }).exec();
@@ -278,8 +272,6 @@ router.get("/get-single-emp-details", async (req, res) => {
     return res.status(400).json({ "status": 'failure', 'message': error.message })
   }
 });
-
-
 router.get("/loginstatus", async (req, res) => {
   try {
     let loginUsers = await employeeSchema.find({ loginStatus: true }).exec()
@@ -339,54 +331,70 @@ router.get('/today-leave', async (req, res) => {
   } catch (error) {
     return res.status(400).json({ status: false, 'message': error.message })
   }
-})
-router.post("/login", async (req, res) => {
+});
+router.post("/login", async (req,res)=> {
   try {
-    console.log(req.body);
-    // let attendancedata;
-    let email = req.body.email;
-    let password = req.body.password;
-
-    const time = moment().format("DD/MM/YYYY, hh:mm a");
-    await employeeSchema
-      .findOneAndUpdate(
-        { email: email },
-        { loginStatus: true }
-      )
-      .then(async function (data) {
-        bcrypt.compare(password, data.password, function (err, result) {
-          if (err) {
-            res.json({ err: err.message });
+   console.log("login")
+    let email =req.body.email;
+    let password =req.body.password;
+    const currDate = moment().format("DD/MM/YYYY");
+    console.log("currDATE", currDate);
+    await employeeSchema.findOneAndUpdate({email:email}, {loginstatus:true})
+      .then(async function(data){
+        bcrypt.compare(password, data.password, function(err,result){
+          if(err){
+            res.json({err: err.message})
           }
-          let payload = { uuid: data.uuid, role: data.role }
-          if (result) {
+          let payload ={uuid: data.uuid, role : data.role}
+          if(result){
             const token = jwt.sign(payload, process.env.JWTKEY);
-            employeeSchema
-              .findOne({ email: email })
-              .populate("attendance")
-              .exec((err, user) => {
-                console.log('username', user.empName)
-                // console.log('req.params._id', email)
-                if (err) {
-                  res.json({ err: err.message });
-                } else {
-                  req.body.entryTime = moment().format("DD/MM/YYYY, hh:mm a")
-                  req.body.date = moment().format("DD/MM/YYYY")
+            employeeSchema.findOne({email:email})
+            .populate("attendance")
+            .exec((err, user) => {
+               //res.json({"userDetails" : user})
+               if(err){
+                res.json({err:err.message});
+               }else{
+                     attendanceSchema.find({date:currDate, "employee.id": req.query.id}).then(async(data) =>{
+                       //console.log("datalength", data.length)
+                      if(data.length > 0){
+                        const attendance = await attendanceSchema.findOne({date:currDate, "employee.id":req.query.id}) .exec();
+                          console.log("attendancee", attendance);
 
-                  req.body.month = moment().format("MM");
+                          req.body.entryTime = moment().format("DD/MM/YYYY hh:mm a");
+                          req.body.date = moment().format("DD/MM/YYYY");
+                          req.body.month = moment().format("MM");
 
-                  // console.log(" req.body.date", req.body.date)
-                  attendanceSchema.create(req.body, async (err, newAttendance) => {
-                    // console.log('newAttendance', newAttendance)
-                    if (err) {
-                      res
-                        .status(200)
-                        .json({ status: "failed", message: err.message });
-                    } else {
+                          let todayattendance = {
+                            entryTime : req.body.entryTime,
+                            date : req.body.date,
+                            month : req.body.month
+                          }
+                          console.log("todayattendance", todayattendance)
+                          attendance.todayAttendance.push(todayattendance)
+                          attendance.save();
+
+                          return res
+                          .status(200)
+                          .json({
+                            status: "success",
+                            message: "successfully login!",
+                            token, data, todayattendance: todayattendance
+                          });
+
+                      }else{
+                        req.body.entryTime =moment().format("DD/MM/YYYY hh:mm a");
+                        req.body.date = moment().format("DD/MM/YYYY");
+                        req.body.month = moment().format("MM");
+
+                        attendanceSchema.create(req.body,async (err, newAttendance) => {
+                          if(err){
+                            res.status(200).json({status :"failed", message :err.message});
+                          }else{
                       newAttendance.employee.id = user._id
                       newAttendance.employee.empName = user.empName
                       newAttendance.employee.role = user.role
-
+                                          
                       let attendancedata = await newAttendance.save()
 
                       user.attendance.push(newAttendance);
@@ -398,38 +406,41 @@ router.post("/login", async (req, res) => {
                           message: "successfully login!",
                           token, data, attendancedata: attendancedata
                         });
-                    }
-                  });
-                }
-              });
-
-          } else {
-            return res.json({
-              status: "failure",
-              message: "invalide password",
-            });
+                          }
+                        })
+                      }
+                     })
+               }
+                });
+              }else {
+                return res.json({
+                  status: "failure",
+                  message: "invalide password",
+            })
           }
-        });
-      })
-      .catch((err) => {
+        })
+      }).catch((err) => {
         return res.json({ status: "failure", message: "invalide mail id" });
       });
+ 
+    
   } catch (err) {
-    return res.json({ err: err.message });
+    return res.json({err : err.message});
   }
-});
+})
+
 
 router.post("/logout", async (req, res) => {
   try {
     let id = req.query.id;
     let email = req.query.email;
-    console.log(req.query)
+    console.log("credentials",req.query)
     const currentTime = moment().format("DD/MM/YYYY,hh:mm a");
     let test = await attendanceSchema
-      .find({ _id: id }).exec()
+      .findOne({ "employee.id": id }).exec()//to check the id in attendance and return its datas
     console.log('test', test)
     attendanceSchema
-      .findOne({ _id: id })
+      .findOne({ "employee.id": id })
       .then(async function (data) {
         console.log("data", data);
         console.log("entry", data.entryTime)
@@ -449,7 +460,7 @@ router.post("/logout", async (req, res) => {
 
         attendanceSchema
           .findOneAndUpdate(
-            { _id: id },
+            { "employee.id": id },
             {
               durationHours:
                 hours,
@@ -502,4 +513,7 @@ router.post("/contact", (req, res) => {
     }
   });
 });
+
+
+
 module.exports = router;

@@ -48,5 +48,37 @@ console.log("monthTotelLeave",monthTotelLeave)
       return res.status(500).json({ err: error.message });
     }
   })
+
+  router.get('/total-workinghours-per-day', async(req,res) => {
+    try {
+    // const currDate = moment().format("DD/MM/YYYY");
+    // const currTime = moment().format("DD/MM/YYYY, hh:mm a");
+   
+    //const data =  await employeeSchema.findOne({loginStatus : true , id : req.query.id}).exec();
+    // const loginTime = await employeeSchema.findOne({_id : req.query.id }).then((data )=> {
+    //   return res.json({logintime : data.attendancedata});
+    // }).          
+
+  //  console.log ("date" , currDate);
+  //  console.log("time",currTime );
+   //return res.json({ attendancedata : attendancedata})
+  //  const currDate = moment().format("DD/MM/YYYY");
+  //  const logindate = await attendanceSchema.findOne({"employee.id": req.query.id, date :currDate}).then(data=>{
+  //   if(currDate == data.date){
+  //     console.log(currDate,data);
+  //     return res.json({todaydate : currDate, loginDate : data.date, status : "success"} )
+      
+  //   }else{
+  //     console.log("failure");
+  //     return res.json("failure") 
+  //   }
+  //  })
+  console.log("date", )
+
+   } catch (error) {
+      return res.status(500).json({ err: error.message });
+    }
+  })
  
 module.exports = router; 
+
