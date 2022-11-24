@@ -46,13 +46,15 @@ function Emp_Dashboard() {
 
   // const email = localStorage.getItem('email')
   // console.log('email1', email)
-  
+  const email = localStorage.getItem('email')
+  console.log('email1', email)
   const logout = () => {
     const email = localStorage.getItem('email')
     console.log('email', email)
     const id = localStorage.getItem('attendanceId')
+    console.log("id",id)
 
-    axios.post(SERVER_URL_EMPLOYEE + `logout?id=${id}&email=${email}`).then(result => {
+    axios.post(`http://localhost:4000/api/v1/emp/logout?id=${id}&email=${email}`).then(result => {
       console.log(result.data);
       localStorage.clear();
       window.location.href = '/';
@@ -61,7 +63,6 @@ function Emp_Dashboard() {
       console.log('err', err.message);
     })
   }
-
   return (
 
     <Router>

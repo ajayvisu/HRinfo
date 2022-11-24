@@ -133,7 +133,7 @@ router.post("/addEmployee", async (req, res) => {
     return res.status(500).json({ err: err.message });
   }
 });
-<<<<<<< HEAD
+
 router.post("/emp-leave", (req, res) => {
   let id = req.query.id;
   employeeSchema
@@ -164,11 +164,45 @@ router.post("/emp-leave", (req, res) => {
         // console.log('dates', dates)
         //--------------------------
         let from = employee.email;
-=======
 
 
->>>>>>> c6dc3add33e8b404b641c0a88fffbf4ed25a2059
+        const mailData = {
+          from: employee.email,
+          to: "sajna.platosys@gmail.com",
+          subject: "Leave Permission",
+          text: `Leave start ${startDate} to ${endDate}`,
+        };
 
+        if (todayDate < sDate) {
+          let sendingMail = sendMail.sendMail(mailData);
+          if (!sendingMail) {
+            console.log("mail not sending");
+          } else {
+            leaveSchema.create(req.body, (err, newLeave) => {
+              console.log("newleavenewleave", newLeave);
+              if (err) {
+                return res
+                  .status(200)
+                  .json({ status: "failed", message: err.message });
+              } else {
+                newLeave.employee.id = employee._id;
+                newLeave.employee.empName = employee.empName;
+                newLeave.employee.empID = employee.empID;
+
+                newLeave.save();
+                employee.leaves.push(newLeave);
+                employee.save().then((result) => {
+                  res.status(200).json({ status: "success", result: result });
+                });
+              }
+            });
+          }
+        } else {
+          res.json({ status: "success", message: "ghv" });
+        }
+      }
+    });
+});
 router.get("/getIndivData", async (req, res) => {
   try {
     const data = await employeeSchema.findOne({ _id: req.query.id }).exec();
@@ -195,7 +229,7 @@ router.put("/imag_update", async (req, res) => {
     return res.json({ error: error.message });
   }
 })
-<<<<<<< HEAD
+
 router.get('/myleavedetails', async (req, res) => {
   try {
     let myleave = await employeeSchema.findOne({ _id: req.query.id })
@@ -209,12 +243,12 @@ router.get('/myleavedetails', async (req, res) => {
   }
 
 })
-=======
 
 
 
 
->>>>>>> c6dc3add33e8b404b641c0a88fffbf4ed25a2059
+
+
 router.get('/getEmployee', async (req, res) => {
   try {
     const Employees = await employeeSchema.find({ role: "user" }).exec();
@@ -279,9 +313,26 @@ router.put("/update", async (req, res) => {
   }
 })
 
+router.get('/leave-status', async (req, res) => {
+  try {
+    let pendingLeave = await leaveSchema.find({ status: "pending" }).exec()
+    let approvedLeave = await leaveSchema.find({ status: "approved" }).exec()
+    let totalEmp = await employeeSchema.find().exec()
+    let todayLeave = await employeeSchema.find({ loginStatus: false }).exec()
+
+    return res.status(200).json({
+      status: true, message: "data fetched", pendingLeave: pendingLeave.length,
+      approvedLeave: approvedLeave.length,
+      totalEmp: totalEmp.length,
+      todayLeaveCount: todayLeave.length
+    })
+  } catch (error) {
+    return res.status(400).json({ status: false, 'message': error.message })
+  }
+})
 
 
-<<<<<<< HEAD
+
 router.get('/today-leave', async (req, res) => {
   try {
     let todayLeave = await employeeSchema.find({ loginStatus: false }).exec()
@@ -293,17 +344,19 @@ router.get('/today-leave', async (req, res) => {
   }
 });
 router.post("/login", async (req,res)=> {
-=======
-router.post("/login", async (req, res) => {
->>>>>>> c6dc3add33e8b404b641c0a88fffbf4ed25a2059
   try {
    console.log("login")
     let email =req.body.email;
-    let password =req.body.password;
+    let password =req.body.password; 
     const currDate = moment().format("DD/MM/YYYY");
     console.log("currDATE", currDate);
+
+    
+    
+
     await employeeSchema.findOneAndUpdate({email:email}, {loginstatus:true})
       .then(async function(data){
+        
         bcrypt.compare(password, data.password, function(err,result){
           if(err){
             res.json({err: err.message})
@@ -319,10 +372,10 @@ router.post("/login", async (req, res) => {
                 res.json({err:err.message});
                }else{
                      attendanceSchema.find({date:currDate, "employee.id": req.query.id}).then(async(data) =>{
-                       //console.log("datalength", data.length)
+                       console.log("datalength", data.length)
                       if(data.length > 0){
                         const attendance = await attendanceSchema.findOne({date:currDate, "employee.id":req.query.id}) .exec();
-                          console.log("attendancee", attendance);
+                          //console.log("attendancee", attendance);
 
                           req.body.entryTime = moment().format("DD/MM/YYYY hh:mm a");
                           req.body.date = moment().format("DD/MM/YYYY");
@@ -400,7 +453,7 @@ router.post("/logout", async (req, res) => {
     console.log("credentials",req.query)
     const currentTime = moment().format("DD/MM/YYYY,hh:mm a");
     let test = await attendanceSchema
-      .findOne({ "employee.id": id }).exec()//to check the id in attendance and return its datas
+      .findOne({ _id : id }).exec()//to check the id in attendance and return its datas
     console.log('test', test)
     attendanceSchema
       .findOne({ "employee.id": id })
