@@ -100,3 +100,7 @@ transform: translateY(-24px);
   color: white;
   background-color: rgb(10, 10, 41);
 }
+.button{
+  margin-left: 80px;
+  background-color: aliceblue;
+}

@@ -12,11 +12,10 @@ import Performance from '../employee/PerformanceChart/PerformanceChart';
 import { SERVER_URL_EMPLOYEE, SERVER_URL } from "../Globals";
 
 import AccountSetting from '../employee/AccountSetting/Employee_profile';
-import Employee_Home from '../employee/employeeHome/Employee_Home';
 import Contact from '../employee/Contact/Contact';
 import Dashboard from "../Dashboard/Dashboard";
-import Home from '../home/Home';
 import Attendance from '../employee/attendance/Attendance';
+import EmpTask from '../employee/emptask/EmpTask';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -114,11 +113,10 @@ function Emp_Dashboard() {
                 <Route path="/leave" element={<Leave />}></Route>
                 <Route path="/performance" element={<Performance />}></Route>
                 <Route path="/profile" element={<AccountSetting />}></Route>
-                <Route path="/" element={<Employee_Home />}></Route>
                 <Route path="/contact" element={<Contact />}></Route>
                 <Route path="/dashboard" element={<Dashboard />}></Route>
-                <Route path='/home' element={<Home />} />
                 <Route path='/attendance' element={<Attendance />} />
+                <Route path='/emptask' element={<EmpTask />} />
 
               </Routes>
             </div>

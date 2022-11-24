@@ -40,6 +40,9 @@ const AdminHome = () => {
   const leaveStatus = () => {
     axios.get(SERVER_URL_LEAVE + 'leave-status').then(data => {
       // console.log('data',data.data.approvedLeave)
+      // if(data.data.pendingLeave === 0){
+      //  alert('no pending leaves')
+      // }
       setPendingLeave(data.data.pendingLeave)
       setApprovedLeave(data.data.approvedLeave)
       setTotalEmp(data.data.totalEmp)
@@ -160,20 +163,6 @@ const AdminHome = () => {
       ),
   });
 
-  //   const data = [];
-  // for (let i = 0; i < 100; i++) {
-  //   data.push({
-  //     empID: i,
-  //     empName: `Edward King ${i}`,
-  //     role : 'user',
-  //     mobile: 32,
-  //     email: `London, Park. ${i}`,
-  //     loginStatus : true
-
-  //   });
-  // }
-
-
   const columns = [
     {
       key: '1',
@@ -289,6 +278,7 @@ const AdminHome = () => {
                   </div>
                 </div>
               </div>
+              
               <div className="col-xl-3 col-sm-6 col-12" onClick={() => navigate("/leave")}>
                 <div className="card" style={{ width: "90%", marginTop: '30px' }}>
                   <div className="card-content">
