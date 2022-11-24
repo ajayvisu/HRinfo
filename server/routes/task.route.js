@@ -36,7 +36,7 @@ employeeSchema.findOne({$or:[{empID:empID},{empName:empName}]}).then(async funct
 
 router.get('/get-my-task',async(req,res)=>{
     try{
-taskSchema.find({empID:req.query.empID})
+taskSchema.find({empID:req.query.empID,$or:[{status:"TASK_PENDING"},{status:"TASK_PROGRESS"}] })
 .then(async function(data){
 if(data.length>0){
     return res.json({ status:true,data:data})

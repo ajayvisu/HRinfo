@@ -89,7 +89,7 @@ function LeaveResponse() {
                               {/* <input value={status}
                             onChange={(e)=>setStatus(e.target.value)} ></input> */}
 
-                              <select class="form-select mt-4" name="status" onChange={(e) => setStatus(e.target.value)} >
+                              <select class="form-select " name="status" onChange={(e) => setStatus(e.target.value)} >
                                 <option selected disabled>{data.status}</option>
                                 <option value="approved">approved</option>
                                 <option value="denied">denied</option>
