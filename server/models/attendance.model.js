@@ -9,6 +9,7 @@ var attendanceSchema = mongoose.Schema(
     durationMinutes: { type: Number, require: false },
    todayAttendance: [
       {
+       
         date : String,
         entryTime : String,
         month : String,

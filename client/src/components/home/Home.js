@@ -212,20 +212,6 @@ complete employee life cycle management.</h5>
                             <a href="mailto:safamsg@gmail.com">
                             <MailFilled style={{fontSize: '500%', width: '2em'}} />  </a>.
 
-
-                        {/* <h2>Contact me</h2>
-                        <p>You can find me on:</p>
-                        <ul>
-                            <li><a href="https://twitter.com/llama">
-                            <TwitterCircleFilled /></a></li>
-                            
-                            <li><a href="https://www.instagram.com/llamasporfavor/">
-                              <InstagramFilled /></a></li>
-
-                              <li><a href="https://twitter.com/llama">
-                            < FacebookFilled/></a></li>
-                        </ul>
-                        <p>Or, you can <a href="mailto:safamsg@gmail.com">send a email</a>.</p> */}
                     </div>
                 </section>
                 </div>
@@ -233,39 +219,7 @@ complete employee life cycle management.</h5>
             <footer>
                 © HRInfo Management System, 2022
             </footer>
-       
-        <div>
-          <section className='option' id="about">
-            <div className="section-inner">
-              <h2>About me</h2>
-              <p>I'm a really awesome llama. Every day I wake up, munch on some grass, do some coding and then go back to sleep.</p>
-              <h3>Achievements</h3>
-              <ul>
-                <li>Bachelor of photogenic posing, 2010</li>
-                <li>Llamaness certification from the Llama Institute, 2014</li>
-                <li>I coded a website, 2017</li>
-              </ul>
-            </div>
-          </section>
-        </div>
-        <div>
-          <section className='option' id="contact">
-            <div className="section-inner">
-              <h2>Contact me</h2>
-              <p>You can find me on:</p>
-              <ul>
-                <li><a href="https://twitter.com/llama">Twitter</a></li>
-                <li><a href="https://www.reddit.com/user/llama">Reddit</a></li>
-                <li><a href="https://www.instagram.com/llamasporfavor/">Instagram</a></li>
-              </ul>
-              <p>Or, you can <a href="mailto:llama@codetheweb.blog">send me an email</a>.</p>
-            </div>
-          </section>
-        </div>
-     
-      <footer>
-        © Copyright Boberick The Llama, 2017
-      </footer>
+      
      </div>
   )
 }

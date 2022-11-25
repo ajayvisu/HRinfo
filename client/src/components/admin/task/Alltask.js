@@ -1,32 +1,35 @@
 import React, { useState, useEffect } from 'react'
 import axios from "axios";
-import { Table, Button, Input } from "antd";
 import "react-datepicker/dist/react-datepicker.css";
-import './Leave.css'
+import Swal from 'sweetalert2';
+import './Task.css'
 import 'antd/dist/antd.css';
-import { SERVER_URL_LEAVE } from "../../Globals";
-import { ColumnProps } from "antd/lib/table";
+import { SERVER_URL_TASK } from "../../Globals";
 import { useNavigate } from "react-router-dom";
 
-function LeaveResponse() {
+function Alltask() {
   const navigate = useNavigate();
 
   const [dataSource, setDataSource] = useState([]);
   const [status, setStatus] = useState()
 
-  const pendingLeave = () => {
+  const task = () => {
+    let id = localStorage.getItem('id')
     axios
-      .get(SERVER_URL_LEAVE + `pendingLeave`)
+      .get(SERVER_URL_TASK + `get-all-task`)
       .then((res) => {
         // if(res.data.result === 0){
         //   alert('no pending leaves')
         //  }
-        console.log('res', res)
-        setDataSource(res.data.result);
-        res.data.result.map(data => {
-          setStatus(data.status)
-        })
-
+        console.log('res', res.data.status)
+        if (res.data.status) {
+          setDataSource(res.data.data);
+          res.data.data.map(data => {
+            setStatus(data.status)
+          })
+        } else {
+          Swal.fire('task not assigned')
+        }
       });
   };
   const updateStatus = (id) => {
@@ -36,14 +39,14 @@ function LeaveResponse() {
     }
     console.log('status', status)
     axios
-      .put(SERVER_URL_LEAVE + `leave-permission-response?id=${id}`, data)
+      .put(SERVER_URL_TASK + `emp-update?id=${id}`, data)
       .then((res) => {
         console.log('res', res)
 
       });
   };
   useEffect(() => {
-    pendingLeave();
+    task();
   }, []);
   return (
     <div>
@@ -62,15 +65,16 @@ function LeaveResponse() {
 
               <div>
                 <table className="mt-4 table table-bordered">
-                  <thead className="bg-dark text-white">
+                  <thead className="">
                     <tr>
-                      <th scope="col">EmployeeName</th>
-                      <th scope="col">EMP_ID</th>
-                      <th scope="col">StartDate</th>
-                      <th scope="col">EndDate</th>
-                      <th scope="col">Days</th>
-                      <th scope="col">Status</th>
+                      <th scope="col">empName</th>
+                      <th scope="col">empID</th>
+                      <th scope="col">project</th>
+                      <th scope="col">tasktitle</th>
+                      <th scope="col">describe</th>
+                      <th scope="col">status</th>
                       <th scope='col'>submit</th>
+
                     </tr>
                   </thead>
                   {
@@ -79,24 +83,24 @@ function LeaveResponse() {
                         <tbody>
 
                           <tr key={index}>
+                            <td>{data.empName}</td>
+                            <td>{data.empID}</td>
+                            <td>{data.project}</td>
+                            <td>{data.tasktitle}</td>
+                            <td>{data.describe}</td>
 
-                            <td>{data.employee.empName}</td>
-                            <td>{data.employee.empID}</td>
-                            <td>{data.from}</td>
-                            <td>{data.to}</td>
-                            <td>{data.days}</td>
                             <td>
                               {/* <input value={status}
                             onChange={(e)=>setStatus(e.target.value)} ></input> */}
 
-                              <select class="form-select " name="status" onChange={(e) => setStatus(e.target.value)} >
+                              <select class="form-select mt-4" name="status" onChange={(e) => setStatus(e.target.value)} >
                                 <option selected disabled>{data.status}</option>
-                                <option value="approved">approved</option>
-                                <option value="denied">denied</option>
+                                <option value="TASK_PROGRESS">TASK_PROGRESS</option>
+                                <option value="TASK_DONE">TASK_DONE</option>
                               </select>
                             </td>
-                            <td className='button'>
-                              <button onClick={() => updateStatus(data._id)} className="submit">Submit</button>
+                            <td >
+                              <button onClick={() => updateStatus(data._id)} >Submit</button>
 
                             </td>
                           </tr>
@@ -106,6 +110,7 @@ function LeaveResponse() {
                     })
                   }
                 </table>
+
               </div>
 
 
@@ -118,4 +123,4 @@ function LeaveResponse() {
   )
 }
 
-export default LeaveResponse;
+export default Alltask;

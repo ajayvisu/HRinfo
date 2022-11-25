@@ -13,10 +13,12 @@ import AdminHome from '../admin/adminHome/AdminHome';
 import ViewDetails from '../admin/ViewDetails/ViewDetails'
 import {SERVER_URL_EMPLOYEE,SERVER_URL} from "../Globals";
 import Payroll from '../admin/Payroll/PayDetails';
+import Task from '../admin/task/Task';
 import EmployeeDetails from '../admin/EmployeeDetails/EmployeeDetails';
 import AttendanceAdmin from '../admin/attendance/Attendance';
 import LeaveResponse from '../admin/leave/LeaveResponse';
 import Response from '../admin/leave/Response';
+import Alltask from '../admin/task/Alltask';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -41,17 +43,23 @@ function Dashboard() {
     });
   };
 
+  const email = localStorage.getItem('email')
+  console.log('email1', email)
   const logout = () => {
     const email = localStorage.getItem('email')
+    console.log('email', email)
     const id = localStorage.getItem('attendanceId')
-    axios.post(SERVER_URL_EMPLOYEE+`logout?id=${id}&email=${email}`).then(result => {
+
+    axios.post(SERVER_URL_EMPLOYEE + `logout?id=${id}&email=${email}`).then(result => {
       console.log(result.data);
       localStorage.clear();
-      window.location.href= '/';
+      window.location.href = '/';
+      // window.location.href='/home'
     }).catch(err => {
       console.log('err', err.message);
     })
   }
+
 
   return (
 
@@ -112,6 +120,8 @@ function Dashboard() {
               <Route exact path="/attendance" element={<AttendanceAdmin/>}/>
               <Route exact path="/leaveresponse" element={<LeaveResponse />}></Route>
               <Route exact path="/response" element={<Response />}></Route>
+              <Route exact path="/task" element={<Task />}></Route>
+              <Route exact path="/alltask" element={<Alltask />}></Route>
 
               </Routes>
             </div>

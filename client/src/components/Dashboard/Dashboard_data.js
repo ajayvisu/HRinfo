@@ -6,6 +6,7 @@ import {
     StarOutlined,
     UserAddOutlined,
     PhoneOutlined,
+    ScheduleOutlined ,
     SettingOutlined,
     CalendarOutlined
 
@@ -42,20 +43,21 @@ const SidebarData = [
         icon: <ClockCircleOutlined />,
         link: "/attendance",
     },
-    // {
-    //     key: 4,
-    //     title: "Contact",
-    //     icon: <PhoneOutlined />,
-    //     link: "/contact",
-    // },
+   
     {
         key: 4,
         title: "AddEmployee",
         icon: <UserAddOutlined />,
         link: "/addemployee",
     },
-    {
+     {
         key: 5,
+        title: "Task",
+        icon: <ScheduleOutlined  />,
+        link: "/task",
+    },
+    {
+        key: 6,
         title: "Transaction",
         icon: <SettingOutlined />,
         link: "/payroll",

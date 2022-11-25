@@ -3,12 +3,14 @@ import './ViewDetails.css'
 import { useNavigate } from 'react-router-dom'
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { SERVER_URL } from "../../Globals";
+import { SERVER_URL ,SERVER_URL_TASK} from "../../Globals";
 
 const ViewDetails = () => {
   const navigate = useNavigate()
   const { state } = useLocation();
-
+const[project,setproject]=useState()
+const[tasktitle,settasktitle]=useState()
+const[status,setstatus]=useState()
   console.log("sdgsrtgtr", state.experience)
   let degree;
   let Specialization;
@@ -28,8 +30,30 @@ const ViewDetails = () => {
     TotelExperience = data.TotelExperience
     organization = data.organization
   })
-  useEffect(() => {
+  const task = () => {
+    let id=state.empID
+    console.log('id',id)
+    axios
+    .get(SERVER_URL_TASK+`get-my-task?empID=${id}`)
+      .then((res) => {
+        // if(res.data.result === 0){
+        //   alert('no pending leaves')
+        //  }
+        console.log('res',res.data.status)
+     
+           
+            res.data.data.map(data=>{
+              setstatus(data.status)
+              console.log("dscdsc",data.status)
+              setproject(data.project)
+              settasktitle(data.tasktitle)
 
+            })
+        
+      });
+  };
+  useEffect(() => {
+    task()
   }, []);
   return (
     <div>
@@ -102,6 +126,24 @@ const ViewDetails = () => {
                 )
               })
             }
+
+          <div class="projects">
+            <h3>Task</h3>
+            <div class="projects_data">
+              <div class="data">
+                <h4>project</h4>
+                <p>{project}</p>
+              </div>
+              <div class="data">
+                <h4>tasktitle</h4>
+                <p>{tasktitle}</p>
+              </div>
+              <div class="data">
+                <h4>status</h4>
+                <p>{status}</p>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
       </div>

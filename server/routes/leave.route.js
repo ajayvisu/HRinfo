@@ -30,7 +30,7 @@ router.post("/emp-leave", (req, res) => {
                 const end = new Date(new Date(req.body.to));
                 const date = new Date(start.getTime());
                 req.body.allLeaveDates = [];
-                while (date <= end) {
+                while (date <= end) { (1<=5)
                     req.body.allLeaveDates.push(new Date(date));
                     date.setDate(date.getDate() + 1);
                 }
@@ -60,7 +60,6 @@ router.post("/emp-leave", (req, res) => {
                                 newLeave.employee.id = employee._id;
                                 newLeave.employee.empName = employee.empName;
                                 newLeave.employee.empID = employee.empID;
-
                                 newLeave.save();
                                 employee.leaves.push(newLeave);
                                 employee.save().then((result) => {
