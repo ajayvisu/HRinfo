@@ -111,15 +111,26 @@ await leaveSchema.find({status:'pending'}).then(data=>{
     }
 })
 //performance chart 
-router.get('/getDetails', async (req, res) => {
+router.get('/performance-chart', async (req, res) => {
     try {
         var lastWeek = new Date();
         var today = new Date();
         lastWeek.setDate(today.getDate() - 5);
 
         let attendance = await attendanceSchema.find({
-            'employee.id': "6367e81387f67ef6e7708bd7",
+            'employee.id': req.query.id,
             $and: [{ createdAt: { $gte: lastWeek, $lte: today } }]
+        })
+        attendance.map(data=>{
+            data.todayAttendance.map(data=>{
+                // let count=0
+                // console.log('hours',data.durationHours)
+                // let length=data.durationHours
+                // for(i=1;length>=i;i++){
+                //  count+=data.durationHours[i]
+                //  console.log('counr',length,count)
+                // }
+            })
         })
         return res.status(200).json({ status: true, 'message': "data fetched successfully", result: attendance })
     } catch (error) {
