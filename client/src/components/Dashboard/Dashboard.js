@@ -19,6 +19,7 @@ import AttendanceAdmin from '../admin/attendance/Attendance';
 import LeaveResponse from '../admin/leave/LeaveResponse';
 import Response from '../admin/leave/Response';
 import Alltask from '../admin/task/Alltask';
+import EmpPerformance from '../admin/PerformanceChart/EmpPerformance';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -122,6 +123,7 @@ function Dashboard() {
               <Route exact path="/response" element={<Response />}></Route>
               <Route exact path="/task" element={<Task />}></Route>
               <Route exact path="/alltask" element={<Alltask />}></Route>
+              <Route exact path="/empperformance" element={<EmpPerformance />}></Route>
 
               </Routes>
             </div>

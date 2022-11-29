@@ -112,12 +112,12 @@ console.log('id',id)
 
 
                 <Route path="/leave" element={<Leave />}></Route>
-                <Route path="/performance" element={<Performance />}></Route>
+                <Route path="/" element={<Performance />}></Route>
                 <Route path="/profile" element={<AccountSetting />}></Route>
                 <Route path="/contact" element={<Contact />}></Route>
                 <Route path="/dashboard" element={<Dashboard />}></Route>
                 <Route path='/attendance' element={<Attendance />} />
-                <Route path='/' element={<EmpTask />} />
+                <Route path='/emptask' element={<EmpTask />} />
 
               </Routes>
             </div>

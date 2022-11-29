@@ -1,10 +1,16 @@
 import React, { Component, useState, useEffect } from 'react';
 import Chart from 'react-apexcharts'
 import axios from 'axios';
-import './PerformanceChart.css'
+import './EmpPerformance.css'
 import { SERVER_URL_EMPLOYEE, SERVER_URL_LEAVE } from "../../Globals";
-
-const Performance = () => {
+import { useLocation } from 'react-router-dom';
+const EmpPerformance = () => {
+  const { state } = useLocation();
+  
+  let employeeId= state.employee.id
+//   state.map(id=>{
+// console.log('id',id)
+//   })
 const [day,setDay]=useState([])
   const [performance, setPerformance] = useState({
 
@@ -28,9 +34,8 @@ const [day,setDay]=useState([])
 
   let duration = []
 
-  const workPerformance = () => {
-    let id = localStorage.getItem('user_id')
-    axios.get(SERVER_URL_LEAVE + `performance-chart?id=${id}`).then(res => {
+  const workPerformance = () => { 
+    axios.get(SERVER_URL_LEAVE + `performance-chart?id=${employeeId}`).then(res => {
       console.log('workperformance', res.data.day
       )
 setDay(res.data.day)
@@ -71,4 +76,4 @@ setDay(res.data.day)
   );
 
 }
-export default Performance;
+export default EmpPerformance;

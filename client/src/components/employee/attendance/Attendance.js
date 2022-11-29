@@ -18,20 +18,11 @@ let count=0
       key: '1',
     },
     {
-      title: 'EntryTime',
-      dataIndex: 'entryTime',
+      title: 'TotalWorkingHours',
+      dataIndex: 'totalWorkingHours',
       key: '2',
     },
-    {
-      title: 'DurationHours',
-      dataIndex: 'durationHours',
-      key: '3',
-    },
-    {
-        title: 'DurationMinutes',
-        dataIndex: 'durationMinutes',
-        key: '3',
-      },
+  
   ];
 
   const fetchRecords = (page) => {
