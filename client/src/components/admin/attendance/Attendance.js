@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import axios from "axios";
-import { Table } from "antd";
+import { Table,Button, Input, Space, Typography  } from "antd";
 import "react-datepicker/dist/react-datepicker.css";
 import { SERVER_URL_ATTENDANCE } from "../../Globals";
-
+import { useNavigate } from "react-router-dom";
 import 'antd/dist/antd.css';
 function AttendanceAdmin() {
-
+let navigate=useNavigate()
   const [dataSource, setDataSource] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [userName, setUserName] = useState('')
 
   const columns = [
     {
@@ -31,7 +30,27 @@ function AttendanceAdmin() {
       dataIndex: 'totalWorkingHours',
       key: '3',
     }
-  ];
+  ,
+  {
+    title: "Performance",
+    dataIndex: "",
+    width: "15%",
+    fixed: "right",
+    key: "x",
+    render: (data) => (
+   
+      <>
+        <Button
+          onClick={() => {
+            navigate("/empperformance" , { state: data } );
+          }}
+        >
+          performance
+        </Button>
+      </>
+    ),
+  },
+];
 
   const fetchRecords = (page) => {
     setLoading(true);
@@ -41,12 +60,6 @@ function AttendanceAdmin() {
       .get(SERVER_URL_ATTENDANCE + `today-attendance-list`)
       .then((res) => {
         console.log("attendance", res.data.data)
-
-
-        res.data.data.map(data => {
-          console.log("name", data.employee.empName)
-          setUserName(data.employee.empName)
-        })
         setDataSource(res.data.data);
         setTotalPages(res.data.totalPages);
         setLoading(false);
@@ -54,7 +67,7 @@ function AttendanceAdmin() {
   };
   useEffect(() => {
     fetchRecords(1);
-    setUserName()
+   
   }, []);
   return (
     <div>

@@ -237,7 +237,7 @@ const AdminHome = () => {
           <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css" />
           <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css" />
           <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet"></link>
-          <title>Bootstap 5 Responsive Admin Dashboard</title>
+    
         </head>
 
         <div className="grey-bg container-fluid" style={{ padding: "2px" }}>
