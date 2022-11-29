@@ -36,18 +36,19 @@ return(
     <form className='task'>
   {/* <!-- 2 column grid layout with text inputs for the first and last names --> */}
   <div className="row mb-4">
+  <div className="col">
+      <div className="form-outline">
+        <input type="text" id="form6Example2"name="empID" value={tasks.empID} onChange={handleChange} className="form-control" />
+        <label className="form-label" for="form6Example2">EmployeeID</label>
+      </div>
+    </div>
     <div className="col">
       <div className="form-outline">
         <input type="text" name='empName' value={tasks.empName} onChange={handleChange} id="form6Example1" className="form-control" />
         <label className="form-label" for="form6Example1">EmployeeName</label>
       </div>
     </div>
-    <div className="col">
-      <div className="form-outline">
-        <input type="text" id="form6Example2"name="empID" value={tasks.empID} onChange={handleChange} className="form-control" />
-        <label className="form-label" for="form6Example2">EmployeeID</label>
-      </div>
-    </div>
+  
   </div>
 
   {/* <!-- Text input --> */}

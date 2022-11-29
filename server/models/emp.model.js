@@ -17,7 +17,7 @@ const employeeSchema = mongoose.Schema(
     baseSalary : {type:Number,require:true},
     Address : {type:String,require:false},
     active: { type: Boolean, require: false, default: false },
-    loginStatus: { type: Boolean, require: false, default: true },
+    loginStatus: { type: Boolean, require: false, default: false },
     deductionId:{ type: String, required : false },
     leaves: [
       {

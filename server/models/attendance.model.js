@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var attendanceSchema = mongoose.Schema(
   {
     // attendanceID: { type: String, required: false },
-    // date: { type: String, required: false },
+    date: { type: String, required: false },
     // entryTime: { type: String, require: false },
     // month:{type: String, require: false},
     // durationHours: { type: Number, required: false },
@@ -15,6 +15,8 @@ var attendanceSchema = mongoose.Schema(
         durationHours : Number,
         durationMinutes : Number
        }],
+   totalWorkingHours: { type: Number, required: false ,default:0},
+
     employee: {
       id: {
         type: mongoose.Schema.Types.ObjectId,

@@ -45,18 +45,15 @@ const Home = () => {
 
         let role = localStorage.getItem('role')
         setUser(role)
-        console.log('attendance', result.data.status)
-        console.log('attendance', result.data.status)
-        console.log('attendance', result.data.status)
-        console.log('attendance', result.data.status)
-        console.log('attendance', result.data.status)
-        console.log('attendance', result.data.status)
+        // console.log('attendance', result.data.status)
+        // console.log('attendance', result)
+       
           
         if (result.data.status === "success") {
 
           window.location.href = '/';
           localStorage.setItem('attendanceId', result.data.currentAttendanceId._id)
-          localStorage.setItem('attendanceId', result.data.currentAttendanceId._id)
+       
           localStorage.setItem('user_id', result.data.user._id);
           localStorage.setItem('email', result.data.user.email);
           localStorage.setItem('id', result.data.user.empID);

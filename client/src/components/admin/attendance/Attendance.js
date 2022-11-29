@@ -27,20 +27,10 @@ function AttendanceAdmin() {
       key: '2',
     },
     {
-      title: 'EntryTime',
-      dataIndex: 'entryTime',
+      title: 'TotalWorkingHours',
+      dataIndex: 'totalWorkingHours',
       key: '3',
-    },
-    {
-      title: 'DurationHours',
-      dataIndex: 'durationHours',
-      key: '4',
-    },
-    {
-      title: 'DurationMinutes',
-      dataIndex: 'durationMinutes',
-      key: '5',
-    },
+    }
   ];
 
   const fetchRecords = (page) => {

@@ -5,17 +5,17 @@ import './PerformanceChart.css'
 import { SERVER_URL_EMPLOYEE, SERVER_URL_LEAVE } from "../../Globals";
 
 const Performance = () => {
-
+const [day,setDay]=useState([])
   const [performance, setPerformance] = useState({
 
-    options: {
-      chart: {
-        id: "basic-bar"
-      },
-      xaxis: {
-        categories: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-      }
-    },
+    // options: {
+    //   chart: {
+    //     id: "basic-bar"
+    //   },
+    //   xaxis: {
+    //     categories: []
+    //   }
+    // },
     series: [
       {
         name: "series-1",
@@ -29,11 +29,14 @@ const Performance = () => {
   let duration = []
 
   const workPerformance = () => {
-    axios.get(SERVER_URL_LEAVE + `performance-chart`).then(res => {
-      console.log('workperformance', res.data.result)
-      res.data.result.map(item => {
-        console.log('item', item.durationHours)
-        duration.push(item.durationHours)
+    let id = localStorage.getItem('user_id')
+    axios.get(SERVER_URL_LEAVE + `performance-chart?id=${id}`).then(res => {
+      console.log('workperformance', res.data.day
+      )
+setDay(res.data.day)
+      res.data.totalWorkingHours.map(item => {
+        console.log('item', item)
+        duration.push(item)
       })
       setPerformance({ ...performance, series: [{ data: duration }] })
     }).catch(err => {
@@ -50,7 +53,14 @@ const Performance = () => {
     <div className="donut" style={{ padding: '210px' }}>
       <div className="mixed-chart">
         <Chart
-          options={performance.options}
+           options={{
+            chart: {
+              id: 'apexchart-example'
+            },
+            xaxis: {
+              categories: day
+            }
+          }} 
           series={performance.series}
           type="bar"
           width="600"

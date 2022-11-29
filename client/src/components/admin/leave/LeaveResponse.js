@@ -20,8 +20,9 @@ function LeaveResponse() {
       .then((res) => {
         // if(res.data.result === 0){
         //   alert('no pending leaves')
-        //  }
-        console.log('res', res)
+        //  }\
+        updateStatus()
+        console.log('leaveResponse', res)
         setDataSource(res.data.result);
         res.data.result.map(data => {
           setStatus(data.status)
@@ -73,37 +74,38 @@ function LeaveResponse() {
                       <th scope='col'>submit</th>
                     </tr>
                   </thead>
-                  {
-                    dataSource.map((data, index) => {
-                      return (
-                        <tbody>
+                  { 
+                   dataSource.length === 0? (null) : (dataSource.map((data, index) => {
+                    return (
+                      <tbody>
 
-                          <tr key={index}>
+                        <tr key={index}>
 
-                            <td>{data.employee.empName}</td>
-                            <td>{data.employee.empID}</td>
-                            <td>{data.from}</td>
-                            <td>{data.to}</td>
-                            <td>{data.days}</td>
-                            <td>
-                              {/* <input value={status}
-                            onChange={(e)=>setStatus(e.target.value)} ></input> */}
+                          <td>{data.employee.empName}</td>
+                          <td>{data.employee.empID}</td>
+                          <td>{data.from}</td>
+                          <td>{data.to}</td>
+                          <td>{data.days}</td>
+                          <td>
+                            {/* <input value={status}
+                          onChange={(e)=>setStatus(e.target.value)} ></input> */}
 
-                              <select class="form-select " name="status" onChange={(e) => setStatus(e.target.value)} >
-                                <option selected disabled>{data.status}</option>
-                                <option value="approved">approved</option>
-                                <option value="denied">denied</option>
-                              </select>
-                            </td>
-                            <td >
-                              <button onClick={() => updateStatus(data._id)} >Submit</button>
+                            <select class="form-select " name="status" onChange={(e) => setStatus(e.target.value)} >
+                              <option selected disabled>{data.status}</option>
+                              <option value="approved">approved</option>
+                              <option value="denied">denied</option>
+                            </select>
+                          </td>
+                          <td >
+                            <button onClick={() => updateStatus(data._id)} >Submit</button>
 
-                            </td>
-                          </tr>
+                          </td>
+                        </tr>
 
-                        </tbody>
-                      )
-                    })
+                      </tbody>
+                    )
+                  }))
+                   
                   }
                 </table>
               </div>
