@@ -64,12 +64,13 @@ const[status,setStatus]=useState()
              
                           <div>
                 <table className="mt-4 table table-bordered">
-                    <thead className="bg-dark text-white">
+                    <thead className="color">
                         <tr>
                         <th scope="col">project</th>
                             <th scope="col">tasktitle</th>
                             <th scope="col">describe</th>
                             <th scope="col">status</th>
+                            <th scope="col">submit</th>
                           
                         </tr>
                     </thead>
@@ -95,7 +96,7 @@ const[status,setStatus]=useState()
                                 </select>
                             </td>
                             <td className='button'>
-                <button onClick={() => updateStatus(data._id)} className="submit">Submit</button>    
+                <button onClick={() => updateStatus(data._id)} >Submit</button>    
 
                             </td>
                         </tr>

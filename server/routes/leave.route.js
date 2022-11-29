@@ -30,13 +30,14 @@ router.post("/emp-leave", (req, res) => {
                 const end = new Date(new Date(req.body.to));
                 const date = new Date(start.getTime());
                 req.body.allLeaveDates = [];
-                while (date <= end) { (1<=5)
+                while (date <= end) {
+                    (1 <= 5)
                     req.body.allLeaveDates.push(new Date(date));
                     date.setDate(date.getDate() + 1);
                 }
                 // console.log('dates', dates)
                 //--------------------------
-         
+
 
                 // const mailData = {
                 //     from: employee.email,
@@ -50,23 +51,24 @@ router.post("/emp-leave", (req, res) => {
                     // if (!sendingMail) {
                     //     console.log("mail not sending");
                     // } else {
-                        leaveSchema.create(req.body, (err, newLeave) => {
-                            console.log("newleavenewleave", newLeave);
-                            if (err) {
-                                return res
-                                    .status(200)
-                                    .json({ status: "failed", message: err.message });
-                            } else {
-                                newLeave.employee.id = employee._id;
-                                newLeave.employee.empName = employee.empName;
-                                newLeave.employee.empID = employee.empID;
-                                newLeave.save();
-                                employee.leaves.push(newLeave);
-                                employee.save().then((result) => {
-                                    res.status(200).json({ status: "success", result: result });
+                    leaveSchema.create(req.body, (err, newLeave) => {
+                        console.log("newleavenewleave", newLeave);
+                        if (err) {
+                            return res
+                                .status(200)
+                                .json({ status: "failed", message: err.message });
+                        } else {
+                            newLeave.employee.id = employee._id;
+                            newLeave.employee.empName = employee.empName;
+                            newLeave.employee.empID = employee.empID;
+                            newLeave.save();
+                            employee.leaves.push(newLeave);
+                            employeeSchema.findOneAndUpdate({ _id: employee._id }, { $push: { "leaves": newLeave } })
+                                .then((result) => {
+                                    res.status(200).json({ status: "success", result: employee });
                                 });
-                            }
-                        });
+                        }
+                    });
                     // }
                 } else {
                     res.json({ status: "success", message: "ghv" });
@@ -74,71 +76,87 @@ router.post("/emp-leave", (req, res) => {
             }
         });
 });
-router.put('/leave-permission-response',async(req,res)=>{
-    try{
-    let id = req.query.id;
-    let status = req.body.status
-await leaveSchema.findOneAndUpdate({_id: id}, req.body,{ new: true }).then(data=>{
-      res.json({ status: 'success', message: 'Leave Approved successfully!', 'result': data })
-        
-    }).catch(err => {
-        console.log(err.message)
-        res.json({ 'err': err.message })
-      })
+router.put('/leave-permission-response', async (req, res) => {
+    try {
+        let id = req.query.id;
+        let status = req.body.status
+        await leaveSchema.findOneAndUpdate({ _id: id }, req.body, { new: true }).then(data => {
+            res.json({ status: 'success', message: 'Leave Approved successfully!', 'result': data })
+
+        }).catch(err => {
+            console.log(err.message)
+            res.json({ 'err': err.message })
+        })
     } catch (error) {
         return res.status(400).json({ status: false, 'message': error.message })
     }
 })
 //pendingLeave
-router.get('/pendingLeave',async(req,res)=>{
-    try{
-   
-await leaveSchema.find({status:'pending'}).then(data=>{
-    if(data.length>0){
-        res.json({ status: 'success', message: 'Leave Approved successfully!', 'result': data })
+router.get('/pendingLeave', async (req, res) => {
+    try {
 
-    }else{
-        res.json({ status: 'success', message: 'Leave Approved successfully!', 'result': 0 })
+        await leaveSchema.find({ status: 'pending' }).then(data => {
+            if (data.length > 0) {
+                res.json({ status: 'success', message: 'Leave Approved successfully!', 'result': data })
 
-    }
-        
-    }).catch(err => {
-        console.log(err.message)
-        res.json({ 'err': err.message })
-      })
+            } else {
+                res.json({ status: 'success', message: 'Leave Approved successfully!', 'result': [] })
+
+            }
+
+        }).catch(err => {
+            console.log(err.message)
+            res.json({ 'err': err.message })
+        })
     } catch (error) {
         return res.status(400).json({ status: false, 'message': error.message })
     }
 })
 //performance chart 
-router.get('/performance-chart', async (req, res) => {
-    try {
-        var lastWeek = new Date();
-        var today = new Date();
-       // const date = moment().format("dddd") == gives name of the day
-        //console.log("date",date)
-        lastWeek.setDate(today.getDate() - 5);
+// router.get('/performance-chart', async (req, res) => {
+//     try {
+//         var lastWeek = new Date();
+//         var today = new Date();
+//         lastWeek.setDate(today.getDate() - 5);
 
-        let attendance = await attendanceSchema.find({
-            'employee.id': req.query.id,
-            $and: [{ createdAt: { $gte: lastWeek, $lte: today } }]
-        })
-        attendance.map(data=>{
-            data.todayAttendance.map(data=>{
-                let count=0
-                 console.log('hours',data.durationHours)
-                 let length=data.durationHours
-                 for(i=1;length>=i;i++){
-                  count+=data.durationHours[i]
-                  console.log('counr',length,count)
-                 }
-            })
-        })
-        return res.status(200).json({ status: true, 'message': "data fetched successfully", result: attendance })
-    } catch (error) {
-        return res.status(400).json({ status: false, 'message': error.message })
-    }
-})
+//         let durationHours;
+//         await attendanceSchema.find({
+//             'employee.id': req.query.id,
+//             $and: [{ createdAt: { $gte: lastWeek, $lte: today } }]
+//         }).then(attendance => {
+//             let hours = 0;
+//             let minutes = 0;
+//             attendance.map(data => {
+//                 let createdAt = data.createdAt
+//                 let myDate = new Date(createdAt);
+//                 console.log('mydare', myDate)
+//                 let days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+//             let weekdays= days[myDate.getDay() - 1]
+//             // console.log(typeof(weekdays))
+//               if(typeof weekdays != "undefined"){
+//                 data.todayAttendance.map(data => {
+//                     console.log("data2", data.durationHours)
+//                     console.log("data2", data.durationMinutes)
+
+//                  hours=   hours += data.durationHours
+//                 minutes=   minutes += data.durationMinutes
+            
+//                     console.log("hours",hours ,"minutes", minutes)
+//                 })
+//               }else{
+//                  console.log('false')
+//               }
+
+//             })
+//             return res.status(200).json({ status: true, 'message': "success", result: attendance, durationHours: hours, minutes })
+
+//         })
+
+
+//     } catch (error) {
+//         return res.status(400).json({ status: false, 'message': error.message })
+//     }
+// })
 
 //today leave details /admin
 router.get('/today-leave', async (req, res) => {
@@ -193,5 +211,71 @@ router.get('/leave-status', async (req, res) => {
         return res.status(400).json({ status: false, 'message': error.message })
     }
 })
+router.get('/performance-chart', async (req, res) => {
+    try {
+        var lastWeek = new Date();
+        var today = new Date();
+        lastWeek.setDate(today.getDate() - 5);
 
+        let durationHours;
+        await attendanceSchema.find({
+            'employee.id': req.query.id,
+            $and: [{ createdAt: { $gte: lastWeek, $lte: today } }]
+        }).then(attendance => {
+            let hours = 0;
+            let minutes = 0;
+            let day=[]
+            let totalWorkingHours=[]
+            attendance.map(data => {
+                let createdAt = data.createdAt
+                let myDate = new Date(createdAt);
+                console.log('mydare', myDate)
+                let days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+            let weekdays= days[myDate.getDay() - 1]
+   
+            // console.log(typeof(weekdays))
+              if(typeof weekdays != "undefined"){
+                day.push(weekdays)
+                console.log('day',day)
+                totalWorkingHours.push(data.totalWorkingHours)
+          console.log("totalWorkingHours",data.totalWorkingHours)
+          console.log("Hours",totalWorkingHours)
+
+              }else{
+                 console.log('false')
+              }
+
+            })
+            return res.status(200).json({ status: true, 'message': "success", result: attendance, totalWorkingHours: totalWorkingHours,day:day })
+
+        })
+
+
+    } catch (error) {
+        return res.status(400).json({ status: false, 'message': error.message })
+    }
+})
+// function getThisWeekDates() {
+//     var weekDates= []; 
+
+//     for (var i = 1; i <= 7; i++) {
+//       weekDates.push(moment().day(i)); 
+//     }
+
+//     return weekDates; 
+//   }
+
+//   var thisWeekDates = getThisWeekDates();
+
+//   thisWeekDates.forEach(function(date){ console.log(date.format());});
+const weekday = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+
+// const d = new Date("27-11-2022");
+// let date = new Date(27);
+// let day = weekday[d.getDay()];
+// console.log('day',date.getDay())
+
+var myDate = new Date("2022-11-28 ");
+var days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+console.log(days[myDate.getDay() - 1]);
 module.exports = router

@@ -51,9 +51,8 @@ function Emp_Dashboard() {
     const email = localStorage.getItem('email')
     console.log('email', email)
     const id = localStorage.getItem('attendanceId')
-    console.log("id",id)
-
-    axios.post(`http://localhost:4000/api/v1/emp/logout?id=${id}&email=${email}`).then(result => {
+console.log('id',id)
+    axios.post(SERVER_URL_EMPLOYEE + `logout?id=${id}&email=${email}`).then(result => {
       console.log(result.data);
       localStorage.clear();
       window.location.href = '/';
@@ -118,7 +117,7 @@ function Emp_Dashboard() {
                 <Route path="/contact" element={<Contact />}></Route>
                 <Route path="/dashboard" element={<Dashboard />}></Route>
                 <Route path='/attendance' element={<Attendance />} />
-                <Route path='/emptask' element={<EmpTask />} />
+                <Route path='/' element={<EmpTask />} />
 
               </Routes>
             </div>
