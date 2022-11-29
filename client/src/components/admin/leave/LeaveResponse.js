@@ -62,7 +62,7 @@ function LeaveResponse() {
 
               <div>
                 <table className="mt-4 table table-bordered">
-                  <thead className="bg-dark text-white">
+                  <thead className="color">
                     <tr>
                       <th scope="col">EmployeeName</th>
                       <th scope="col">EMP_ID</th>
@@ -95,8 +95,8 @@ function LeaveResponse() {
                                 <option value="denied">denied</option>
                               </select>
                             </td>
-                            <td className='button'>
-                              <button onClick={() => updateStatus(data._id)} className="submit">Submit</button>
+                            <td >
+                              <button onClick={() => updateStatus(data._id)} >Submit</button>
 
                             </td>
                           </tr>

@@ -65,7 +65,7 @@ function Alltask() {
 
               <div>
                 <table className="mt-4 table table-bordered">
-                  <thead className="">
+                  <thead className="color">
                     <tr>
                       <th scope="col">empName</th>
                       <th scope="col">empID</th>
@@ -99,7 +99,7 @@ function Alltask() {
                                 <option value="TASK_DONE">TASK_DONE</option>
                               </select>
                             </td>
-                            <td >
+                            <td className='button'>
                               <button onClick={() => updateStatus(data._id)} >Submit</button>
 
                             </td>

@@ -27,7 +27,7 @@ const[status,setStatus]=useState()
               setStatus(data.status)
             })
         }else{
-            Swal.fire('task not assigned')
+    
         }
       });
   };

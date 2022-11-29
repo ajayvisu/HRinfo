@@ -49,6 +49,7 @@ const Login = () => {
                     <label className="form-label">Email Id</label>
                     <input
                       type="text"
+                      name="email"
                       className="form-control"
                       onChange={(e) => setempId(e.target.value)}
                     />
@@ -56,6 +57,7 @@ const Login = () => {
                   <div className="mb-4">
                     <label className="form-label">Password</label>
                     <input
+                    name="password"
                       type="password"
                       className="form-control"
                       onChange={(e) => setpassword(e.target.value)}

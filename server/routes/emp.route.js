@@ -234,117 +234,108 @@ router.put("/update", async (req, res) => {
   }
 })
 
-router.get('/leave-status', async (req, res) => {
-  try {
-    let pendingLeave = await leaveSchema.find({ status: "pending" }).exec()
-    let approvedLeave = await leaveSchema.find({ status: "approved" }).exec()
-    let totalEmp = await employeeSchema.find().exec()
-    let todayLeave = await employeeSchema.find({ loginStatus: false }).exec()
-
-    return res.status(200).json({
-      status: true, message: "data fetched", pendingLeave: pendingLeave.length,
-      approvedLeave: approvedLeave.length,
-      totalEmp: totalEmp.length,
-      todayLeaveCount: todayLeave.length
-    })
-  } catch (error) {
-    return res.status(400).json({ status: false, 'message': error.message })
-  }
-})
 
 
+// router.post("/login", async (req, res) => {
+//   try {
+//     console.log(req.body);
+//     // let attendancedata;
+//     let email = req.body.email;
+//     let password = req.body.password;
 
-router.post("/login", async (req, res) => {
-  try {
-   console.log("login")
-    let email =req.body.email;
-    let password =req.body.password;
-    const currDate = moment().format("DD/MM/YYYY");
-    console.log("currDATE", currDate);
-    await employeeSchema.findOneAndUpdate({email:email}, {loginstatus:true})
-      .then(async function(data){
-        bcrypt.compare(password, data.password, function(err,result){
-          if(err){
-            res.json({err: err.message})
-          }
-          let payload = { uuid: data.uuid, role: data.role }
-          if (result) {
-            const token = jwt.sign(payload, process.env.JWTKEY);
-            employeeSchema.findOne({email:email})
-            .populate("attendance")
-            .exec((err, user) => {
-               //res.json({"userDetails" : user})
-               if(err){
-                res.json({err:err.message});
-               }else{
-                     attendanceSchema.find({date:currDate, "employee.id": req.query.id}).then(async(data) =>{
-                       //console.log("datalength", data.length)
-                      if(data.length > 0){
-                        const attendance = await attendanceSchema.findOne({date:currDate, "employee.id":req.query.id}) .exec();
-                          console.log("attendancee", attendance);
+//     const time = moment().format("DD/MM/YYYY, hh:mm a");
+//     await employeeSchema
+//       .findOneAndUpdate(
+//         { email: email },
+//         { loginStatus: true }
+//       )
+//       .then(async function (data) {
+//         bcrypt.compare(password, data.password, function (err, result) {
+//           if (err) {
+//             res.json({ err: err.message });
+//           }
+//           let payload = { uuid: data.uuid, role: data.role }
+//           if (result) {
+//             const token = jwt.sign(payload, process.env.JWTKEY);
+//             employeeSchema
+//               .findOne({ email: email })
+//               .populate("attendance")
+//               .exec((err, user) => {
+//                 console.log('username', user.empName)
+//                 // console.log('req.params._id', email)
+//                 if (err) {
+//                   res.json({ err: err.message });
+//                 } else {
+//                   req.body.entryTime = moment().format("DD/MM/YYYY, hh:mm a")
+//                   req.body.date = moment().format("DD/MM/YYYY")
 
-                  req.body.month = moment().format("MM");
+//                   req.body.month = moment().format("MM");
 
-                  // console.log(" req.body.date", req.body.date)
-                  attendanceSchema.create(req.body, async (err, newAttendance) => {
-                    // console.log('newAttendance', newAttendance)
-                    if (err) {
-                      res
-                        .status(200)
-                        .json({ status: "failed", message: err.message });
-                    } else {
-                      newAttendance.employee.id = user._id
-                      newAttendance.employee.empName = user.empName
-                      newAttendance.employee.role = user.role
+//                   // console.log(" req.body.date", req.body.date)
+//                   attendanceSchema.create(req.body, async (err, newAttendance) => {
+//                     // console.log('newAttendance', newAttendance)
+//                     if (err) {
+//                       res
+//                         .status(200)
+//                         .json({ status: "failed", message: err.message });
+//                     } else {
+//                       newAttendance.employee.id = user._id
+//                       newAttendance.employee.empName = user.empName
+//                       newAttendance.employee.role = user.role
 
-                      let attendancedata = await newAttendance.save()
+//                       let attendancedata = await newAttendance.save()
 
-                      user.attendance.push(newAttendance);
-                      user.save()
-                      return res
-                        .status(200)
-                        .json({
-                          status: "success",
-                          message: "successfully login!",
-                          token, data, attendancedata: attendancedata
-                        });
-                    }
-                  });
-                }
-               });
-            }
-          });
-         } else {
-            return res.json({
-              status: "failure",
-              message: "invalide password",
-            });
-          }
-        });
-      })
-      .catch((err) => {
-        return res.json({ status: "failure", message: "invalide mail id" });
-      });
-  } catch (err) {
-    return res.json({ err: err.message });
-  }
-});
+//                       user.attendance.push(newAttendance);
+//                       user.save()
+//                       return res
+//                         .status(200)
+//                         .json({
+//                           status: "success",
+//                           message: "successfully login!",
+//                           token, data, attendancedata: attendancedata
+//                         });
+//                     }
+//                   });
+//                 }
+//               });
+
+//           } else {
+//             return res.json({
+//               status: "failure",
+//               message: "invalide password",
+//             });
+//           }
+//         });
+//       })
+//       .catch((err) => {
+//         return res.json({ status: "failure", message: "invalide mail id" });
+//       });
+//   } catch (err) {
+//     return res.json({ err: err.message });
+//   }
+// });
 
 router.post("/logout", async (req, res) => {
   try {
     let id = req.query.id;
     let email = req.query.email;
+    let currentAttendanceId;
     console.log(req.query)
     const currentTime = moment().format("DD/MM/YYYY,hh:mm a");
     let test = await attendanceSchema
       .findOne({ "employee.id": id }).exec()//to check the id in attendance and return its datas
     console.log('test', test)
     attendanceSchema
-      .findOne({ _id: id })
+      .findOne({ "employee.id": id })
       .then(async function (data) {
         console.log("data", data);
         console.log("entry", data.entryTime)
-        const loginTime = moment(data.entryTime, "DD/MM/YYYY,hh:mm a");
+        let attendancedata = data.todayAttendance
+        let attendanceId = attendancedata.length - 1
+        let entryTime = data.todayAttendance[attendanceId].entryTime
+
+        console.log(attendanceId)
+        const loginTime = moment(entryTime, "DD/MM/YYYY,hh:mm a");
         const current = moment(currentTime, "DD/MM/YYYY,hh:mm a");
         const duration = moment.duration(current.diff(loginTime));
         const hours = parseInt(duration.asHours());
@@ -353,29 +344,37 @@ router.post("/logout", async (req, res) => {
         console.log(
           hours + " hours and " + minutes + " minutes " + days + " days"
         );
-        console.log('current', current)
-        // console.log('duration',duration)
-        console.log('login', loginTime)
-        console.log('email', email)
 
-        attendanceSchema
-          .findOneAndUpdate(
-            { _id: id },
-            {
-              durationHours:
-                hours,
-              durationMinutes: minutes
-            },
-            { new: true }
-          )
-          .then((data) => {
-            return res.status(200).json({
-              status: "success",
-              message: "successfully logout!",
-              duration:
-                hours + " hours and " + minutes + " minutes ", data: data
-            });
+        let particluarData = attendancedata[attendanceId]
+        data.todayAttendance[attendanceId]["durationHours"] = hours
+        data.todayAttendance[attendanceId]["durationMinutes"] = minutes
+
+        data.save().then(data => {
+          return res.status(200).json({
+            status: "success",
+            message: "successfully logout!",
+            duration:
+              hours + " hours and " + minutes + " minutes ", data: data
           });
+        })
+        // attendanceSchema
+        //   .findOneAndUpdate(
+        //     { _id: id },
+        //     {
+        //       durationHours:
+        //         hours,
+        //       durationMinutes: minutes
+        //     },
+        //     { new: true }
+        //   )
+        //   .then((data) => {
+        //     return res.status(200).json({
+        //       status: "success",
+        //       message: "successfully logout!",
+        //       duration:
+        //         hours + " hours and " + minutes + " minutes ", data: data
+        //     });
+        //   });
         await employeeSchema.findOneAndUpdate({ email: email }, { loginStatus: false }, { new: true }).exec()
 
       })
@@ -413,5 +412,121 @@ router.post("/contact", (req, res) => {
     }
   });
 });
+router.post("/login", async (req, res) => {
+  try {
+    console.log(req.body);
+    // let attendancedata;
+    let email = req.body.email;
+    let password = req.body.password;
+    let attendanceId;
+    let currentAttendanceId;
+    let attendanceID;
+    const currDate = moment().format("DD/MM/YYYY");
+    const time = moment().format("DD/MM/YYYY, hh:mm a");
+    await employeeSchema
+      .findOneAndUpdate(
+        { email: email },
+        { loginStatus: true }
+      )
+      .then(async function (data) {
+        bcrypt.compare(password, data.password, function (err, result) {
+          if (err) {
+            res.json({ err: err.message });
+          }
+          let payload = { uuid: data.uuid, role: data.role }
+          if (result) {
+            const token = jwt.sign(payload, process.env.JWTKEY);
+            employeeSchema
+              .findOne({ email: email })
+              .populate("attendance")
+              .exec((err, user) => {
+                console.log('userID', user._id)
+                if (err) {
+                  res.json({ err: err.message });
+                } else {
+                  //-------------
+                  attendanceSchema.find({ date: currDate, "employee.id": user._id }).then(async function (data) {
 
+                    if (data.length > 0) {
+                      const attendance = await attendanceSchema.findOne({ date: currDate, "employee.id": user._id }).exec()
+                      console.log('att', attendance)
+
+
+                      req.body.entryTime = moment().format("DD/MM/YYYY, hh:mm a")
+                      req.body.date = moment().format("DD/MM/YYYY")
+                      req.body.month = moment().format("MM");
+                      req.body.day = moment().format("dddd");
+
+                      let todayattendance = {
+                        date: req.body.date,
+                        day : req.body.day,
+                        entryTime: req.body.entryTime,
+                        month: req.body.month, 
+                        durationHours: ""
+                      }
+                      console.log("todayattendance", todayattendance)
+                      attendance.todayAttendance.push(todayattendance)
+                      let attendanceID = await attendance.save()
+
+                      return res
+                        .status(200)
+                        .json({
+                          status: "success",
+                          message: "successfully login!",
+                          user, token, currentAttendanceId: attendanceID
+                        });
+                    } else {
+                      req.body.entryTime = moment().format("DD/MM/YYYY, hh:mm a")
+                      req.body.date = moment().format("DD/MM/YYYY")
+                      req.body.day = moment().format("dddd");
+                      req.body.month = moment().format("MM");
+                      let todayattendance = {
+                        date: req.body.date,
+                        day: req.body.day,
+                        entryTime: req.body.entryTime,
+                        month: req.body.month,
+                      }
+                      attendanceSchema.create(req.body, async (err, newAttendance) => {
+                        if (err) {
+                          res
+                            .status(200)
+                            .json({ status: "failed", message: err.message });
+                        } else {
+                          newAttendance.employee.id = user._id
+                          newAttendance.employee.empName = user.empName
+                          newAttendance.employee.role = user.role
+                          newAttendance.todayAttendance.push(todayattendance)
+                          let attendanceID = newAttendance.save()
+
+                          user.attendance.push(newAttendance);
+                          user.save()
+                          return res
+                            .status(200)
+                            .json({
+                              status: "success",
+                              message: "successfully login!",
+                              user, token, currentAttendanceId: attendanceID
+                            });
+                        }
+                      });
+                    }
+                  })
+                }
+              });
+            //--------
+          } else {
+            return res.json({
+              status: "failure",
+              message: "invalide password",
+            });
+          }
+        });
+      })
+      .catch((err) => {
+        return res.json({ status: "failure", message: "invalide mail id" });
+      });
+  } catch (err) {
+    return res.json({ err: err.message });
+  }
+});
 module.exports = router;
